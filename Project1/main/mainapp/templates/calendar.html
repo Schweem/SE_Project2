@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reading List{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<!-- In page styling initially written in large part by copilot -->
+<html>
+<head>
+    <style>
+        table {
+            margin: auto;
+            width: 100%;
+            border-collapse: separate;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #008cba;
+            color: white;
+        }
+
+        .event {
+            background-color: #f2f2f2;
+            margin-bottom: 5px;  /* Reduce margin */
+            padding: 5px;  /* Reduce padding */
+            font-size: 0.8em;  /* Reduce font size */
+            border: 1px solid #ddd;
+            color: black;
+            text-decoration: none;
+        }
+
+        .event:hover{
+            background-color: #ddd;
+        }
+
+        .event a, .event a:link, .event a:visited {
+            text-decoration: none;  /* Remove the underline from the link */
+            color: inherit;  /* Make the link text inherit the color of its parent element */
+        }
+        
+        .event a:hover, .event a:active {
+            color: blue;  /* Change the color of the link text when the mouse hovers over it */
+        }
+
+        .add-event-button {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background-color: #5bc0de;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+                border-radius: 12%;
+            
+        }
+    
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: white;
+            display: none;  /* Hide the popup by default */
+        }
+    
+        .popup.active {
+            display: block;  /* Show the popup when it has the "active" class */
+        }
+        .completed {
+            text-decoration: line-through;
+        }
+        .month-header {
+            background-color: #5abdff; /* Change the color as needed */
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- Wes Mostly written by copilot and gpt-->
+        <!-- For every month and  the weeks inside it-->
+        {% for month, weeks in months_with_weeks.items %}
+        <div class="month-header mt-0 mb-0">{{ month }}</div>
+        <table>
+            <tr>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+            <!-- For every week we will get the events-->
+            {% for week in weeks %}
+            <tr>
+                {% for day in week %} <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
+                <td onclick="togglePopup()">
+                    {% if day %}
+                    <div class="day">
+                        <h3>{{ day.day }}</h3>
+                        {% for event in day.events %} <!-- This next section will make the event itself a button we can click on to get to the events detailed page-->
+                        <a href="{% url 'event_detail' event.id %}" style="text-decoration: none; color: inherit;">
+                            <div class="event {% if event.completed %}completed{% endif %}" style="cursor: pointer;">
+                                <h3>{{ event.title }}</h3>             
+                                <p>Time: {{ event.time }}</p>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <!-- Optionally display something for empty cells or just leave it blank -->
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endfor %}
+
+    </div>
+    </style>
+    <div class="container my-4 mb-1 mt-1">
+        <div class="btn-group-vertical d-flex justify-content-center position-fixed" style="bottom: 20px; left: 1.5rem;" role="group" aria-label="Calendar views">
+            <a href="{% url 'todo_list' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Day</a>
+            <a href="{% url 'calendar' 'week' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Week</a>
+            <a href="{% url 'calendar' 'month' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Month</a>
+            <a href="{% url 'calendar' 'semester' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Semester</a>
+        </div>
+    </div>
+    <button class="btn btn-primary position-fixed bottom-0 end-0 m-3 shadow" onclick="togglePopup()" style="font-size: 38px; width: 70px; height: 70px; border-radius: 70%;">+</button>
+    <!-- Add event popup made by copilot--> 
+    <div id="addEventPopup" class="popup">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
+            <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="event.preventDefault(); togglePopup()">Close</button>
+        </form>
+    </div>
+    <script>
+        function togglePopup(selectedDate) { 
+            var popup = document.getElementById("addEventPopup");
+            popup.classList.toggle("active");
+            if (selectedDate) { // If a date was selected, set the value of the date input to the selected date (not working / stretching goal)
+                document.getElementById("id_date").value = selectedDate;
+            }
+        }
+    </script>
+</body>
+</html>
+
+{% endblock %}

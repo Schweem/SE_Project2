@@ -1,0 +1,260 @@
+{
+  "requesterUsername": "Schweem",
+  "requesterAvatarIconUri": {
+    "$mid": 1,
+    "path": "/Schweem",
+    "scheme": "https",
+    "authority": "avatars.githubusercontent.com"
+  },
+  "responderUsername": "GitHub Copilot",
+  "welcomeMessage": [
+    "Welcome, **@Schweem**, I'm your Copilot and I'm here to help you get things done faster. You can also [start an inline chat session](command:workbench.action.quickchat.launchInlineChat).",
+    "I'm powered by AI, so surprises and mistakes are possible. Make sure to verify any generated code or suggestions, and [share feedback](https://aka.ms/microsoft/vscode-copilot-release) so that we can learn and improve. Check out the [Copilot documentation](https://code.visualstudio.com/docs/editor/github-copilot#_chat-view) to learn more."
+  ],
+  "requests": [
+    {
+      "message": {
+        "text": "is the css import in the right palce?",
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 37
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 38
+            },
+            "text": "is the css import in the right palce?",
+            "kind": "text"
+          }
+        ]
+      },
+      "variableData": {
+        "message": "is the css import in the right palce?",
+        "variables": {}
+      },
+      "response": [
+        {
+          "value": "Yes, the CSS import is in the correct place. It is included within the `<form>` tag, which is a valid location for importing CSS stylesheets.",
+          "isTrusted": false,
+          "supportThemeIcons": false,
+          "supportHtml": false
+        }
+      ],
+      "isCanceled": false,
+      "contentReferences": []
+    },
+    {
+      "message": {
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 78
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 79
+            },
+            "text": "is the code ive highlitghed the appropriate way to set the print to landscape?",
+            "kind": "text"
+          }
+        ],
+        "text": "is the code ive highlitghed the appropriate way to set the print to landscape?"
+      },
+      "variableData": {
+        "variables": {},
+        "message": "is the code ive highlitghed the appropriate way to set the print to landscape?"
+      },
+      "response": [
+        {
+          "value": "Yes, the highlighted code is the correct way to set the print orientation to landscape in CSS. The `@media print` rule is used to apply styles for printed documents, and the `@page` rule inside it sets the page box properties for paged media. The `size: landscape;` declaration sets the orientation of the page to landscape when printed.",
+          "isTrusted": false,
+          "supportThemeIcons": false,
+          "supportHtml": false
+        }
+      ],
+      "followups": [
+        {
+          "kind": "reply",
+          "message": "How can I set the print margins using CSS?",
+          "title": "How can I set the print margins using CSS?"
+        }
+      ],
+      "isCanceled": false,
+      "agent": {
+        "id": "copilot",
+        "metadata": {
+          "description": "",
+          "fullName": "GitHub Copilot",
+          "hasSlashCommands": true,
+          "hasFollowups": true,
+          "isDefault": true,
+          "helpTextPrefix": "You can ask me general programming questions, or chat with the following agents which have specialized expertise and can perform actions:",
+          "helpTextPostfix": {
+            "value": "To have a great conversation, ask me questions as if I was a real programmer:\n\n* **Show me the code** you want to talk about by having the files open and selecting the most important lines.\n* **Make refinements** by asking me follow-up questions, adding clarifications, providing errors, etc.\n* **Review my suggested code** and tell me about issues or improvements, so I can iterate on it.\n\nYou can also ask me questions about your editor selection by [starting an inline chat session](command:inlineChat.start).\n\nLearn more about [GitHub Copilot](https://docs.github.com/copilot/getting-started-with-github-copilot?tool=vscode) in [Visual Studio Code](https://code.visualstudio.com/docs/editor/artificial-intelligence).",
+            "isTrusted": {
+              "enabledCommands": [
+                "inlineChat.start"
+              ]
+            },
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {
+              "command:inlineChat.start": {
+                "$mid": 1,
+                "path": "inlineChat.start",
+                "scheme": "command"
+              },
+              "https://docs.github.com/copilot/getting-started-with-github-copilot?tool=vscode": {
+                "$mid": 1,
+                "path": "/copilot/getting-started-with-github-copilot",
+                "scheme": "https",
+                "authority": "docs.github.com",
+                "query": "tool=vscode"
+              },
+              "https://code.visualstudio.com/docs/editor/artificial-intelligence": {
+                "$mid": 1,
+                "path": "/docs/editor/artificial-intelligence",
+                "scheme": "https",
+                "authority": "code.visualstudio.com"
+              }
+            }
+          },
+          "supportIssueReporting": false
+        }
+      },
+      "contentReferences": [
+        {
+          "reference": {
+            "uri": {
+              "$mid": 1,
+              "fsPath": "e:\\development\\ColubridLovers_ProjectOne\\Project1\\main\\mainapp\\templates\\todo_list.html",
+              "_sep": 1,
+              "external": "file:///e%3A/development/ColubridLovers_ProjectOne/Project1/main/mainapp/templates/todo_list.html",
+              "path": "/e:/development/ColubridLovers_ProjectOne/Project1/main/mainapp/templates/todo_list.html",
+              "scheme": "file"
+            },
+            "range": {
+              "startLineNumber": 133,
+              "startColumn": 1,
+              "endLineNumber": 139,
+              "endColumn": 13
+            }
+          },
+          "kind": "reference"
+        }
+      ]
+    },
+    {
+      "message": {
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 148
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 149
+            },
+            "text": "great! I have another question, can I use bootstrap to make a styled button that will save the same prupose as the current vanilla one for printing?",
+            "kind": "text"
+          }
+        ],
+        "text": "great! I have another question, can I use bootstrap to make a styled button that will save the same prupose as the current vanilla one for printing?"
+      },
+      "variableData": {
+        "variables": {},
+        "message": "great! I have another question, can I use bootstrap to make a styled button that will save the same prupose as the current vanilla one for printing?"
+      },
+      "response": [
+        {
+          "value": "Yes, you can use Bootstrap to create a styled button for printing. Here's an example of how you can do it:\n\n```html\n<button class=\"btn btn-primary\" onclick=\"window.print()\">Print this page</button>\n```\n\nIn this example, `btn` and `btn-primary` are Bootstrap classes that style the button. The `onclick` attribute is used to call the `window.print()` function, which initiates printing.",
+          "isTrusted": false,
+          "supportThemeIcons": false,
+          "supportHtml": false
+        }
+      ],
+      "followups": [
+        {
+          "kind": "reply",
+          "message": "How can I customize the appearance of the print dialog box when using `window.print()` in JavaScript?",
+          "title": "How can I customize the appearance of the print dialog box when using `window.print()` in JavaScript?"
+        }
+      ],
+      "isCanceled": false,
+      "agent": {
+        "id": "copilot",
+        "metadata": {
+          "description": "",
+          "fullName": "GitHub Copilot",
+          "hasSlashCommands": true,
+          "hasFollowups": true,
+          "isDefault": true,
+          "helpTextPrefix": "You can ask me general programming questions, or chat with the following agents which have specialized expertise and can perform actions:",
+          "helpTextPostfix": {
+            "value": "To have a great conversation, ask me questions as if I was a real programmer:\n\n* **Show me the code** you want to talk about by having the files open and selecting the most important lines.\n* **Make refinements** by asking me follow-up questions, adding clarifications, providing errors, etc.\n* **Review my suggested code** and tell me about issues or improvements, so I can iterate on it.\n\nYou can also ask me questions about your editor selection by [starting an inline chat session](command:inlineChat.start).\n\nLearn more about [GitHub Copilot](https://docs.github.com/copilot/getting-started-with-github-copilot?tool=vscode) in [Visual Studio Code](https://code.visualstudio.com/docs/editor/artificial-intelligence).",
+            "isTrusted": {
+              "enabledCommands": [
+                "inlineChat.start"
+              ]
+            },
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {
+              "command:inlineChat.start": {
+                "$mid": 1,
+                "path": "inlineChat.start",
+                "scheme": "command"
+              },
+              "https://docs.github.com/copilot/getting-started-with-github-copilot?tool=vscode": {
+                "$mid": 1,
+                "path": "/copilot/getting-started-with-github-copilot",
+                "scheme": "https",
+                "authority": "docs.github.com",
+                "query": "tool=vscode"
+              },
+              "https://code.visualstudio.com/docs/editor/artificial-intelligence": {
+                "$mid": 1,
+                "path": "/docs/editor/artificial-intelligence",
+                "scheme": "https",
+                "authority": "code.visualstudio.com"
+              }
+            }
+          },
+          "supportIssueReporting": false
+        }
+      },
+      "contentReferences": [
+        {
+          "reference": {
+            "uri": {
+              "$mid": 1,
+              "fsPath": "e:\\development\\ColubridLovers_ProjectOne\\Project1\\main\\mainapp\\templates\\todo_list.html",
+              "_sep": 1,
+              "external": "file:///e%3A/development/ColubridLovers_ProjectOne/Project1/main/mainapp/templates/todo_list.html",
+              "path": "/e:/development/ColubridLovers_ProjectOne/Project1/main/mainapp/templates/todo_list.html",
+              "scheme": "file"
+            },
+            "range": {
+              "startLineNumber": 133,
+              "startColumn": 1,
+              "endLineNumber": 139,
+              "endColumn": 13
+            }
+          },
+          "kind": "reference"
+        }
+      ]
+    }
+  ],
+  "providerId": "copilot"
+}

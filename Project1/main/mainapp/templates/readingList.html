@@ -1,0 +1,129 @@
+<!-- Safari -- I just used copilot to help me with this one it was pretty simple although seamus may have made some alterations -->
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reading List{% endblock %}
+
+{% block content %}
+<style>
+    .add-button {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        background-color: #5bc0de;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+            border-radius: 12%;
+        
+    }
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        border: 1px solid #ddd;
+        background-color: white;
+        display: none;  /* Hide the popup by default */
+    }
+
+    .popup.active {
+        display: block;  /* Show the popup when it has the "active" class */
+    }
+    .read-item {
+        position: relative;
+    }
+
+    .read-item::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        border-top: 4px solid black;
+    }
+    td {
+        text-align: left;
+        vertical-align: middle;
+    }
+    .update-form {
+        display: flex;
+        vertical-align: middle;
+        height: 100%;
+    }
+</style>
+<div class="container mt-4">
+    <h2>Reading <a href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: transparent;">l</a>List</h2>
+    <table class="table mt-5">
+        <thead class="thead-dark">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Type</th>
+                <th>Link</th>
+                <th>Mark Read</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in reading_list %} <!--The reading list needs to match what is put in the view exactly-->
+            <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %}">
+                <td>{{ item.title }}</td>
+                <td>{{ item.author }}</td>
+                <td>{{ item.type }}</td>
+                <td><a href="{{ item.link }}" class="btn btn-link">Link</a></td>
+                <td>
+                    <form method="post" class="update-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <input type="hidden" name="form_type" value="update">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="read_{{ item.id }}" name="read" {% if item.read %}checked{% endif %} onchange="this.form.submit()">
+                            <label class="form-check-label" for="read_{{ item.id }}"></label>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form method="POST" class="mb-4 mt-3">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="clear">
+        <div class="row mb-4 mt-5">
+            <div class="col-6 col-md-4">
+                <!-- Add button -->
+                <button type="button" class="btn btn-primary shadow" onclick="event.preventDefault(); togglePopup();" style="font-size: 24px; width: 50px; height: 50px; border-radius: 50%;">+</button>
+            </div>
+            <div class="col-6 col-md-6 d-flex justify-content-end">
+                <!-- Clear button, aligned to the right -->
+                <button type="submit" class="btn btn-outline-danger rounded-pill shadow">Clear all read items</button>
+            </div>
+        </div>
+    </form>
+    
+    
+    <!-- Add event popup made by copilot--> 
+    <div id="addPopup" class="popup">
+        <form method="post" class="my-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="form_type" value="add">
+            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
+            <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="event.preventDefault(); togglePopup()">Close</button>
+        </form>  
+    </div>
+    <script>
+        function togglePopup() {
+            var popup = document.getElementById("addPopup");
+            popup.classList.toggle("active");
+        }
+    </script>
+</div>
+
+{% load static %}
+
+{% endblock %}

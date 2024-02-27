@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Event Detail{% endblock %}
+
+{% block content %}
+<!-- Wes. This was written in large part by copilot -->
+<!-- This is the detailed event view of a specefic event showcasing its important details-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .event {
+            background-color: #f2f2f2;
+            margin: 20px auto;  /* Center the event and add some margin */
+            padding: 20px;  /* Add some padding */
+            font-size: 1em;  /* Set the font size */
+            border: 1px solid #ddd;
+            width: 50%;  /* Set the width */
+        }
+        .completed {
+            text-decoration: line-through;
+        }
+        .delete_todo {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin: 10px 0;
+        }
+        .button_section { /* This is a section so we can have the buttons side by side */
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="event {% if event.completed %}completed{% endif %}">
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.description }}</p>
+        {% if event.url %}
+        <p><a href="{{ event.url }}">Link</a></p>
+        {% endif %}
+        <p>Date: {{ event.date }}</p>
+        <p>Time: {{ event.time }}</p>
+        <div class="button_section">
+            <!-- This button will allow us to mark it as completed -->
+            <form method="post" action="{% url 'mark_todo_completed' event.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="completed" value="True">
+                <button type="submit" class="btn btn-primary">Mark as complete</button>
+            </form>
+            <!-- Form to delete the current todo item -->
+            <form method="post" action="{% url 'delete_todo' event.id %}" >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger rounded-pill mx-1 mt-1">Delete</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+
+{% endblock %}

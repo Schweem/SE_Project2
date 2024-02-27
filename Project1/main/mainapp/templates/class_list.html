@@ -1,0 +1,89 @@
+<!-- The main purpose of this page is to have a list of all the current classes, and future classes-->
+<!-- Written in large part by copilot, and constructed from parts of the other HTML pages-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Class List{% endblock %}
+
+{% block content %}
+
+<style>
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        border: 1px solid #ddd;
+        background-color: white;
+        display: none;  /* Hide the popup by default */
+    }
+
+    .popup.active {
+        display: block;  /* Show the popup when it has the "active" class */
+        }
+    .class-list {
+        list-style-type: none;
+        padding: 0;
+        width: 50%;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .class-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .class-list li:last-child {
+        border-bottom: none;
+    }
+</style>
+<!-- Wes, written by copilot, here we will go through each of the 3 dictionaries that we passed to the class view and display them in their own seciton-->
+<div id="classViews" class="mt-5">
+    <h2 style="text-align: center;">Current Classes</h2>
+    <ul class="class-list mb-4">
+        {% for class in current_classes %}
+            <li>{{ class.title }} - {{ class.time }} - {{ class.date }} <a href="{% url 'delete_class' class.id %}" class="btn btn-outline-danger rounded-pill">Delete</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2 style="text-align: center;">Future Classes</h2>
+    <ul class="class-list mb-4">
+        {% for class in future_classes %}
+            <li>{{ class.title }} - {{ class.attributes }} <a href="{% url 'delete_class' class.id %}" class="btn btn-outline-danger rounded-pill">Delete</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2 style="text-align: center;">Completed Classes</h2>
+    <ul class="class-list mb-4">
+        {% for class in completed_classes %}
+            <li>{{ class.title }} - {{ class.attributes }} <a href="{% url 'delete_class' class.id %}" class="btn btn-outline-danger rounded-pill">Delete</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<button class="btn btn-primary position-fixed bottom-0 end-0 m-3 shadow" onclick="togglePopup()" style="font-size: 38px; width: 70px; height: 70px; border-radius: 70%;">+</button>
+
+<!-- Add event popup made by copilot but modified for the classes--> 
+<div id="addClassPopup" class="popup">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary rounded-pill">Add</button>
+        <button type="close" class="btn btn-outline-danger rounded-pill" onclick="togglePopup()">Close</button>
+    </form>
+</div>
+<script>
+    function togglePopup() {
+        var popup = document.getElementById("addClassPopup");
+        popup.classList.toggle("active");
+    }
+</script>
+
+{% endblock %}

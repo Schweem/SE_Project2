@@ -1,0 +1,104 @@
+<!--
+Wes
+This is the closing times template for the mainapp.
+It displays the closing times for different places.
+-->
+
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .container {
+        font-family: Arial, sans-serif;
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    table {
+        margin: auto;
+        width: 95%;
+        border-collapse: separate;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #5bc0de;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    td {
+        word-wrap: break-word;
+    }
+</style>
+
+<!-- Creating a simple section to display hardcoded hours-->
+<div class="container">
+    <h1 class="text-center">Hours of Operation!</h1>
+    <!-- Start of the table for hours -->
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Place</th>
+                <th scope="col">Monday to Friday Hours</th>
+                <th scope="col">Weekend Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>HAM</td>
+                <td>
+                    <!-- HAM closing times -->
+                    Continental Breakfast: 7:30 to 8am and 10 to 10:30am<br>
+                    Breakfast: 8 to 10am<br>
+                    Lunch: 11 to 2pm<br>
+                    Lite Lunch: 2 to 3:30pm<br>
+                    Dinner: 4:30pm to 7pm
+                </td>
+                <td>
+                    <!-- HAM weekend closing times -->
+                    Brunch: 10:30am to 1pm<br>
+                    Dinner: 4:30pm to 6:30pm
+                </td>
+            </tr>
+            <tr>
+                <td>WRC</td>
+                <td>10am to 9pm</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>CWC</td>
+                <td>8am to 5pm</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>QRC</td>
+                <td>8am to 5pm</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>CEO</td>
+                <td>8am to 5pm</td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>WaterFront</td>
+                <td>Sunrise to Sunset</td>
+                <td>Sunrise to Sunset</td>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reading List{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<!-- This is just a placeholder for now-->
+<html>
+<head>
+    <!-- Link to the Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="{% static 'bootstrap_yeti.css' %}">
+    <style>    
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: white;
+            display: none;  /* Hide the popup by default */
+        }
+    
+        .popup.active {
+            display: block;  /* Show the popup when it has the "active" class */
+        }
+        table {
+            margin: auto;
+            width: 95%;
+            border-collapse: separate;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #008cba;
+            color: white;
+        }
+        .completed {
+            position: relative;
+        }
+        
+        .completed::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            border-top: 4px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Wes, Here we will display the events, written by copilot-->
+    <div class="container mt-2">
+        <h1>Todo List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <!-- Define the table headers -->
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Completed</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">Todo By</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody> <!-- Go through every todo that was passed to the page, in the order they were passed to it (sorting done in views)-->
+                {% for todo in todos %}
+                    <tr class="{{ todo.completed|yesno:'completed,' }}">
+                    <!-- Display the title, description, and completion status of the current todo item -->
+                        <td>{{ todo.title }}</td>
+                        <td>{{ todo.description }}</td>
+                        <td>{{ todo.completed }}</td>
+                        <td>{{ todo.url }}</td>
+                        <td>{{ todo.date }} {{ todo.time }}</td>
+                        <td>
+                            <!-- Form to mark the current todo item as completed -->
+                            <form method="post" action="{% url 'mark_todo_completed' todo.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="completed" value="True">
+                                <button type="submit" class="btn btn-info rounded-pill mx-1 mt-1">Mark as complete</button>
+                            </form>
+                            <!-- Form to delete the current todo item -->
+                            <form method="post" action="{% url 'delete_todo' todo.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger rounded-pill mx-1 mt-1">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Button to trigger the add item modal -->
+        <button class="btn btn-primary position-fixed bottom-0 end-0 m-3 shadow" onclick="togglePopup()" style="font-size: 38px; width: 70px; height: 70px; border-radius: 70%;">+</button>
+        <!-- Add event popup made by copilot--> 
+        <div id="addEventPopup" class="popup">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
+                <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="event.preventDefault(); togglePopup()">Close</button>
+            </form>
+        </div>
+        <script>
+            function togglePopup() {
+                var popup = document.getElementById("addEventPopup");
+                popup.classList.toggle("active");
+            }
+        </script>
+    <!-- add print button-->
+    <style>
+        @media print {
+            @page {
+                size: landscape; /* Set the page orientation to landscape */
+            }
+        }
+    </style>
+    <button class="btn btn-primary rounded-pill shadow mt-4  position-fixed", style="bottom: 20px; left: 1.5rem;" onclick="window.print()">Print this page</button>
+    <!-- Include jQuery and Bootstrap JS for the modal and other features -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

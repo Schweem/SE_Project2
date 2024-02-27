@@ -1,0 +1,65 @@
+<!-- Safari -->
+<!-- Please see timer.js for sources and references -->
+
+
+<!--https://getbootstrap.com/docs/4.0/layout/utilities-for-layout/-->
+<!--https://getbootstrap.com/docs/4.0/components/buttons/-->
+
+<!-- https://www.istockphoto.com/vector/cute-gray-cat-waving-paw-cartoon-vector-illustration-gm1317495176-404911466 -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pomodoro Timer{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid vh-70 d-flex flex-column align-items-center justify-content-center text-center bg-white text-dark mb-1">
+    <!-- Cute cat! -->
+    <img src="{% static 'images/timerCat.jpg' %}" alt="Timer Cat" class="img-fluid mb-1" />
+
+    <!-- Content Wrapper -->
+    <div>
+        <div class="mb-4">
+            <!-- Motivational quote -->
+            <h5 id="quote"></h5>
+            <script> // script to handle random quote
+                // Array of motivational quotes
+                var quotes = [
+                    "Stay focused and never give up!",
+                    "Believe in yourself and all that you are.",
+                    "You can do it!",
+                    "Lets get it done!",
+                    "Here we go!"
+                ];
+
+                // Select a random quote from the array
+                var randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
+                // Set the random quote as the content of the 'quote' element
+                document.getElementById("quote").textContent = randomQuote;
+            </script>
+        </div>
+
+        <!-- Timer Mode Buttons -->
+        <div class="btn-group mb-3" role="group" aria-label="Timer modes">
+            <button type="button" class="btn btn-info rounded-pill mx-1" id="short-break">Short Break</button>
+            <button type="button" class="btn btn-lg btn-info rounded-pill mx-3" id="pomodoro">Pomodoro</button>
+            <button type="button" class="btn btn-info rounded-pill mx-1" id="long-break">Long Break</button>
+        </div>
+
+        <!-- Timer Display -->
+        <div class="display-1 mb-2" id="timer-display">25:00</div>
+
+        <!-- Timer Control Buttons -->
+        <div class="btn-group mb-3" role="group" aria-label="Timer controls">
+            <button class="btn btn-outline-info btn shadow rounded-pill mx-2" id="stop-button">Stop</button>
+            <button class="btn btn-outline-primary btn-lg shadow rounded-pill mx-2" id="start-button">Start</button>
+            <button class="btn btn-outline-danger btn shadow rounded-pill mx-2" id="reset-button">Reset</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/timer_script.js' %}"></script>
+
+{% endblock %}

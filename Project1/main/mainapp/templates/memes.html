@@ -1,0 +1,21 @@
+<!-- Safari -->
+<!-- This one was another SUPER easy one I just asked copilot to help me with -->
+<!-- Although andrew gave us the general idea for this page as we were planning on something much more complex -->
+
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="container d-flex align-items-center justify-content-center min-vh-80">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <img src="{% static 'images/'|add:random_image %}" alt="Random meme" class="img-fluid mt-5" style="max-width: 80%; max-height: 70vh;">
+      </div>
+      <div class="col-md-12 text-center">
+        <button onclick="location.reload()" class="btn btn-primary rounded-pill shadown mb-5 btn-lg mt-4" >Get Inspired!</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

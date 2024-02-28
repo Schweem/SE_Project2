@@ -1,5 +1,7 @@
 from django import forms
 from django.forms.widgets import SelectDateWidget, TimeInput
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Event, readingMaterial, classList
 # I got a lot of use from this https://docs.djangoproject.com/en/5.0/ref/forms/widgets/
@@ -80,5 +82,18 @@ class classListForm(forms.ModelForm):
             'completed': forms.CheckboxInput(),
     }
 
-        
+# Create a form to register a user
+class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True) #enforce email requirement
+
+    class Meta: # https://docs.djangoproject.com/en/3.0/topics/auth/default/
+        model = User 
+        fields = ('username', 'email', 'password1', 'password2') #fields to be filled out by the user
+
+    def save(self, commit=True): #save the user
+        user = super(RegistrationForm, self).save(commit=False) #save the user
+        user.email = self.cleaned_data['email'] #get the email
+        if commit: #if the user is committed
+            user.save() #save the user
+        return user #return the user
         

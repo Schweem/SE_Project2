@@ -4,6 +4,8 @@
 <!-- https://getbootstrap.com/docs/4.0/components/dropdowns/-->
 <!-- https://getbootstrap.com/docs/4.1/components/navbar/ -->
 
+<!-- https://icons8.com/icon/set/profile/fluency-systems-regular -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +64,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://novoconnect.ncf.edu/">NovoConnect</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile" href="{% url 'profile' %}">
+                            <img class="profile-picture-icon" style="width: 24px; height: 24px;" src="{% static 'icons/userIcon.svg' %}" alt="Profile">
+                        </a>
                     </li>
                 </ul>
             </div>

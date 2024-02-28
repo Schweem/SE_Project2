@@ -1,0 +1,43 @@
+<!-- FILEPATH: /e:/development/SE_ProjectTwo/SE_Project2/Project1/main/mainapp/templates/registration/login.html -->
+
+<!-- This is the login page for the website. It is a simple form that takes in a username and password. It also has a button to register a new account. -->
+<!-- https://docs.djangoproject.com/en/5.0/topics/auth/default/ -->
+<!-- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication -->
+<!-- https://learndjango.com/tutorials/django-login-and-logout-tutorial -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+    <!-- Container for centering the content vertically and horizontally -->
+    <div class="col-md-6 col-lg-8">
+        <!-- Column for controlling the width of the content -->
+        <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
+            <!-- Card for styling and adding a shadow effect -->
+            <div class="card-body">
+                <!-- Card body for containing the profile information -->
+                <h2 class="text-center mb-4">Profile Information</h2>
+                <!-- Heading for the profile information section -->
+                <p class="font-weight-bold">Username: <span class="font-weight-normal">{{ user.username }}</span></p>
+                <!-- Displaying the username -->
+                <p class="font-weight-bold">Email: <span class="font-weight-normal">{{ user.email }}</span></p>
+                <!-- Displaying the email -->
+                <p class="font-weight-bold">First name: <span class="font-weight-normal">{{ user.first_name }}</span></p>
+                <!-- Displaying the first name -->
+                <p class="font-weight-bold">Last name: <span class="font-weight-normal">{{ user.last_name }}</span></p>
+                <!-- Displaying the last name -->
+                <p class="font-weight-bold">Bio: <span class="font-weight-normal">{{ user.bio }}</span></p>
+                <!-- Displaying the bio -->
+                <!-- Add more fields as necessary -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

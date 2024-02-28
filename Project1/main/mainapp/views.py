@@ -20,6 +20,11 @@ import os
 import random
 from django.conf import settings
 
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login
+from .forms import RegistrationForm
+from django.contrib.auth.decorators import login_required
 
 
 # I got a lot of help from here 
@@ -192,3 +197,34 @@ def delete_class(request, class_id): #copilot
 
 def hours(request):
     return render(request, 'hours.html')
+
+## PROJECT 2 USER AUTH ## 
+
+def login_view(request):  # changed function name to avoid conflict with `login` import
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)  # pass 'user' to the login function
+                return redirect('profile')  # redirect to the profile page
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+def register(request): # user registration
+    if request.method == 'POST': # if the user is trying to register
+        form = RegistrationForm(request.POST) # get the form
+        if form.is_valid(): # if the form is valid
+            user = form.save() # save the user
+            auth_login(request, user) # log the user in 
+            return redirect('profile')  # redirect to the profile page
+    else:
+        form = RegistrationForm() # if the form is not valid, create a new form
+    return render(request, 'registration/register.html', {'form': form}) # render the register page with the form
+
+@login_required  # Ensures only logged-in users can access this view
+def profile(request): # view to display user profile
+    return render(request, 'registration/profile.html', {'user': request.user}) # render the profile page with the user's information

@@ -1,4 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User #Django user model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+# https://docs.djangoproject.com/en/5.0/topics/signals/ signals for the User to Profile transfer
 # docs powered by CoPilot
 
 # Wes -- Written by copilot and modified to fit my needs, 
@@ -68,3 +73,19 @@ class classList(models.Model):
 
     def __str__(self):
         return self.title
+    
+# Model for user profiles
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # If user is deleted, delete profile
+    bio = models.TextField(max_length=500, blank=True) # Optional bio
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) # Optional profile picture
+
+    def __str__(self): 
+        return f'{self.user.username} Profile' 
+    
+@receiver(post_save, sender=User) # When a user is saved, send the signal to create or update the profile
+def create_or_update_user_profile(sender, instance, created, **kwargs): # Create or update the profile
+    if created: # If the user is created, create a profile
+        Profile.objects.create(user=instance) 
+    else:
+        instance.profile.save()

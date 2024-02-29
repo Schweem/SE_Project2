@@ -1,10 +1,16 @@
 from django import forms
 from django.forms.widgets import SelectDateWidget, TimeInput
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
-from .models import Event, readingMaterial, classList
+from .models import Event, readingMaterial, classList, Profile
 # I got a lot of use from this https://docs.djangoproject.com/en/5.0/ref/forms/widgets/
 #https://www.geeksforgeeks.org/django-form-field-custom-widgets/
 #https://cdf.9vo.lt/3.0/django.forms.widgets/SelectDateWidget.html
+
+# User / Profile stuff
+# https://docs.djangoproject.com/en/5.0/topics/signals/ signals for the User to Profile transfer
+# https://www.devhandbook.com/django/user-profile/
 
 # Wes -- written in large part by copilot
 class EventForm(forms.ModelForm):
@@ -80,5 +86,35 @@ class classListForm(forms.ModelForm):
             'completed': forms.CheckboxInput(),
     }
 
-        
-        
+# Create a form to register a user
+class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True) #enforce email requirement
+
+    class Meta: # https://docs.djangoproject.com/en/3.0/topics/auth/default/
+        model = User 
+        fields = ('username', 'email', 'password1', 'password2') #fields to be filled out by the user
+
+    def save(self, commit=True): #save the user
+        user = super(RegistrationForm, self).save(commit=False) #save the user
+        user.email = self.cleaned_data['email'] #get the email
+        if commit: #if the user is committed
+            user.save() #save the user
+        return user #return the user
+    
+class UserUpdateForm(forms.ModelForm): #update the user
+    email = forms.EmailField() #enforce email requirement
+
+    class Meta:  
+        model = User 
+        fields = ['username', 'email']
+
+class UserForm(forms.ModelForm):  #update the user profile 
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class ProfileUpdateForm(forms.ModelForm): #update the profile
+    class Meta:
+        model = Profile
+        fields = ['bio', 'profile_picture']
+

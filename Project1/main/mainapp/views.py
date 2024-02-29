@@ -20,7 +20,13 @@ import os
 import random
 from django.conf import settings
 
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login
+from .forms import RegistrationForm # import the RegistrationForm class from forms.py
+from django.contrib.auth.decorators import login_required
+from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
+from django.contrib import messages 
 
 # I got a lot of help from here 
 #https://www.w3schools.com/django
@@ -62,7 +68,7 @@ def event_detail(request, event_id): # Wes
     return render(request, 'event_detail.html', {'event': event})
   
 def home(request):
-    return calendar_view(request, 'month')
+    return redirect('login') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
 
 def reading_material_view(request): 
     form = ReadingMaterialForm()
@@ -193,6 +199,113 @@ def delete_class(request, class_id): #copilot
 def hours(request):
     return render(request, 'hours.html')
 
+## PROJECT 2 USER AUTH ## 
+
+def login_view(request):  
+    if request.method == 'POST': # if the user is trying to log in
+        form = AuthenticationForm(request, data=request.POST) # get the form
+        if form.is_valid(): # if the form is valid
+            username = form.cleaned_data.get('username') # get the username
+            password = form.cleaned_data.get('password') # get the password
+            user = authenticate(request, username=username, password=password) # authenticate the user
+            if user is not None:
+                auth_login(request, user)  # pass 'user' to the login function
+                return redirect('profile')  # redirect to the profile page
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+def register(request): # user registration
+    if request.method == 'POST': # if the user is trying to register
+        form = RegistrationForm(request.POST) # get the form
+        if form.is_valid(): # if the form is valid
+            user = form.save() # save the user
+            auth_login(request, user) # log the user in 
+            return redirect('profile')  # redirect to the profile page
+    else:
+        form = RegistrationForm() # if the form is not valid, create a new form
+    return render(request, 'registration/register.html', {'form': form}) # render the register page with the form
+
+@login_required  # Ensures only logged-in users can access this view
+def profile(request): # view to display user profile
+    if request.method == 'POST': # if the user is trying to update their profile
+        u_form = UserUpdateForm(request.POST, instance=request.user) # get the user form
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
+
+        if u_form.is_valid() and p_form.is_valid(): # if the forms are valid
+            u_form.save() # save the user form
+            p_form.save() # save the profile form
+            messages.success(request, f'Your account has been updated!') # success message
+            return redirect('profile')
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'registration/profile.html', {'user': request.user}) # render the profile page with the user's information
+
+@login_required
+def update_profile_picture(request): # view to update the user's profile picture
+    if request.method == 'POST': # if the user is trying to update their profile picture
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the form
+        if form.is_valid(): # if the form is valid
+            form.save() # save the form
+            #success message
+            messages.success(request, 'Your profile picture has been updated!')
+            return redirect('profile')  # Replace 'profile' with the name of your profile view
+        else:
+            # error message
+            messages.error(request, 'Unable to update your profile picture.')
+    # If GET or form not valid, render the profile page with the form
+    return redirect('profile')
+
+@login_required
+def update_profile(request): # view to update the user's profile
+    if request.method == 'POST': # if the user is trying to update their profile
+        user_form = UserForm(request.POST, instance=request.user) # get the user form
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
+
+        if user_form.is_valid() and profile_form.is_valid(): # if the forms are valid
+            user_form.save() # save the user form
+            profile = profile_form.save(commit=False) # save the profile form
+            profile.user = request.user # set the profile's user to the current user
+            profile.save() # save the profile form
+            messages.success(request, 'Your profile has been updated!') # success message
+            return redirect('profile')  
+    else:
+        user_form = UserForm(instance=request.user) # if the form is not valid, create a new form
+        profile_form = ProfileUpdateForm(instance=request.user.profile) # if the form is not valid, create a new form
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'edit_profile.html', context)
+
+@login_required
+def edit_profile(request): # view to edit the user's profile
+    if request.method == 'POST': # if the user is trying to edit their profile
+        user_form = UserForm(request.POST, instance=request.user) 
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # Get the user and profile forms from the request
+        
+        if user_form.is_valid() and profile_form.is_valid(): # If the forms are valid
+            user_form.save() # Save the user form
+            profile_form.save() # Save the profile form
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('profile')  # Redirect to the profile detail view after save
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'registration/editProfile.html', context)
 # Bilge
 def dorms(request):
     return render(request, "dorms.html")

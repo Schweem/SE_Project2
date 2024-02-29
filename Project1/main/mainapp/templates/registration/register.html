@@ -1,0 +1,53 @@
+<!-- FILEPATH: /e:/development/SE_ProjectTwo/SE_Project2/Project1/main/mainapp/templates/registration/register.html -->
+
+<!-- https://docs.djangoproject.com/en/5.0/topics/auth/default/ -->
+<!-- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication -->
+<!-- https://learndjango.com/tutorials/django-login-and-logout-tutorial -->
+
+<!-- https://getbootstrap.com/docs/4.0/components/card/ -->
+<!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
+<!-- https://getbootstrap.com/docs/4.0/components/forms/ -->
+
+<!-- For making nice rounded cards -->
+<!-- https://stackoverflow.com/questions/62322171/how-to-round-the-corners-of-a-card-body-and-image-in-bootstrap-4 -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="col-md-6 col-lg-8">
+        <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
+            <div class="card-body">
+                <h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-primary shadow rounded-pill" type="submit">Register</button>
+                </form>
+            </div> 
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'login' %}">Been here before? Log in here.</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

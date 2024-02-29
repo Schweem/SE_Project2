@@ -193,6 +193,9 @@ def delete_class(request, class_id): #copilot
 def hours(request):
     return render(request, 'hours.html')
 
+# Bilge
+def dorms(request):
+    return render(request, "dorms.html")
 def eateries(request):
     return render(request, 'eateries.html', {})
 

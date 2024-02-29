@@ -192,3 +192,18 @@ def delete_class(request, class_id): #copilot
 
 def hours(request):
     return render(request, 'hours.html')
+
+def eateries(request):
+    return render(request, 'eateries.html', {})
+
+def local_fun(request):
+    return render(request, 'local_fun.html', {})
+
+def transportation(request):
+    return render(request, 'transportation.html', {})
+
+def food_art(request):
+    return render(request, 'food_art.html', {})
+
+def groceries_supplies(request):
+    return render(request, 'groceries_supplies.html', {})

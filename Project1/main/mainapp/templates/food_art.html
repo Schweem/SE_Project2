@@ -1,0 +1,30 @@
+<!-- Lainey -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Forest and Art Installations</title>
+</head>
+<body>
+    <!-- Mini Navbar -->
+    <div class="container my-4">
+        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Resource navigation">
+            <a href="{% url 'eateries' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Eateries</a>
+            <a href="{% url 'local_fun' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Local Fun</a>
+            <a href="{% url 'transportation' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Transportation</a>
+            <a href="{% url 'food_art' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Food Forest/Art</a>
+            <a href="{% url 'groceries_supplies' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Groceries/Supplies</a>
+        </div>
+    </div>
+    
+    <!-- Page Content -->
+    <div class="container text-center">
+        <p>This is the Food Forest and Art Installations page.</p>
+    </div>
+</body>
+</html>
+
+{% endblock %}

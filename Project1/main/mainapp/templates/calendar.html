@@ -110,7 +110,8 @@
             <!-- For every week we will get the events-->
             {% for week in weeks %}
             <tr>
-                {% for day in week %} <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
+                {% for day in week %} 
+                <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
                 <td onclick="togglePopup()">
                     {% if day %}
                     <div class="day">

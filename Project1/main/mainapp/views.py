@@ -309,6 +309,8 @@ def edit_profile(request): # view to edit the user's profile
 # Bilge
 def dorms(request):
     return render(request, "dorms.html")
+
+#Lainey
 def eateries(request):
     return render(request, 'eateries.html', {})
 

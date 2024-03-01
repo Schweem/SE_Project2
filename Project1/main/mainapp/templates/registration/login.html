@@ -22,7 +22,7 @@ Login
             <!-- Card for styling and containing the login form -->
             <div class="card-body p-5">
                 <!-- Card body for padding and spacing -->
-                <h1 class="h3 mb-4 font-weight-normal text-center">Welcome! Please sign in.</h1>
+                <h1 class="h3 mb-4 font-weight-normal text-center"><strong>Welcome! Please sign in.</strong></h1>
                 <!-- Heading for the login form -->
                 <form method="post" action="{% url 'login' %}" class="needs-validation" novalidate>
                     <!-- Form for submitting the login details -->
@@ -30,7 +30,7 @@ Login
                     <!-- CSRF token for security -->
                     {% for field in form %}
                         <!-- Looping through each form field -->
-                        <div class="mb-4">
+                        <div class="mb-4 text-center">
                             <!-- Div for spacing between form fields -->
                             {{ field.label_tag }}
                             <!-- Displaying the label for the form field -->
@@ -52,7 +52,9 @@ Login
                             {% endfor %}
                         </div>
                     {% endfor %}
-                    <button class="btn btn-primary btn-block rounded-pill" type="submit">Login</button>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-block rounded-pill" type="submit">Login</button>
+                    </div>
                     <!-- Button for submitting the form -->
                 </form>
             </div>

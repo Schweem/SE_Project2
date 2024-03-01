@@ -4,6 +4,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # https://docs.djangoproject.com/en/5.0/topics/signals/ signals for the User to Profile transfer
+# https://www.devhandbook.com/django/user-profile/
+# https://forum.djangoproject.com/t/what-would-be-the-best-approach-to-create-a-separate-profile-page-for-registered-users/15141
+
 # docs powered by CoPilot
 
 # Wes -- Written by copilot and modified to fit my needs, 
@@ -26,7 +29,7 @@ class Event(models.Model):
     date = models.DateField()
     time = models.TimeField()
     #url
-    url = models.URLField(null=True, blank=True)
+    url = models.URLField(null=True, blank=True, max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class readingMaterial(models.Model):
@@ -76,16 +79,51 @@ class classList(models.Model):
     
 # Model for user profiles
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # If user is deleted, delete profile
-    bio = models.TextField(max_length=500, blank=True) # Optional bio
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) # Optional profile picture
+    """
+    Represents a user profile.
+
+    Attributes:
+        user (User): The user associated with the profile.
+        bio (str): The biography of the user.
+        location (str): The location of the user.
+        pets (str): The pets of the user.
+        profile_picture (ImageField): The profile picture of the user.
+    """
+
+    USER_YEARS = (
+        ('inbound', 'Inbound Novo'),
+        ('current', 'Current Novo'),
+        ('alum', 'Novo Alum')
+    )
+
+
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # grab user for profile
+    bio = models.TextField(max_length=500, blank=True)  # bio for user
+    user_years = models.CharField(max_length=10, choices=USER_YEARS, default='inbound') # user years for user
+    location = models.CharField(max_length=30, blank=True) # location for user
+    pets = models.CharField(max_length=30, blank=True) # pets for user
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) # profile picture for user
 
     def __str__(self): 
-        return f'{self.user.username} Profile' 
-    
+        return f'{self.user.username} Profile'
+
+# Signal to create or update the user profile
 @receiver(post_save, sender=User) # When a user is saved, send the signal to create or update the profile
-def create_or_update_user_profile(sender, instance, created, **kwargs): # Create or update the profile
-    if created: # If the user is created, create a profile
-        Profile.objects.create(user=instance) 
-    else:
-        instance.profile.save()
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    """
+    Create or update the user profile.
+
+    Parameters:
+    - sender: The sender of the signal.
+    - instance: The instance of the user model.
+    - created: A boolean indicating whether the user is created or updated.
+    - kwargs: Additional keyword arguments.
+
+    Returns:
+    None
+    """
+    if created: # if the user is created
+        Profile.objects.create(user=instance) # create the profile
+    else: # if the user is updated
+        instance.profile.save() # save the profile

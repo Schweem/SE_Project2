@@ -36,9 +36,18 @@
             text-align: center;
         }
         th {
-            background-color: #008cba;
+            background-color: #ABAD23;
             color: white;
         }
+        /* Apply rounding only to the outer top corners, this looks nice */
+        th:first-child {
+        border-top-left-radius: 20px;
+        }
+
+        th:last-child {
+        border-top-right-radius: 20px;
+        }
+
         .completed {
             position: relative;
         }
@@ -121,7 +130,7 @@
             }
         }
     </style>
-    <button class="btn btn-primary rounded-pill shadow mt-4  position-fixed", style="bottom: 20px; left: 1.5rem;" onclick="window.print()">Print this page</button>
+    <button class="btn btn-success rounded-pill shadow mt-4  position-fixed", style="bottom: 20px; left: 1.5rem;" onclick="window.print()">Print this page</button>
     <!-- Include jQuery and Bootstrap JS for the modal and other features -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

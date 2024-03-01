@@ -21,13 +21,13 @@ Your Profile
             {% csrf_token %}
             <label for="profilePictureUpload">
                 {% if user_profile.profile_picture %}
-                <img src="{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
+                <img src="{{ user_profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
                 {% else %}
-                <img src="{% static 'userprofiles/default.jpg' %}" class="img-fluid rounded-circle" alt="Default Profile Picture" style="width: 150px; height: 150px;">
+                <img src="{% static 'userprofiles/default.jpg' %}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
                 {% endif %}
             </label>
         </form>
-        <h3>{{ user.username }}</h3>
+        <h3><strong>{{ user.username }}</strong></h3>
         </div>
         <!-- Profile Details -->
         <div class="col-md-8">
@@ -35,10 +35,11 @@ Your Profile
             <div class="card" style="border-radius: 20px; overflow: hidden;">
                 <div class="card-body">
                     <!-- Card body for padding and spacing -->
-                    <h4 class="card-title">Profile Details</h4>
+                    <h4 class="card-title mb-4">Profile Details</h4>
                     <!-- Displaying the user's details -->
                     <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
                     <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>I'm from: </strong> {{ user.profile.location }}</p>
                     <a href="{% url 'edit_profile_url' %}" class="btn btn-primary rounded-pill shadow">Edit Profile</a>
                 </div>
             </div>
@@ -52,6 +53,8 @@ Your Profile
                 <div class="card-body">
                     <!-- Card body for padding and spacing -->
                     <h4 class="card-title">About Me:</h4>
+                    <!-- Put the pets and like and stuff here pls pls pls remember and read seamus -->
+                    <p><strong> {{ user.profile.user_years }} Novo</strong></p>
                     <!-- Displaying the user's bio -->
                     <p>{{ user.profile.bio }}</p>
                 </div>
@@ -61,7 +64,7 @@ Your Profile
     <!-- Badges Section (if you have badges to display) -->
     <div class="row mt-3">
         <div class="col">
-            <div class="card" style="border-radius: 20px; overflow: hidden;">
+            <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
                 <div class="card-body">
                     <h4 class="card-title">Badges:</h4>
                     <!-- Badge stuff -->

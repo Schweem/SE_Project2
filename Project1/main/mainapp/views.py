@@ -59,7 +59,7 @@ def delete_todo(request, todo_id): #copilot wrote this mostly
 
 # identical to the delete_todo function but we just mark the todo as completed instead of deleting it. 
 def mark_todo_completed(request, todo_id): # Wes
-    todo = get_object_or_404(Event, id=todo_id)
+    todo = get_object_or_404(Event, id=todo_id) 
     todo.completed = True
     todo.save()
     return redirect('todo_list')
@@ -69,11 +69,11 @@ def event_detail(request, event_id): # Wes
     return render(request, 'event_detail.html', {'event': event})
   
 def home(request):
-    return redirect('login') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
+    return redirect('register') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
 
 def reading_material_view(request): 
-    form = ReadingMaterialForm()
-    if request.method == 'POST':
+    form = ReadingMaterialForm() 
+    if request.method == 'POST': 
         form_type = request.POST.get('form_type')
         if form_type == 'add':
             form = ReadingMaterialForm(request.POST)

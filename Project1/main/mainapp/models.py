@@ -6,6 +6,7 @@ from django.dispatch import receiver
 # https://docs.djangoproject.com/en/5.0/topics/signals/ signals for the User to Profile transfer
 # https://www.devhandbook.com/django/user-profile/
 # https://forum.djangoproject.com/t/what-would-be-the-best-approach-to-create-a-separate-profile-page-for-registered-users/15141
+# https://docs.djangoproject.com/en/dev/ref/models/fields/#choices
 
 # docs powered by CoPilot
 
@@ -87,6 +88,7 @@ class Profile(models.Model):
         bio (str): The biography of the user.
         location (str): The location of the user.
         pets (str): The pets of the user.
+        interests (str): The interests of the user.
         profile_picture (ImageField): The profile picture of the user.
     """
 
@@ -96,14 +98,13 @@ class Profile(models.Model):
         ('alum', 'Novo Alum')
     )
 
-
-
     user = models.OneToOneField(User, on_delete=models.CASCADE) # grab user for profile
     bio = models.TextField(max_length=500, blank=True)  # bio for user
     user_years = models.CharField(max_length=10, choices=USER_YEARS, default='inbound') # user years for user
     location = models.CharField(max_length=30, blank=True) # location for user
     pets = models.CharField(max_length=30, blank=True) # pets for user
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True) # profile picture for user
+    interests = models.CharField(max_length=100, blank=True) # interests for user
+    profile_picture = models.ImageField(upload_to='userprofiles/', null=True, blank=True, default='userprofiles/default.jpg') # profile picture for user ############ PROFILE PATH HERE DONT LOOSE IT PLS ################
 
     def __str__(self): 
         return f'{self.user.username} Profile'

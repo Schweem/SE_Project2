@@ -20,6 +20,8 @@
     
 </head>
 <body>
+    <!-- only render the navbar if the user is logged in -->
+    {% if user.is_authenticated %}
     <!-- Bootstrap Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <!-- THIS LINK WILL NOT CHANGE, WE WILL REDEFINE HOME ONCE THE FORUM IS MADE -->
@@ -31,21 +33,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <!-- Calendar -->
                     <a class="nav-link" href="{% url 'calendar' 'month' %}"><strong>Scheduler</strong></a>
                 </li>
                 <li class="nav-item">
+                    <!-- ConNovo -->
                     <a class="nav-link" href="{% url 'calendar' 'month' %}"><strong>ConNovo</strong></a>
                 </li>
                 <li class="nav-item">
+                    <!-- NovoLand -->
                     <a class="nav-link" href="{% url 'calendar' 'month' %}"><strong>NovoLand</strong></a>
                 </li>
                 <li class="nav-item">
+                    <!-- Checklist -->
                     <a class="nav-link" href="{% url 'todo_list' %}"><strong>Checklist</strong></a>
                 </li>
                 <li class="nav-item">
+                    <!-- Class List -->
                     <a class="nav-link" href="{% url 'class_list' %}"><strong>Class List</strong></a>
                 </li>
                 <li class="nav-item">
+                    <!-- Doodle space -->
                     <a class="nav-link" href="{% url 'draw' %}"><strong>Doodle</strong></a>
                 </li>
             </ul>
@@ -56,24 +64,26 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
+                        <!-- check for auth to render logout -->
                         {% if user.is_authenticated %}
                             <a class="nav-link" href="{% url 'logout' %}"><strong>Logout</strong></a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://novoconnect.ncf.edu/"><strong>novoconnect</strong></a>
+                        <!-- NovoConnect link -->
+                        <a class="nav-link" href="https://novoconnect.ncf.edu/"><strong>NovoConnect</strong></a>
                     </li>
                     {% if user.is_authenticated %} 
                     <li class="nav-item">
                         <!-- check for uath || if logged in we take them to profile otherwise we go to login -->
                             <a class="nav-link" id="profile" href="{% url 'profile' %}">
-                            <!-- Update this to be dynamic -->
-                            <img class="img-fluid rounded-circle" style="width: 24px; height: 24px;" src="{% static 'userprofiles/default.jpg' %}" alt="Profile">
+                            <!-- dynamic profile picture, loads user profile pic from media -->
+                            <img class="img-fluid rounded-circle" style="width: 24px; height: 24px;" src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" alt="Profile">
                             </a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <!-- check for uath || if logged in we take them to profile otherwise we go to login -->
+                        <!-- same check other condition -->
                             <a class="nav-link" id="profile" href="{% url 'login' %}">
                             <!-- Update this to be dynamic -->
                             <img class="img-fluid rounded-circle" style="width: 24px; height: 24px;" src="{% static 'userprofiles/noauth.jpg' %}" alt="Profile">
@@ -86,6 +96,7 @@
             </div>
         </div>
     </nav>
+    {% endif %}
 
     {% block content %}
     <!-- Content from child templates will appear here -->

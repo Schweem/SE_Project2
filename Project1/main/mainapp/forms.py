@@ -157,9 +157,11 @@ class ProfileUpdateForm(forms.ModelForm):
         profile_picture (str): The URL of the user's profile picture.
         location (str): The user's location.
         pets (str): The user's pets.
+        interests (str): The user's interests.
+        user_years (str): current student status.
 
     """
     class Meta:
         model = Profile
-        fields = ['bio', 'profile_picture', 'location', 'pets', 'user_years']
+        fields = ['bio', 'profile_picture', 'location', 'pets', 'interests', 'user_years']
 

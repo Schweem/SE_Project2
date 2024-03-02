@@ -17,10 +17,11 @@ Edit Your Profile
         <!-- Profile Picture Upload -->
         <div class="form-group text-center">
             <label for="profilePictureUpload">
-                {% if user_profile.profile_picture %}
+                {% if user.profile.profile_picture %}
                 <!-- Handle actual profile picture stuff here -->
+                <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="if you see this sorry" style="cursor: pointer; width: 150px; height: 150px;">
                 {% else %}
-                <img src="{% static 'userprofiles/default.jpg' %}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="cursor: pointer; width: 150px; height: 150px;">
+                <img src="{{MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="cursor: pointer; width: 150px; height: 150px;">
                 {% endif %}
             </label>
             <input type="file" name="profile_picture" id="profilePictureUpload" class="d-none" onchange="this.form.submit();">
@@ -46,6 +47,15 @@ Edit Your Profile
         <div class="form-group">
             <label for="id_user_years">Status:</label>
             <input type="text" class="form-control" name="user_years" id="id_user_years" value="{{ user.profile.user_years }}" style="border-radius: 20px; overflow: hidden;">
+        </div>
+        <div class="form-group">
+            <label for="id_pets">Pets:</label>
+            <input type="text" class="form-control" name="pets" id="id_pets" value="{{ user.profile.pets }}" style="border-radius: 20px; overflow: hidden;">
+        </div>
+        <div class="form-group">
+            <label for="id_interests">Hobbies / Interests:</label>
+            <input type="text" class="form-control" name="interests" id="id_interests" value="{{ user.profile.interests }}" style="border-radius: 20px; overflow: hidden;">
+        </div>
         <div class="form-group">
             <label for="id_bio">Bio:</label>
             <textarea class="form-control" name="bio" id="id_bio" style="border-radius: 20px; overflow: hidden;">{{ user_profile.bio }}</textarea>
@@ -53,5 +63,8 @@ Edit Your Profile
         <a href="{% url 'profile' %}" class="btn btn-primary rounded-pill shadow mt-3 ">Back</a>
         <button type="submit" class="btn btn-primary rounded-pill shadow mt-3">Save Changes</button>
     </form>
+    <!-- loading these here for now because its not passing through base correctly -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>
 {% endblock %}

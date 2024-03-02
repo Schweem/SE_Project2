@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Reading List{% endblock %}
+{% block title %}Dormitories{% endblock %}
 
 {% block content %}
 
@@ -11,52 +11,39 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .store {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 20px;
-        }
-        .store img {
-            max-width: 200px;
-            height: auto;
-            border-radius: 8px;
-        }
-        .price-rating {
-            font-size: 18px;
-            font-weight: bold;
+        .dorms{
+            font-family: 'Baskerville';
+            padding:20px;
+            text-align: end;
         }
         .description {
             font-size: 16px;
             color: #666;
-        }
-        .hours {
-            font-size: 14px;
-            color: #333;
-        }
-        .store a:hover {
-            color: #7BAFD4;
+            text-align: end;
         }
 
     </style>
 </head>
 
 <body>
-    <h1>Gold & Dort Dorms</h1>
-    <h3>Apartment-Style Residence Halls</h3>
-    <p>The Dallas & Elizabeth Dort and Ann & Alfred Goldstein Residence Halls provide accommodations for approximately 150 students in apartment-style suites,
-         each including its own living room, kitchenette and bathroom facilities. The Dort and Goldstein Residence Halls are located near the Recreation Center on the Pei Campus. 
-        The apartment bedrooms in this area are approximately 12′ x 9′ and are either three or four bedrooms.</p>
-    <!-- Youtube video -> Share -> Embed -->
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/7RYefuH3laI?si=DbkTtpvTOHlHxgCN" title="YouTube video player" frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <dorms>
+        <h1>Gold & Dort Dorms</h1>
+        <h3>Apartment-Style Residence Halls</h3>
+        <description>The Dallas & Elizabeth Dort and Ann & Alfred Goldstein Residence Halls provide accommodations for approximately 150 students in apartment-style suites,
+            each including its own living room, kitchenette and bathroom facilities. The Dort and Goldstein Residence Halls are located near the Recreation Center on the Pei Campus. 
+            The apartment bedrooms in this area are approximately 12′ x 9′ and are either three or four bedrooms.</description>
+        <!-- Youtube video -> Share -> Embed -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/7RYefuH3laI?si=DbkTtpvTOHlHxgCN" title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-    <h1>Letter Dorms</h1>
-    <h3>Lodge-Style Residence Halls</h3>
-    <p>TThe Lee & Bob Peterson Residence Hall, Ulla R. Searing Residence Hall, and the V and Y residence halls are lodge-style structures that feature studio,
-        two- and three-bedroom apartments, each with its own kitchenette and bathroom. The halls feature a dramatic two-story floor plan with central common areas, timbered ceilings, 
-        and a keyless entry system. These side-by-side residence halls are sometimes called “Letter Dorms” because they were originally designated as V, W, X, and Y Dorms before two were officially named. 
-        The apartment bedroom sizes are approximately 12′ x 9′.</p>
-    <img src="../static/images/LetterDorm1.jpeg" alt="Letter Dorm 1" style="width:700px;height:600px;"><img src="../static/images/LetterDorm2.jpeg" alt="Letter Dorm 2" style="width:700px;height:600px;">
+        <h1>Letter Dorms</h1>
+        <h3>Lodge-Style Residence Halls</h3>
+        <description>The Lee & Bob Peterson Residence Hall, Ulla R. Searing Residence Hall, and the V and Y residence halls are lodge-style structures that feature studio,
+            two- and three-bedroom apartments, each with its own kitchenette and bathroom. The halls feature a dramatic two-story floor plan with central common areas, timbered ceilings, 
+            and a keyless entry system. These side-by-side residence halls are sometimes called “Letter Dorms” because they were originally designated as V, W, X, and Y Dorms before two were officially named. 
+            The apartment bedroom sizes are approximately 12′ x 9′.</description>
+        <img src="../static/images/LetterDorm1.jpeg" alt="Letter Dorm 1" style="width:700px;height:600px;"><img src="../static/images/LetterDorm2.jpeg" alt="Letter Dorm 2" style="width:700px;height:600px;">
+    </dorms>
 </body>
 </html>
 

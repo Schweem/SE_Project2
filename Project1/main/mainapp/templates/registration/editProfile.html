@@ -1,4 +1,11 @@
+<!-- Extremely thorough video series, walks through many potential components of this project -->
 <!-- https://www.youtube.com/watch?v=fsVY66QBhwM&ab_channel=CalebCurry -->
+
+<!-- Articles and threads -->
+<!-- https://stackoverflow.com/questions/15393134/django-how-can-i-create-a-multiple-select-form -->
+<!-- https://stackoverflow.com/questions/3644902/how-to-check-if-a-user-is-logged-in-how-to-properly-use-user-is-authenticated\ -->
+<!-- https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility-->
+<!-- https://forum.djangoproject.com/t/what-would-be-the-best-approach-to-create-a-separate-profile-page-for-registered-users/15141-->
 
 
 {% extends 'base.html' %}
@@ -43,11 +50,17 @@ Edit Your Profile
             <label for="id_location">Location:</label>
             <input type="text" class="form-control" name="location" id="id_location" value="{{ user.profile.location }}" style="border-radius: 20px; overflow: hidden;">
         </div>
-        <!-- fix this make it a dropdown -->
+        <!-- dropdown for selecting student status -->
+        <!-- Implementation is a l-->
         <div class="form-group">
             <label for="id_user_years">Status:</label>
-            <input type="text" class="form-control" name="user_years" id="id_user_years" value="{{ user.profile.user_years }}" style="border-radius: 20px; overflow: hidden;">
+            <select class="form-control" name="user_years" id="id_user_years" style="border-radius: 20px; overflow: hidden;">
+                <option value="Inbound"> Inbound Novo</option>
+                <option value="Current"> Current Novo</option>
+                <option value="Alum"> Novo Alum</option>
+            </select>
         </div>
+        
         <div class="form-group">
             <label for="id_pets">Pets:</label>
             <input type="text" class="form-control" name="pets" id="id_pets" value="{{ user.profile.pets }}" style="border-radius: 20px; overflow: hidden;">

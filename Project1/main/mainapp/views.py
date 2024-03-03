@@ -29,6 +29,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
 from django.contrib import messages 
 
+# https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility
+
 # I got a lot of help from here 
 #https://www.w3schools.com/django
 #and a lot of help from copilot
@@ -111,6 +113,14 @@ def add_months(source_date, months):
     return date(year, month, 1)
 # Wes -- Written by copilot and GPT over several iterations
 def calendar_view(request, period):
+    ##### FOR TESTING #######
+    user = request.user
+    if not user.profile.hamBadge:
+        user.profile.hamBadge = True
+        user.profile.save()
+
+    #### Example for how we will activate badges ######
+
     today = date.today()
 
     if request.method == 'POST':
@@ -326,6 +336,7 @@ def edit_profile(request):
     }
     return render(request, 'registration/editProfile.html', context)
 
+@login_required
 def logout_view(request):
     """
     Logs out the current user and redirects to the home page.

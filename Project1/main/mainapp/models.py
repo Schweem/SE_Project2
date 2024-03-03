@@ -7,6 +7,7 @@ from django.dispatch import receiver
 # https://www.devhandbook.com/django/user-profile/
 # https://forum.djangoproject.com/t/what-would-be-the-best-approach-to-create-a-separate-profile-page-for-registered-users/15141
 # https://docs.djangoproject.com/en/dev/ref/models/fields/#choices
+# 
 
 # docs powered by CoPilot
 
@@ -90,21 +91,43 @@ class Profile(models.Model):
         pets (str): The pets of the user.
         interests (str): The interests of the user.
         profile_picture (ImageField): The profile picture of the user.
+
+        
     """
 
-    USER_YEARS = (
-        ('inbound', 'Inbound Novo'),
-        ('current', 'Current Novo'),
-        ('alum', 'Novo Alum')
+    USER_YEARS_CHOICES = (
+        ('Inbound', 'Inbound Novo'),
+        ('Current', 'Current Novo'),
+        ('Alum', 'Novo Alum'),
     )
+
+    def user_directory_path(instance, filename):
+        """
+        Returns the directory path for uploading a file based on the user's username.
+
+        Args:
+            instance: The instance of the model where the file is being uploaded.
+            filename: The original filename of the uploaded file.
+
+        Returns:
+            The directory path for uploading the file, in the format 'userprofiles/<username>/<filename>'.
+        """
+        return f'userprofiles/{instance.user.username}/{filename}'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE) # grab user for profile
     bio = models.TextField(max_length=500, blank=True)  # bio for user
-    user_years = models.CharField(max_length=10, choices=USER_YEARS, default='inbound') # user years for user
+    user_years = models.CharField(max_length=20, choices=USER_YEARS_CHOICES, default='inbound') # user years for user
     location = models.CharField(max_length=30, blank=True) # location for user
     pets = models.CharField(max_length=30, blank=True) # pets for user
     interests = models.CharField(max_length=100, blank=True) # interests for user
-    profile_picture = models.ImageField(upload_to='userprofiles/', null=True, blank=True, default='userprofiles/default.jpg') # profile picture for user ############ PROFILE PATH HERE DONT LOOSE IT PLS ################
+    profile_picture = models.ImageField(upload_to=user_directory_path, null=True, blank=True, default='userprofiles/default.jpg') # profile picture for user 
+
+    # Boolean fields for badges, keeping it simple.
+    classBadge = models.BooleanField(default=False)
+    dormBadge = models.BooleanField(default=False)
+    hamBadge = models.BooleanField(default=False)
+    eventsBadge = models.BooleanField(default=False)
+    facultyBadge = models.BooleanField(default=False)
 
     def __str__(self): 
         return f'{self.user.username} Profile'
@@ -128,3 +151,5 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance) # create the profile
     else: # if the user is updated
         instance.profile.save() # save the profile
+
+

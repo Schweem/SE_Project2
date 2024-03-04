@@ -336,6 +336,7 @@ def edit_profile(request):
     }
     return render(request, 'registration/editProfile.html', context)
 
+
 @login_required
 def logout_view(request):
     """
@@ -349,6 +350,7 @@ def logout_view(request):
     """
     logout(request)
     return redirect('home')
+
 
 # Bilge
 def dorms(request):

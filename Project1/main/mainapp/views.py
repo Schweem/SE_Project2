@@ -371,3 +371,7 @@ def food_art(request):
 
 def groceries_supplies(request):
     return render(request, 'groceries_supplies.html', {})
+  
+# Bilge
+def conovo(request):
+    return render(request, "conovo.html")

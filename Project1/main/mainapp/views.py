@@ -196,3 +196,7 @@ def hours(request):
 # Bilge
 def dorms(request):
     return render(request, "dorms.html")
+
+# Bilge
+def conovo(request):
+    return render(request, "conovo.html")

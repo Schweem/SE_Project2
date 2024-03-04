@@ -16,6 +16,7 @@ urlpatterns = [
         path('draw/', views.draw_view, name='draw'), 
         path('memes/', views.memes, name='memes'),
         path('dorms/', views.dorms, name='dorms'),
+        path('conovo/', views.conovo, name='conovo'),
         path('', views.home, name='home')
         
 ]

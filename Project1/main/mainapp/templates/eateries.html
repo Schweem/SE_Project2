@@ -1,0 +1,123 @@
+<!-- Lainey - help from chatgpt for styling and navbar-->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eateries</title>
+    <style>
+        .restaurant {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .restaurant img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .price-rating {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .description {
+            font-size: 16px;
+            color: #666;
+        }
+        .hours {
+            font-size: 14px;
+            color: #333;
+        }
+        .restaurant a:hover {
+            color: #7BAFD4;
+        }
+
+    </style>
+
+</head>
+<body>
+    <!-- Mini Navbar -->
+    <div class="container my-4">
+        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Resource navigation">
+            <a href="{% url 'eateries' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Eateries</a>
+            <a href="{% url 'local_fun' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Local Fun</a>
+            <a href="{% url 'transportation' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Transportation</a>
+            <a href="{% url 'food_art' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Food Forest/Art</a>
+            <a href="{% url 'groceries_supplies' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Groceries/Supplies</a>
+        </div>
+    </div>
+    
+    <!-- Page Content -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="restaurant">
+                    <h2><a href="https://www.fushipoke.com/" target="_blank">Fushipoké</a></h2>
+                    <img src="{% static 'images/restaurants/fushipoke.png' %}" alt="Fushi Poke Photo">
+                    <p class="price-rating">$$</p>
+                    <p class="description">Fushipoké is a locally owned downtown Sarasota restaurant serving an authentic taste of Hawaii. Enjoy the freshest poké, ramen, and steam buns you will ever eat. </p>
+                    <p class="hours">Hours: Sun-Sat 11am - 8:30pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="restaurant">
+                    <h2><a href="https://thegeorgesarasota.com/" target="_blank">The George</a></h2>
+                    <img src="{% static 'images/restaurants/george.png' %}" alt="The George Photo">
+                    <p class="price-rating">$</p>
+                    <p class="description">THE GEORGE is funky, Florida at its best. We serve five star boba, AKA "bubble tea," smoothies, and fresh juice to some of the coolest customers you will find in Sarasota! Looking for some fun and unconventional baubles or curiosities to add to your collection or wardrobe?</p>
+                    <p class="hours">Hours: Thurs-Mon 12pm - 7pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="restaurant">
+                    <h2><a href="https://www.ricospizzapie.com/" target="_blank">Rico's Pizzeria</a></h2>
+                    <img src="{% static 'images/restaurants/ricos.jpeg' %}" alt="Rico's Photo">
+                    <p class="price-rating">$$</p>
+                    <p class="description">Casual eatery turning out pizza, salads, subs & other Italian fare in a no-frills setting. </p>
+                    <p class="hours">Hours: Sun-Sat 10am - 10pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="restaurant">
+                    <h2><a href="https://www.kurtoscake.com/" target="_blank">Kürtos</a></h2>
+                    <img src="{% static 'images/restaurants/kurtos.jpeg' %}" alt="Kurtos Photo">
+                    <p class="price-rating">$</p>
+                    <p class="description">Chimney Cakes are known around the world as kürtőskalács, kurtosh, trdelnik, baumstriezel, or baumkuchen. Our specialty is a handcrafted, uniquely shaped European-style pastry baked with all natural ingredients.</p>
+                    <p class="hours">Hours: Mon-Sat 8am - 5pm, Sun 8am - 4pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="restaurant">
+                    <h2><a href="https://mamagsbakery.com/" target="_blank">Mama G's</a></h2>
+                    <img src="{% static 'images/restaurants/mamags.jpeg' %}" alt="Mama G's Photo">
+                    <p class="price-rating">$</p>
+                    <p class="description">Our bakeries offer a wide selection of authentic German bread, pastries and savory items, freshly baked everyday.</p>
+                    <p class="hours">Hours: Mon-Sat 6am - 4pm</p>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="restaurant">
+                    <h2><a href="http://sunnysidecafesrq.com/menus.html" target="_blank">Sunnyside Cafe</a></h2>
+                    <img src="{% static 'images/restaurants/sunnyside.jpeg' %}" alt="Sunnyside Cafe Photo">
+                    <p class="price-rating">$$</p>
+                    <p class="description">Nice walkable brunch spot with amazing juices and good vegan options!</p>
+                    <p class="hours">Hours: Wed-Sat 9am - 3pm, 5pm - 9pm, Sun and Tues 9am - 3pm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+</body>
+</html>
+
+{% endblock %}

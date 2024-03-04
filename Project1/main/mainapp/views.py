@@ -349,3 +349,23 @@ def logout_view(request):
     """
     logout(request)
     return redirect('home')
+
+# Bilge
+def dorms(request):
+    return render(request, "dorms.html")
+
+#Lainey
+def eateries(request):
+    return render(request, 'eateries.html', {})
+
+def local_fun(request):
+    return render(request, 'local_fun.html', {})
+
+def transportation(request):
+    return render(request, 'transportation.html', {})
+
+def food_art(request):
+    return render(request, 'food_art.html', {})
+
+def groceries_supplies(request):
+    return render(request, 'groceries_supplies.html', {})

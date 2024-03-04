@@ -12,8 +12,40 @@
     <style>
         table {
             margin: auto;
-            width: 100%;
+            width: 85%;
             border-collapse: separate;
+            border-spacing: 0; /* remove cell spacing */
+        }
+
+        /* Apply border-radius to the first and last th elements */
+        th:first-child {
+        border-top-left-radius: 20px;
+        }
+
+        th:last-child {
+        border-top-right-radius: 20px;
+        }
+
+        /* Apply border-radius to the first and last td elements of the first and last rows */
+        tr:first-child td:first-child {
+        border-top-left-radius: 20px;
+        }
+
+        tr:first-child td:last-child {
+        border-top-right-radius: 20px;
+        }
+
+        tr:last-child td:first-child {
+        border-bottom-left-radius: 20px;
+        }
+
+        tr:last-child td:last-child {
+        border-bottom-right-radius: 20px;
+        }
+
+        /* Remove border-radius from all other cells */
+        td {
+        border-radius: 0;
         }
         th, td {
             border: 1px solid #ddd;
@@ -21,18 +53,20 @@
             text-align: center;
         }
         th {
-            background-color: #008cba;
+            background-color: #ABAD23;
             color: white;
         }
 
         .event {
-            background-color: #f2f2f2;
+            background-color: #dddddd;
             margin-bottom: 5px;  /* Reduce margin */
             padding: 5px;  /* Reduce padding */
             font-size: 0.8em;  /* Reduce font size */
             border: 1px solid #ddd;
             color: black;
             text-decoration: none;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .event:hover{
@@ -57,7 +91,7 @@
             padding: 10px;
             border: none;
             cursor: pointer;
-                border-radius: 12%;
+            border-radius: 12%;
             
         }
     
@@ -69,6 +103,8 @@
             padding: 20px;
             border: 1px solid #ddd;
             background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
             display: none;  /* Hide the popup by default */
         }
     
@@ -79,13 +115,15 @@
             text-decoration: line-through;
         }
         .month-header {
-            background-color: #5abdff; /* Change the color as needed */
+            background-color: #7BADF4; /* Change the color as needed */
             color: white;
             font-size: 1.2em;
             padding: 10px 0;
             text-align: center;
+            margin-left: auto;
+            margin-right: auto;
             margin-top: 20px;
-            width: 100%;
+            width: 75%;
             display: block;
         }
     </style>
@@ -96,7 +134,7 @@
         <!-- Wes Mostly written by copilot and gpt-->
         <!-- For every month and  the weeks inside it-->
         {% for month, weeks in months_with_weeks.items %}
-        <div class="month-header mt-0 mb-0">{{ month }}</div>
+        <div class="month-header mt-4 mb-4 rounded-pill shadow">{{ month }}</div>
         <table>
             <tr>
                 <th>Monday</th>
@@ -110,7 +148,8 @@
             <!-- For every week we will get the events-->
             {% for week in weeks %}
             <tr>
-                {% for day in week %} <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
+                {% for day in week %} 
+                <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
                 <td onclick="togglePopup()">
                     {% if day %}
                     <div class="day">
@@ -138,10 +177,10 @@
     </style>
     <div class="container my-4 mb-1 mt-1">
         <div class="btn-group-vertical d-flex justify-content-center position-fixed" style="bottom: 20px; left: 1.5rem;" role="group" aria-label="Calendar views">
-            <a href="{% url 'todo_list' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Day</a>
-            <a href="{% url 'calendar' 'week' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Week</a>
-            <a href="{% url 'calendar' 'month' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Month</a>
-            <a href="{% url 'calendar' 'semester' %}" class="btn btn-secondary rounded-pill mx-1 mt-1">Semester</a>
+            <a href="{% url 'todo_list' %}" class="btn btn-success rounded-pill mx-1 mt-1">Day</a>
+            <a href="{% url 'calendar' 'week' %}" class="btn btn-success rounded-pill mx-1 mt-1">Week</a>
+            <a href="{% url 'calendar' 'month' %}" class="btn btn-success rounded-pill mx-1 mt-1">Month</a>
+            <a href="{% url 'calendar' 'semester' %}" class="btn btn-success rounded-pill mx-1 mt-1">Semester</a>
         </div>
     </div>
     <button class="btn btn-primary position-fixed bottom-0 end-0 m-3 shadow" onclick="togglePopup()" style="font-size: 38px; width: 70px; height: 70px; border-radius: 70%;">+</button>
@@ -163,6 +202,9 @@
             }
         }
     </script>
+    <!-- loading these here for now because its not passing through base correctly -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
 

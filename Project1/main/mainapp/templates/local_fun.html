@@ -1,0 +1,124 @@
+<!-- Lainey -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Fun</title>
+    <style>
+        .place {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .place img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .description {
+            font-size: 16px;
+            color: #666;
+        }
+        .price-rating {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hours {
+            font-size: 14px;
+            color: #333;
+        }
+        .place a:hover {
+            color: #7BAFD4;
+        }
+
+    </style>
+
+</head>
+<body>
+    <!-- Mini Navbar -->
+    
+    <div class="container my-4">
+        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Resource navigation">
+            <a href="{% url 'eateries' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Eateries</a>
+            <a href="{% url 'local_fun' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Local Fun</a>
+            <a href="{% url 'transportation' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Transportation</a>
+            <a href="{% url 'food_art' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Food Forest/Art</a>
+            <a href="{% url 'groceries_supplies' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Groceries/Supplies</a>
+        </div>
+    </div>
+    
+    <!-- Page Content -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="place">
+                    <h2><a href="https://www.ringling.org/visit/venues/museum-art/" target="_blank">The Ringling</a></h2>
+                    <img src="{% static 'images/places/ringling.jpeg' %}" alt="Ringling Photo">
+                    <p class="price-rating">Free with NCF ID</p>
+                    <p class="description">The Museum of Art’s collection represents a vast range of cultures, mediums, techniques, and stories. From ancient Indian sculpture to early photography to immersive contemporary installations to Baroque masterpieces, come discover what sparks your interest.</p>
+                    <p class="hours">Hours: Fri-Wed 10am - 5pm, Thurs 10am - 8pm</p>
+                </div>
+            </div>
+        
+            <div class="col-md-4 mb-4">
+                <div class="place">
+                    <h2>Drum Circle</h2>
+                    <img src="{% static 'images/places/drum.jpeg' %}" alt="Drum Circle Photo">
+                    <p class="price-rating">Free</p>
+                    <p class="description">This is a super fun free event that occurs every Sunday night. It is located at Siesta Key Beach between lifeguard stands 3 and 4. Go release your inner "hippie" and interact with the community for a musical night at the beach.</p>
+                    <p class="hours">Hours: Sun (sunset)/p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="place">
+                    <h2><a href="https://www.whimsymuseum.org/" target="_blank">Marietta Museum of Art & Whimsy</a></h2>
+                    <img src="{% static 'images/places/marietta.jpeg' %}" alt="Marietta Museum Photo">
+                    <p class="price-rating">Recommended donation of $5-$10</p>
+                    <p class="description">Our Mission is to Operate an Extraordinary Art and Whimsical Museum for the public by collecting, preserving and exhibiting works of Artistic and Whimsical importance to Educate our visitors about our culture and history. We have created an environment to Inspire, Restore and Lift our Spirits and Heart.</p>
+                    <p class="hours">Hours: Thurs-Sat 1pm - 4pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="place">
+                    <h2>St. Armands Circle</h2>
+                    <img src="{% static 'images/places/starmands.jpeg' %}" alt="St. Armands Photo">
+                    <p class="price-rating">Free</p>
+                    <p class="description">This is a great place to go walk around and shop in your free time. It is walking distance to the beach and has a variety of shops for clothing, swimsuits, food, and especially sweets!</p>
+                    <p class="hours">Hours: Sun-Sat (most shops close around 8-9)</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="place">
+                    <h2><a href="https://www.visitsarasota.com/weddings/bayfront-park" target="_blank">Bayfront Park</a></h2>
+                    <img src="{% static 'images/places/bayfront.jpeg' %}" alt="Bayfront Park Photo">
+                    <p class="price-rating">Free</p>
+                    <p class="description">Pets are allowed outside the Steigerwaldt-Jockey Children’s Fountain area. Popular location to jog, enjoy the sunset, walk your leashed pet or have a picnic at the playground. There are also two bayfront restaurants. Owned and operated by the City of Sarasota Parks & Recreation District.</p>
+                    <p class="hours">Hours: Sun-Sat 7am - 11pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="place">
+                    <h2><a href="https://sarasotafarmersmarket.org/" target="_blank">Sarasota Farmer's Market</a></h2>
+                    <img src="{% static 'images/places/farmers.jpeg' %}" alt="Farmer's Market Photo">
+                    <p class="price-rating">Free</p>
+                    <p class="description">Our mission is to create a social opportunity for residents and visitors to gather and interact, to bring foot traffic to downtown Sarasota supporting the economic viability of the entire downtown area, and to provide a venue for other non-profit organizations benefiting our community.</p>
+                    <p class="hours">Hours: Sat 7am - 1pm</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+        
+</body>
+</html>
+
+{% endblock %}

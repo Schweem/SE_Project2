@@ -14,20 +14,20 @@ Your Profile
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="row">
         <!-- Profile Picture and Username -->
         <div class="col-md-4 text-center">
             {% csrf_token %}
-            <label for="profilePictureUpload">
-                {% if user_profile.profile_picture %}
-                <img src="{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
+            <label for="profilePicture">
+                {% if user.profile.profile_picture %}
+                <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
                 {% else %}
-                <img src="{% static 'userprofiles/default.jpg' %}" class="img-fluid rounded-circle" alt="Default Profile Picture" style="width: 150px; height: 150px;">
+                <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
                 {% endif %}
             </label>
         </form>
-        <h3>{{ user.username }}</h3>
+        <h3><strong>{{ user.username }}</strong></h3>
         </div>
         <!-- Profile Details -->
         <div class="col-md-8">
@@ -35,10 +35,11 @@ Your Profile
             <div class="card" style="border-radius: 20px; overflow: hidden;">
                 <div class="card-body">
                     <!-- Card body for padding and spacing -->
-                    <h4 class="card-title">Profile Details</h4>
+                    <h4 class="card-title mb-4"><strong>Profile Details</strong></h4>
                     <!-- Displaying the user's details -->
                     <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
                     <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>I'm from: </strong> {{ user.profile.location }}</p>
                     <a href="{% url 'edit_profile_url' %}" class="btn btn-primary rounded-pill shadow">Edit Profile</a>
                 </div>
             </div>
@@ -51,7 +52,11 @@ Your Profile
             <div class="card" style="border-radius: 20px; overflow: hidden;">
                 <div class="card-body">
                     <!-- Card body for padding and spacing -->
-                    <h4 class="card-title">About Me:</h4>
+                    <h4 class="card-title"><strong>About Me:</strong></h4>
+                    <!-- Put the pets and like and stuff here pls pls pls remember and read seamus -->
+                    <p><strong>Student status: </strong> {{ user.profile.user_years }} Novo</p>
+                    <p><strong>Pets:</strong> {{ user.profile.pets }}</p>
+                    <p><strong>Hobbies / Interests:</strong> {{ user.profile.interests }}</p>
                     <!-- Displaying the user's bio -->
                     <p>{{ user.profile.bio }}</p>
                 </div>
@@ -63,12 +68,64 @@ Your Profile
         <div class="col">
             <div class="card" style="border-radius: 20px; overflow: hidden;">
                 <div class="card-body">
-                    <h4 class="card-title">Badges:</h4>
+                    <h4 class="card-title mb-3"><strong>Badges:</strong></h4>
                     <!-- Badge stuff -->
+                    {% if user.profile.classBadge %}
+                        <img src="{% static 'badges/class.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="class badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% else %}
+                        <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="class badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% endif %}
+
+                    {% if user.profile.dormBadge %}
+                    <img src="{% static 'badges/House.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="dorm badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% else %}
+                        <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="dorm badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% endif %}
+
+                    {% if user.profile.hamBadge %}
+                        <img src="{% static 'badges/Food.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="ham badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% else %}
+                        <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="ham badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% endif %}
+
+                    {% if user.profile.eventsBadge %}
+                        <img src="{% static 'badges/event.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="event badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% else %}
+                        <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="event badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% endif %}
+
+                    {% if user.profile.facultyBadge %}
+                        <img src="{% static 'badges/teacher.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="faculty badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% else %}
+                        <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="faculty badge" style="width: 100px; height: 100px; cursor: pointer;">
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    <!-- Posted images (if you have any to display) -->
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
+                <div class="card-body">
+                    <h4 class="card-title"><strong>Posted Images:</strong></h4>
+                    <!-- Image stuff stuff (user.images is placeholder for right now)-->
+                    {% if user.images %}
+                    <!-- loop through and render -->
+                    {% else %}
+                    <div class="mt-1 mx-2">
+                        <p>Nothing to see here.</p>
+                    </div>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- loading these here for now because its not passing through base correctly -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>
+
 {% endblock %}
 

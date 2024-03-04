@@ -20,11 +20,12 @@ Register
 {% endblock %}
 
 {% block content %}
+
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
     <div class="col-md-6 col-lg-8">
         <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
             <div class="card-body">
-                <h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
+                <h1 class="h3 mb-3 font-weight-normal text-center"><strong>Register</strong></h1>
                 <form method="post" class="needs-validation" novalidate>
                     {% csrf_token %}
                     {% for field in form %}
@@ -41,7 +42,9 @@ Register
                             {% endfor %}
                         </div>
                     {% endfor %}
-                    <button class="btn btn-primary shadow rounded-pill" type="submit">Register</button>
+                    <div class="text-center">
+                        <button class="btn btn-primary shadow rounded-pill" type="submit">Register</button>
+                    </div>
                 </form>
             </div> 
         </div>
@@ -50,4 +53,5 @@ Register
         </div>
     </div>
 </div>
+
 {% endblock %}

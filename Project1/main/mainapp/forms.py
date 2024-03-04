@@ -86,8 +86,16 @@ class classListForm(forms.ModelForm):
             'completed': forms.CheckboxInput(),
     }
 
+
+
 # Create a form to register a user
 class RegistrationForm(UserCreationForm):
+    """
+    A form for user registration.
+
+    Inherits from UserCreationForm and adds an email field.
+    """
+
     email = forms.EmailField(required=True) #enforce email requirement
 
     class Meta: # https://docs.djangoproject.com/en/3.0/topics/auth/default/
@@ -101,20 +109,58 @@ class RegistrationForm(UserCreationForm):
             user.save() #save the user
         return user #return the user
     
-class UserUpdateForm(forms.ModelForm): #update the user
-    email = forms.EmailField() #enforce email requirement
 
-    class Meta:  
-        model = User 
+class UserUpdateForm(forms.ModelForm):
+    """
+    A form for updating user information.
+
+    This form allows users to update their username and email address.
+
+    Attributes:
+        email (EmailField): The email field for the user's email address.
+
+    Meta:
+        model (User): The User model to be used for the form.
+        fields (list): The fields to be included in the form.
+
+    """
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
         fields = ['username', 'email']
 
-class UserForm(forms.ModelForm):  #update the user profile 
+
+class UserForm(forms.ModelForm):
+    """
+    A form for updating user profile information.
+
+    This form is used to update the first name, last name, and email fields of a user.
+
+    Attributes:
+        model (User): The User model to be used for the form.
+        fields (list): The list of fields to be included in the form.
+
+    """
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
 
-class ProfileUpdateForm(forms.ModelForm): #update the profile
+class ProfileUpdateForm(forms.ModelForm):
+    """
+    A form for updating the user profile.
+
+    This form is used to update the user's bio, profile picture, location, and pets.
+
+    Attributes:
+        bio (str): The user's biography.
+        profile_picture (str): The URL of the user's profile picture.
+        location (str): The user's location.
+        pets (str): The user's pets.
+        interests (str): The user's interests.
+        user_years (str): current student status.
+
+    """
     class Meta:
         model = Profile
-        fields = ['bio', 'profile_picture']
-
+        fields = ['bio', 'profile_picture', 'location', 'pets', 'interests', 'user_years']

@@ -56,25 +56,19 @@
         height: 100%;
     }
 </style>
-<div class="container mt-4">
-    <h2>Reading <a href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: transparent;">l</a>List</h2>
-    <table class="table mt-5">
+<div class="container mt-4" >
+    <h2 class="text-center">Onboarding tasks </h2>
+    <table class="table mt-5" style="border-radius: 20px; overflow:hidden">
         <thead class="thead-dark">
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Type</th>
-                <th>Link</th>
-                <th>Mark Read</th>
+                <th>To-do</th>
+                <th>Done?</th>
             </tr>
         </thead>
         <tbody>
             {% for item in reading_list %} <!--The reading list needs to match what is put in the view exactly-->
             <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %}">
                 <td>{{ item.title }}</td>
-                <td>{{ item.author }}</td>
-                <td>{{ item.type }}</td>
-                <td><a href="{{ item.link }}" class="btn btn-link">Link</a></td>
                 <td>
                     <form method="post" class="update-form">
                         {% csrf_token %}
@@ -96,11 +90,8 @@
         <div class="row mb-4 mt-5">
             <div class="col-6 col-md-4">
                 <!-- Add button -->
-                <button type="button" class="btn btn-primary shadow" onclick="event.preventDefault(); togglePopup();" style="font-size: 24px; width: 50px; height: 50px; border-radius: 50%;">+</button>
-            </div>
             <div class="col-6 col-md-6 d-flex justify-content-end">
                 <!-- Clear button, aligned to the right -->
-                <button type="submit" class="btn btn-outline-danger rounded-pill shadow">Clear all read items</button>
             </div>
         </div>
     </form>
@@ -122,6 +113,8 @@
             popup.classList.toggle("active");
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>
 
 {% load static %}

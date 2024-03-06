@@ -8,12 +8,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
     <style>
         body {
-            font-family: 'Baskerville';
             margin: 0;
             padding: 0;
         }
@@ -47,50 +47,50 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+        .recentPosts {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        {% if messages %} <!-- to display messages.success from views.py if there are any -->
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <div class="posts">
             <!-- Posts from Database -->
+            <form method="POST" action="">
+                {% csrf_token %} <!-- CSRF verification, security satisfaction -->
+                <input type="text" name="content" placeholder="Connect with other Novos">
+                <button type="submit" name="conovoSubmit" >Post</button>
+            </form>
             <h2>Recent Posts</h2>
-            <div id="recentPosts"></div>
-        </div>
-            <!-- Will be updated once connected with the database-->
-            <script>
-                // Sample user post data
-                var userPosts = [
-                    { username: "User1", content: "This is the content of the post 1.", timestamp: "2024-03-01 10:00:00" },
-                    { username: "User2", content: "This is the content of the post 2.", timestamp: "2024-03-02 15:30:00" },
-                    { username: "User3", content: "This is the content of the post 3.", timestamp: "2024-03-03 08:45:00" },
-                    // Add more posts as needed
-                ];
-            
-                // Function to display recent posts
-                function displayRecentPosts() {
-                    var recentPostsContainer = document.getElementById("recentPosts");
-                    recentPostsContainer.innerHTML = ""; // Clear existing posts
-            
-                    // Sort user posts by timestamp in descending order (most recent first)
-                    userPosts.sort(function(a, b) {
-                        return new Date(b.timestamp) - new Date(a.timestamp);
-                    });
-            
-                    // Display posts
-                    userPosts.forEach(function(post, index) {
-                        recentPostsContainer.innerHTML += '<div class="post">' +
-                                                            '<h3>' + post.username + '</h3>' +
-                                                            '<p>' + post.content + '</p>' +
-                                                            '<p>Posted on: ' + post.timestamp + '</p>' +
-                                                         '</div>';
-                    });
-                }
-            
-                // Call the function to display recent posts
-                displayRecentPosts();
-            </script>
-            
-            <!-- End of Example Post -->
+            <div id="recentPosts">
+                <div class="row">
+                    {% for post in posts %}
+                    <div class="col-md-6">
+                        <div class="post-box">
+                            {% if user.profile.profile_picture %}
+                            <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
+                            {% else %}
+                            <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
+                            {% endif %}
+                            <h2>{{ post.title }}</h2>
+                            <p>{{ post.content }}</p>
+                            <p>Posted by: {{ post.author.username }}</p>
+                            <p>Posted at: {{ post.created_at }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -105,7 +105,7 @@
                 <p>2. Novo - 850 points</p>
             </div>
             <div style="background-color: #cd7f32; padding: 5px;">
-                <p>3. BigOne - 700 points</p>
+                <p>3. BigOh - 700 points</p>
             </div>
             <div>
                 <p>4. NotSoFancy - 700 points</p>

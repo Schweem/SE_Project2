@@ -31,6 +31,4 @@ urlpatterns = [
         path('novoland', views.eateries, name='novoland'),
         path('dorms/', views.dorms, name='dorms'),
         path('conovo/', views.conovo, name='conovo')
-        
-        
 ]

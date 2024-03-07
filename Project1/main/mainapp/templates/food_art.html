@@ -1,0 +1,100 @@
+<!-- Lainey -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Forest and Art</title>
+    <style>
+        .installation {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .installation img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .overview {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .description {
+            font-size: 16px;
+            color: #666;
+        }
+        .hours {
+            font-size: 14px;
+            color: #333;
+        }
+        .installation a:hover {
+            color: #7BAFD4;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Mini Navbar -->
+    <div class="container my-4">
+        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Resource navigation">
+            <a href="{% url 'eateries' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Eateries</a>
+            <a href="{% url 'local_fun' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Local Fun</a>
+            <a href="{% url 'transportation' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Transportation</a>
+            <a href="{% url 'food_art' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Food Forest/Art</a>
+            <a href="{% url 'groceries_supplies' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Groceries/Supplies</a>
+        </div>
+    </div>
+    
+    <!-- Page Content -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="installation">
+                    <h2><a href="https://www.ncf.edu/about/sustainability/" target="_blank">Food Forest</a></h2>
+                    <img src="{% static 'images/installations/foodforest.jpeg' %}" alt="Food Forest Photo">
+                    <p class="overview">Open to any students on campus!</p>
+                    <p class="description">The Food Forest/Carbon Farm represents New College’s commitment to finding innovative solutions to tough issues, as the Food Forest provides food for the campus, provides habitat for wildlife increasing local biodiversity and pollinators, facilitates study in a range of academic disciplines ranging from ecology to anthropology, all while sequestering excess carbon from the atmosphere to help mitigate climate change.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="installation">
+                    <h2>Bell Tower</h2>
+                    <img src="{% static 'images/installations/belltower.jpeg' %}" alt="Belltower Photo">
+                    <p class="overview">In front of Jane Bancroft Library</p>
+                    <p class="description">At President O’Shea’s inauguration in February, a new bell tower in front of the library wass dedicated, underwritten with a gift of $400,000 from Sarasota philanthropist Beverly Koski. With its forceful, spiraling, ascending flow, the tower wins a Precast/Prestressed Concrete Institute Design Award</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="installation">
+                    <h2>Four Winds Sculpture</h2>
+                    <img src="{% static 'images/installations/fourwinds.jpeg' %}" alt="Four Winds Sculpture Photo">
+                    <p class="overview">In front of AICE</p>
+                    <p class="description">A modern Four Winds sculpture, the natural sun as central pivot, the sea and the wind felt in gentle and continuously moving lines around the sun.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="installation">
+                    <h2>The Band of Angels</h2>
+                    <img src="{% static 'images/installations/angels.jpeg' %}" alt="Angels Photo">
+                    <p class="overview">In center of Palmer Buildings</p>
+                    <p class="description">The sculpture, called The Band of Angels, has stood in the middle of the Palmer complex since it was created in 1973 by students of one of the founders of the College’s art department, the late Professor Jack Cartlidge.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

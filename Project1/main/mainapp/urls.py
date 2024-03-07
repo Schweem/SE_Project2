@@ -3,8 +3,11 @@ from . import views
 
 urlpatterns = [
         path('login/', views.login_view, name='login'),
+        path('logout/', views.logout_view, name='logout'),
         path('register/', views.register, name='register'),
         path('profile/', views.profile, name='profile'),
+        path('update_profile_picture/', views.update_profile_picture, name='profile_picture_update_url'),
+        path('edit_profile/', views.edit_profile, name='edit_profile_url'),
         path('todo/', views.todo_list, name='todo_list'),
         path('delete/<int:todo_id>/', views.delete_todo, name='delete_todo'),
         path('mark_completed/<int:todo_id>/', views.mark_todo_completed, name='mark_todo_completed'),
@@ -18,6 +21,15 @@ urlpatterns = [
         path('timer/', views.pomodoro_timer, name='timer'),
         path('draw/', views.draw_view, name='draw'), 
         path('memes/', views.memes, name='memes'),
-        path('', views.home, name='home')
+        path('', views.home, name='home'),
+
+        path('eateries/', views.eateries, name='eateries'),
+        path('local_fun/', views.local_fun, name='local_fun'),
+        path('transportation/', views.transportation, name='transportation'),
+        path('food_art/', views.food_art, name='food_art'),
+        path('groceries_supplies/', views.groceries_supplies, name='groceries_supplies'),
+        path('novoland', views.eateries, name='novoland'),
+        path('dorms/', views.dorms, name='dorms')
+        
         
 ]

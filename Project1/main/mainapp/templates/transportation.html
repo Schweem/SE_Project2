@@ -1,0 +1,93 @@
+<!-- Lainey -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transportation</title>
+    <style>
+        .transportation {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .transportation img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .description {
+            font-size: 16px;
+            color: #666;
+        }
+        .price-rating {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hours {
+            font-size: 14px;
+            color: #333;
+        }
+        .transportation a:hover {
+            color: #7BAFD4;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Mini Navbar -->
+    <div class="container my-4">
+        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Resource navigation">
+            <a href="{% url 'eateries' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Eateries</a>
+            <a href="{% url 'local_fun' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Local Fun</a>
+            <a href="{% url 'transportation' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Transportation</a>
+            <a href="{% url 'food_art' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Food Forest/Art</a>
+            <a href="{% url 'groceries_supplies' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Groceries/Supplies</a>
+        </div>
+    </div>
+    
+    <!-- Page Content -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="transportation">
+                    <h2><a href="https://www.scgov.net/government/breeze-transit/breeze-routes" target="_blank">Breeze Transit</a></h2>
+                    <img src="{% static 'images/transportation/breeze.jpeg' %}" alt="Breeze Transit Photo">
+                    <p class="price-rating">Free with NCF ID</p>
+                    <p class="description">The dropoff spot is located across from the airport right when you exit the Sudakoff parking lot. Please see the website for certain routes to your requested drop off location.</p>
+                    <p class="hours">Hours: Mon-Sat 5am - 11pm, Sun 6am - 10pm</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="transportation">
+                    <h2><a href="https://shop.flixbus.com/search?departureCity=60779092-e087-4e68-a8d3-587fa6e4232d&arrivalCity=77808b28-5212-45d0-8f45-cf6fb3b25f34&route=Sarasota%2C+FL-Tampa%2C+FL&rideDate=29.02.2024&adult=1&_locale=en_US&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.auto_update_disabled%5D=0&features%5Bfeature.webc_search_station_suggestions_enabled%5D=0&features%5Bfeature.webc_search_limited_product_list%5D=0&features%5Bfeature.darken_page%5D=1&atb_pdid=2a23526c-d7f1-4d2b-aa64-c13206e67d1a&_sp=a1da70dd-d45d-40b1-82bd-8e22e9bdea6f&_spnuid=d9c87029-74ea-4b4d-b5ea-f9a59a054507_1709250145822" target="_blank">Bus To TPA Airport</a></h2>
+                    <img src="{% static 'images/transportation/flix.jpeg' %}" alt="Bus to Tampa Photo">
+                    <p class="price-rating">Around $20</p>
+                    <p class="description">The departure spot is at Sarasota Cattlemen Transfer Center and drops off at Tampa Bus Station or University of South Florida. This will mean you will need to find additional transportation to and from the bus stops, but they are only around a 15-20 min ride.</p>
+                    <p class="hours">Hours: *Departure times vary.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="transportation">
+                    <h2><a href="https://sarasotabayrunner.com/" target="_blank">Sarasota Bay Runner</a></h2>
+                    <img src="{% static 'images/transportation/bayrunner.png' %}" alt="Bay Runner Photo">
+                    <p class="price-rating">Free with NCF ID</p>
+                    <p class="description">The route is included above. You can ride your bike or park downtown and then take the trolley to the beach or somewhere on St. Armand's Circle.</p>
+                    <p class="hours">Hours: Sun-Thurs 7am - 10pm, Fri-Sat 7am - 11pm</p>
+                </div>
+            </div>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

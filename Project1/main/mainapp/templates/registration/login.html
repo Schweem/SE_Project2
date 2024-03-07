@@ -14,54 +14,72 @@ Login
 {% endblock %}
 
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
-    <!-- Container for centering the content vertically and horizontally -->
-    <div class="col-md-8 col-lg-6">
-        <!-- Column for controlling the width of the card -->
-        <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
-            <!-- Card for styling and containing the login form -->
-            <div class="card-body p-5">
-                <!-- Card body for padding and spacing -->
-                <h1 class="h3 mb-4 font-weight-normal text-center">Welcome! Please sign in.</h1>
-                <!-- Heading for the login form -->
-                <form method="post" action="{% url 'login' %}" class="needs-validation" novalidate>
-                    <!-- Form for submitting the login details -->
-                    {% csrf_token %}
-                    <!-- CSRF token for security -->
-                    {% for field in form %}
-                        <!-- Looping through each form field -->
-                        <div class="mb-4">
-                            <!-- Div for spacing between form fields -->
-                            {{ field.label_tag }}
-                            <!-- Displaying the label for the form field -->
-                            <div class="input-group input-group-lg"></div>
-                            <!-- Div for styling the input field -->
-                            {{ field }}
-                            <!-- Displaying the form field -->
-                            {% if field.help_text %}
-                                <!-- Checking if there is any help text for the field -->
-                                <small class="form-text text-muted">{{ field.help_text }}</small>
-                                <!-- Displaying the help text if available -->
-                            {% endif %}
-                            {% for error in field.errors %}
-                                <!-- Looping through any errors for the field -->
-                                <div class="invalid-feedback">
-                                    {{ error }}
-                                </div>
-                                <!-- Displaying the error message -->
-                            {% endfor %}
+
+<style>
+    .bg {
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 100%;
+    }
+</style>
+
+<div class="bg" style="background-image: url('https://content.studentbridge.com/prod/324/473d305e-5e79-4c26-86d5-7dcb35ca3aae.jpg')">
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <!-- Container for centering the content vertically and horizontally -->
+        <div class="col-md-8 col-lg-6">
+            <!-- Column for controlling the width of the card -->
+            <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
+                <!-- Card for styling and containing the login form -->
+                <div class="card-body p-5">
+                    <!-- Card body for padding and spacing -->
+                    <h1 class="h3 mb-4 font-weight-normal text-center"><strong>Welcome! Please sign in.</strong></h1>
+                    <!-- Heading for the login form -->
+                    <form method="post" action="{% url 'login' %}" class="needs-validation" novalidate>
+                        <!-- Form for submitting the login details -->
+                        {% csrf_token %}
+                        <!-- CSRF token for security -->
+                        {% for field in form %}
+                            <!-- Looping through each form field -->
+                            <div class="mb-4 text-center">
+                                <!-- Div for spacing between form fields -->
+                                {{ field.label_tag }}
+                                <!-- Displaying the label for the form field -->
+                                <div class="input-group input-group-lg"></div>
+                                <!-- Div for styling the input field -->
+                                {{ field }}
+                                <!-- Displaying the form field -->
+                                {% if field.help_text %}
+                                    <!-- Checking if there is any help text for the field -->
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    <!-- Displaying the help text if available -->
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <!-- Looping through any errors for the field -->
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    <!-- Displaying the error message -->
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-block rounded-pill" type="submit">Login</button>
                         </div>
-                    {% endfor %}
-                    <button class="btn btn-primary btn-block rounded-pill" type="submit">Login</button>
-                    <!-- Button for submitting the form -->
-                </form>
+                        <!-- Button for submitting the form -->
+                        <div class="text-center mt-5">
+                            <!-- Div for centering the text and adding margin top -->
+                            <a href="{% url 'register' %}">New Novo? Register here.</a>
+                            <!-- Link for registering a new account -->
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="text-center mt-3">
-            <!-- Div for centering the text and adding margin top -->
-            <a href="{% url 'register' %}">New Novo? Register here.</a>
-            <!-- Link for registering a new account -->
         </div>
     </div>
 </div>
+
 {% endblock %}

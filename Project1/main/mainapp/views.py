@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Q
 from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
-from .models import Event, readingMaterial, classList
+from .models import Event, readingMaterial, classList, Post
 from datetime import date, timedelta
 from django.shortcuts import render
 from datetime import date, timedelta
@@ -28,6 +28,7 @@ from .forms import RegistrationForm # import the RegistrationForm class from for
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
 from django.contrib import messages 
+
 
 # https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility
 
@@ -352,6 +353,7 @@ def edit_profile(request):
     }
     return render(request, 'registration/editProfile.html', context)
 
+
 @login_required
 def logout_view(request):
     """
@@ -366,7 +368,9 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+
 # Bilge
+@login_required
 def dorms(request):
     return render(request, "dorms.html")
 
@@ -385,3 +389,21 @@ def food_art(request):
 
 def groceries_supplies(request):
     return render(request, 'groceries_supplies.html', {})
+  
+# Bilge
+@login_required
+def conovo(request):
+
+    if request.method == "POST":
+        if "conovoSubmit" in request.POST:
+            content = request.POST.get('content', '').strip() # get the post submitted by user
+            if 1:  # Ensure the description is not empty
+                Post.objects.create(content=content, author=request.user) # save the task in the database with name
+                messages.success(request, "Message Posted! Slay! 🌊 ")
+                return redirect('conovo')
+            else: #TO-DO to return a message to enter a valid post submission
+                return render(request, "conovo.html")
+    else: # if the method is GET
+        # Query the Post objects including related User objects (authors)
+        posts = Post.objects.select_related('author').all()
+        return render(request, 'conovo.html', {'posts': posts})

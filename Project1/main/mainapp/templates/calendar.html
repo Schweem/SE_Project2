@@ -189,8 +189,8 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
             <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="event.preventDefault(); togglePopup()">Close</button>
+            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
         </form>
     </div>
     <script>

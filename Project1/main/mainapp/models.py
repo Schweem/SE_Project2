@@ -49,9 +49,6 @@ class readingMaterial(models.Model):
     """
 
     title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    type = models.CharField(max_length=100)
-    link = models.URLField()
     read = models.BooleanField(default=False)
 
     def __str__(self):
@@ -131,8 +128,11 @@ class Profile(models.Model):
     eventsBadge = models.BooleanField(default=False)
     facultyBadge = models.BooleanField(default=False)
 
+    badgeScore = models.IntegerField(default=0)
+
     def __str__(self): 
         return f'{self.user.username} Profile'
+    
 
 # Signal to create or update the user profile
 @receiver(post_save, sender=User) # When a user is saved, send the signal to create or update the profile
@@ -155,3 +155,11 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         instance.profile.save() # save the profile
 
 
+#Bilge
+class Post(models.Model):
+    content = models.TextField(max_length=500)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content

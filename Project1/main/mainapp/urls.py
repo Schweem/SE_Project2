@@ -32,6 +32,5 @@ urlpatterns = [
         path('dorms/', views.dorms, name='dorms'),
         path('catalyst/', views.catalyst, name='catalyst'),
         path('supplies/', views.supplies, name='supplies')
-        
-        
+        path('conovo/', views.conovo, name='conovo')
 ]

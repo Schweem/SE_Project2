@@ -50,7 +50,7 @@ class ReadingMaterialForm(forms.ModelForm):
     """
     class Meta:
         model = readingMaterial
-        fields = ['title', 'author', 'type', 'link']
+        fields = ['title']
         
         
 # Wes -- Create a form to add a class

@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Q
 from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
-from .models import Event, readingMaterial, classList
+from .models import Event, readingMaterial, classList, Post
 from datetime import date, timedelta
 from django.shortcuts import render
 from datetime import date, timedelta
@@ -28,6 +28,7 @@ from .forms import RegistrationForm # import the RegistrationForm class from for
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
 from django.contrib import messages 
+
 
 # https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility
 
@@ -84,8 +85,24 @@ def reading_material_view(request):
             else:
                 form = ReadingMaterialForm()
         elif form_type == 'update':
+            user = request.user
             item_id = request.POST.get('item_id')
             item = readingMaterial.objects.get(id=item_id)
+
+            # Badge logic
+            if item.title == 'Visited the faculty page':
+                user.profile.facultyBadge = True
+                user.profile.badgeScore += 1
+            elif item.title == 'Visited the events page':
+                user.profile.eventsBadge = True
+            elif item.title == 'Visited the HAM page':
+                user.profile.hamBadge = True
+            elif item.title == 'Visited the dorm page':
+                user.profile.dormBadge = True
+            elif item.title == 'Picked classes and added them to the calendar':
+                user.profile.classBadge = True
+            user.profile.save()
+
             item.read = 'read' in request.POST
             item.save()
         elif form_type == 'clear':
@@ -355,6 +372,7 @@ def logout_view(request):
 
 
 # Bilge
+@login_required
 def dorms(request):
     return render(request, "dorms.html")
 
@@ -380,3 +398,20 @@ def catalyst(request):
 
 def supplies(request):
     return render(request, 'supplies.html', {})
+  
+# Bilge
+@login_required
+def conovo(request):
+    if request.method == "POST":
+        if "conovoSubmit" in request.POST:
+            content = request.POST.get('content', '').strip() # get the post submitted by user
+            if 1:  # Ensure the description is not empty
+                Post.objects.create(content=content, author=request.user) # save the task in the database with name
+                messages.success(request, "Message Posted! Slay! 🌊 ")
+                return redirect('conovo')
+            else: #TO-DO to return a message to enter a valid post submission
+                return render(request, "conovo.html")
+    else: # if the method is GET
+        # Query the Post objects including related User objects (authors)
+        posts = Post.objects.select_related('author').all()
+        return render(request, 'conovo.html', {'posts': posts})

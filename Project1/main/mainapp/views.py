@@ -143,7 +143,9 @@ def calendar_view(request, period):
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False) # trying to connect events with users
+            event.user = user  # Associate the new event with the currently logged-in user
+            event.save()
             return redirect('calendar', period=period)  # Adjust the redirect as needed
     else:
         form = EventForm()
@@ -156,7 +158,7 @@ def calendar_view(request, period):
         week_days = []  # This will hold the days of the week
         for i in range(7): # Generate the data for each day in the week
             day_date = start_week + timedelta(days=i)   # Get the date of the day
-            events = Event.objects.filter(date=day_date) # Get the events for the day
+            events = Event.objects.filter(date=day_date, user=user) # Get the events for the day
             # Append each day's data directly into the week_days list
             week_days.append({'day': day_date.day, 'events': events}) 
         # Now, week_days is a single list representing one week, as expected by the template
@@ -179,7 +181,7 @@ def calendar_view(request, period):
                 for day in week:
                     if day != 0: # If it's a day in the current month
                         day_date = date(month_date.year, month_date.month, day)
-                        events = Event.objects.filter(date=day_date)
+                        events = Event.objects.filter(date=day_date, user=user)
                         day_info = {'day': day, 'events': events}
                     else:
                         day_info = None
@@ -389,6 +391,13 @@ def food_art(request):
 
 def groceries_supplies(request):
     return render(request, 'groceries_supplies.html', {})
+
+def catalyst(request):
+    embed_url = 'https://ncfcatalyst.com/'
+    return render(request, 'catalyst.html', {'embed_url': embed_url})
+
+def supplies(request):
+    return render(request, 'supplies.html', {})
   
 # Bilge
 @login_required

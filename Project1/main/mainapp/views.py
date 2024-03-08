@@ -192,3 +192,172 @@ def delete_class(request, class_id): #copilot
 
 def hours(request):
     return render(request, 'hours.html')
+
+## PROJECT 2 USER AUTH ## 
+
+def login_view(request):  
+    if request.method == 'POST': # if the user is trying to log in
+        form = AuthenticationForm(request, data=request.POST) # get the form
+        if form.is_valid(): # if the form is valid
+            username = form.cleaned_data.get('username') # get the username
+            password = form.cleaned_data.get('password') # get the password
+            user = authenticate(request, username=username, password=password) # authenticate the user
+            if user is not None:
+                auth_login(request, user)  # pass 'user' to the login function
+                return redirect('profile')  # redirect to the profile page
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+def register(request):
+    """
+    Register a user.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
+    if request.method == 'POST': # if the user is trying to register
+        form = RegistrationForm(request.POST) # get the form
+        if form.is_valid(): # if the form is valid
+            user = form.save() # save the user
+            auth_login(request, user) # log the user in 
+            return redirect('profile')  # redirect to the profile page
+    else:
+        form = RegistrationForm() # if the form is not valid, create a new form
+    return render(request, 'registration/register.html', {'form': form}) # render the register page with the form
+
+
+@login_required  # Ensures only logged-in users can access this view
+def profile(request):
+    """
+    View function to display user profile.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
+    if request.method == 'POST': # if the user is trying to update their profile
+        u_form = UserUpdateForm(request.POST, instance=request.user) # get the user form
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
+
+        if u_form.is_valid() and p_form.is_valid(): # if the forms are valid
+            u_form.save()
+            p_form.save() # save the forms
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile') # redirect to the profile page
+
+    else: # if the user is not trying to update their profile
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile) # get the user and profile forms
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'registration/profile.html', {'user': request.user}) 
+
+@login_required
+def update_profile_picture(request):
+    """
+    View function to update the user's profile picture.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the 'profile' view.
+
+    Raises:
+        None
+    """
+    if request.method == 'POST': # if the user is trying to update their profile picture
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
+        if form.is_valid(): # if the form is valid
+            form.save() # save the form
+            messages.success(request, 'Your profile picture has been updated!') # display a success message
+            return redirect('profile') # redirect to the profile page
+        else:
+            messages.error(request, 'Unable to update your profile picture.')
+    return redirect('profile')
+
+
+@login_required
+def edit_profile(request):
+    """
+    View function to edit the user's profile.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
+    if request.method == 'POST': # if the user is trying to edit their profile
+        user_form = UserForm(request.POST, instance=request.user) 
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('profile')
+    else: # if the user is not trying to edit their profile
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'registration/editProfile.html', context)
+
+
+@login_required
+def logout_view(request):
+    """
+    Logs out the current user and redirects to the home page.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        A redirect response to the home page.
+    """
+    logout(request)
+    return redirect('home')
+
+
+# Bilge
+def dorms(request):
+    return render(request, "dorms.html")
+
+#Lainey
+def eateries(request):
+    return render(request, 'eateries.html', {})
+
+def local_fun(request):
+    return render(request, 'local_fun.html', {})
+
+def transportation(request):
+    return render(request, 'transportation.html', {})
+
+def food_art(request):
+    return render(request, 'food_art.html', {})
+
+def groceries_supplies(request):
+    return render(request, 'groceries_supplies.html', {})
+
+def catalyst(request):
+    embed_url = 'https://ncfcatalyst.com/'
+    return render(request, 'catalyst.html', {'embed_url': embed_url})
+
+def supplies(request):
+    return render(request, 'supplies.html', {})

@@ -20,7 +20,16 @@ import os
 import random
 from django.conf import settings
 
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import logout
+from .forms import RegistrationForm # import the RegistrationForm class from forms.py
+from django.contrib.auth.decorators import login_required
+from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
+from django.contrib import messages 
 
+# https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility
 
 # I got a lot of help from here 
 #https://www.w3schools.com/django
@@ -52,7 +61,7 @@ def delete_todo(request, todo_id): #copilot wrote this mostly
 
 # identical to the delete_todo function but we just mark the todo as completed instead of deleting it. 
 def mark_todo_completed(request, todo_id): # Wes
-    todo = get_object_or_404(Event, id=todo_id)
+    todo = get_object_or_404(Event, id=todo_id) 
     todo.completed = True
     todo.save()
     return redirect('todo_list')
@@ -62,11 +71,11 @@ def event_detail(request, event_id): # Wes
     return render(request, 'event_detail.html', {'event': event})
   
 def home(request):
-    return calendar_view(request, 'month')
+    return redirect('register') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
 
 def reading_material_view(request): 
-    form = ReadingMaterialForm()
-    if request.method == 'POST':
+    form = ReadingMaterialForm() 
+    if request.method == 'POST': 
         form_type = request.POST.get('form_type')
         if form_type == 'add':
             form = ReadingMaterialForm(request.POST)
@@ -104,12 +113,22 @@ def add_months(source_date, months):
     return date(year, month, 1)
 # Wes -- Written by copilot and GPT over several iterations
 def calendar_view(request, period):
+    ##### FOR TESTING #######
+    user = request.user
+    if not user.profile.hamBadge:
+        user.profile.hamBadge = True
+        user.profile.save()
+
+    #### Example for how we will activate badges ######
+
     today = date.today()
 
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False) # trying to connect events with users
+            event.user = user  # Associate the new event with the currently logged-in user
+            event.save()
             return redirect('calendar', period=period)  # Adjust the redirect as needed
     else:
         form = EventForm()
@@ -122,7 +141,7 @@ def calendar_view(request, period):
         week_days = []  # This will hold the days of the week
         for i in range(7): # Generate the data for each day in the week
             day_date = start_week + timedelta(days=i)   # Get the date of the day
-            events = Event.objects.filter(date=day_date) # Get the events for the day
+            events = Event.objects.filter(date=day_date, user=user) # Get the events for the day
             # Append each day's data directly into the week_days list
             week_days.append({'day': day_date.day, 'events': events}) 
         # Now, week_days is a single list representing one week, as expected by the template
@@ -145,7 +164,7 @@ def calendar_view(request, period):
                 for day in week:
                     if day != 0: # If it's a day in the current month
                         day_date = date(month_date.year, month_date.month, day)
-                        events = Event.objects.filter(date=day_date)
+                        events = Event.objects.filter(date=day_date, user=user)
                         day_info = {'day': day, 'events': events}
                     else:
                         day_info = None

@@ -1,0 +1,63 @@
+:root {
+    /* Primary Color */
+    --bs-primary: #003087; /* Blue */
+  
+    /* Secondary Colors */
+    --bs-secondary: #7C2855; /* Purple */
+    --bs-success: #ABAD23; /* Lime Green */
+    --bs-info: #7BADF4; /* Light Blue */
+    --bs-warning: #FFB73F; /* Yellow */
+  }
+  
+  /* Override button colors */
+  .btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+  
+  .btn-secondary {
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-secondary);
+  }
+  
+  .btn-success {
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+  }
+  
+  .btn-info {
+    background-color: var(--bs-info);
+    border-color: var(--bs-info);
+  }
+  
+  .btn-warning {
+    background-color: var(--bs-warning);
+    border-color: var(--bs-warning);
+  }
+  
+  /* Override Navbar colors */
+  .navbar {
+    background-color: var(--bs-primary);
+  }
+  
+/* Apply the primary color to the navbar */
+.navbar.bg-primary, .navbar.navbar-light.bg-primary {
+    background-color: var(--bs-primary) !important;
+  }
+
+  /* Make navbar text white */
+.navbar-light .navbar-nav .nav-link, 
+.navbar-light .navbar-brand {
+    color: #ffffff !important; /* White color */
+}
+
+/* Change the hover and focus color for the navbar links */
+.navbar-light .navbar-nav .nav-link:hover, 
+.navbar-light .navbar-nav .nav-link:focus {
+    color: #cccccc !important; /* Light grey color for hover/focus */
+}
+
+/* Change the color of the active navbar link for smaller screens / mobile */
+.navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}

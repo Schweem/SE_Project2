@@ -53,7 +53,7 @@
             <form method="post" action="{% url 'mark_todo_completed' event.id %}">
                 {% csrf_token %}
                 <input type="hidden" name="completed" value="True">
-                <button type="submit" class="btn btn-primary">Mark as complete</button>
+                <button type="submit" class="btn btn-primary rounded-pill">Mark as complete</button>
             </form>
             <!-- Form to delete the current todo item -->
             <form method="post" action="{% url 'delete_todo' event.id %}" >

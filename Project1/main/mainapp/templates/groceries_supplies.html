@@ -1,0 +1,91 @@
+<!-- Lainey -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Groceries and Supplies</title>
+    <style>
+        .store {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .store img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .price-rating {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .description {
+            font-size: 16px;
+            color: #666;
+        }
+        .hours {
+            font-size: 14px;
+            color: #333;
+        }
+        .store a:hover {
+            color: #7BAFD4;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Mini Navbar -->
+    <div class="container my-4">
+        <div class="btn-group d-flex justify-content-center" role="group" aria-label="Resource navigation">
+            <a href="{% url 'eateries' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Eateries</a>
+            <a href="{% url 'local_fun' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Local Fun</a>
+            <a href="{% url 'transportation' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Transportation</a>
+            <a href="{% url 'food_art' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Food Forest/Art</a>
+            <a href="{% url 'groceries_supplies' %}" class="btn btn-warning rounded-pill mx-1 mt-1">Groceries/Supplies</a>
+        </div>
+    </div>
+    
+    <!-- Page Content -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="store">
+                    <h2><a href="https://www.facebook.com/SunflowerDiscountMarket/" target="_blank">Sunflower Discount Market</a></h2>
+                    <img src="{% static 'images/stores/sunflower.jpeg' %}" alt="Sunflower Market Photo">
+                    <p class="price-rating">$$</p>
+                    <p class="description">Brands you know & love at unbeatable prices! We sell manufacturer overstocks, grocery chain shelf pulls, in date/out of date & items with damaged packaging...at half the cost of the other stores! Looking to stretch your grocery budget? Check us out today!</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="store">
+                    <h2>Neighborhood Walmart</h2>
+                    <img src="{% static 'images/stores/walmart.jpeg' %}" alt="Walmart Photo">
+                    <p class="price-rating">$$</p>
+                    <p class="description">This Walmart has a small selection of items, mostly inlcuding fresh produce and other groceries. It is walking distance to campus making it a great option for students!</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="store">
+                    <h2>Dollar Tree</h2>
+                    <img src="{% static 'images/stores/dollartree.jpeg' %}" alt="Dollar Tree Photo">
+                    <p class="price-rating">$</p>
+                    <p class="description">This is also a walkable distance from campus. It is a good spot for quick and easy supplies that you made need last minute.</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

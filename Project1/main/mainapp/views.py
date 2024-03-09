@@ -75,7 +75,9 @@ def home(request):
     return redirect('register') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
 
 def reading_material_view(request): 
-    form = ReadingMaterialForm() 
+    form = ReadingMaterialForm()
+    confetti = False
+    print("Confetti flag set to False")
     if request.method == 'POST': 
         form_type = request.POST.get('form_type')
         if form_type == 'add':
@@ -88,6 +90,14 @@ def reading_material_view(request):
             user = request.user
             item_id = request.POST.get('item_id')
             item = readingMaterial.objects.get(id=item_id)
+
+            # Update the read status and check if it's being set to True
+            if 'read' in request.POST and not item.read:
+                confetti = True  # Set the confetti flag
+                print("Confetti flag set to True")
+
+            item.read = 'read' in request.POST
+            item.save()
 
             # Badge logic
             if item.title == 'Visited the faculty page':
@@ -109,7 +119,12 @@ def reading_material_view(request):
             readingMaterial.objects.filter(read=True).delete()
 
     reading_list = readingMaterial.objects.all()
-    return render(request, 'readingList.html', {'form': form, 'reading_list': reading_list})
+    context = {
+        'form': form,
+        'reading_list': reading_list,
+        'show_confetti': confetti
+    }
+    return render(request, 'readingList.html', context)
 
 
 #Safari -- Copilot wrote this -- Super simple

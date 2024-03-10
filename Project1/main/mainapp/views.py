@@ -85,8 +85,24 @@ def reading_material_view(request):
             else:
                 form = ReadingMaterialForm()
         elif form_type == 'update':
+            user = request.user
             item_id = request.POST.get('item_id')
             item = readingMaterial.objects.get(id=item_id)
+
+            # Badge logic
+            if item.title == 'Visited the faculty page':
+                user.profile.facultyBadge = True
+                user.profile.badgeScore += 1
+            elif item.title == 'Visited the events page':
+                user.profile.eventsBadge = True
+            elif item.title == 'Visited the HAM page':
+                user.profile.hamBadge = True
+            elif item.title == 'Visited the dorm page':
+                user.profile.dormBadge = True
+            elif item.title == 'Picked classes and added them to the calendar':
+                user.profile.classBadge = True
+            user.profile.save()
+
             item.read = 'read' in request.POST
             item.save()
         elif form_type == 'clear':

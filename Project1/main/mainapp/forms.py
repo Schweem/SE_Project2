@@ -3,7 +3,7 @@ from django.forms.widgets import SelectDateWidget, TimeInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Event, readingMaterial, classList, Profile
+from .models import Event, readingMaterial, classList, Profile, supplyItem
 # I got a lot of use from this https://docs.djangoproject.com/en/5.0/ref/forms/widgets/
 #https://www.geeksforgeeks.org/django-form-field-custom-widgets/
 #https://cdf.9vo.lt/3.0/django.forms.widgets/SelectDateWidget.html
@@ -51,6 +51,21 @@ class ReadingMaterialForm(forms.ModelForm):
     class Meta:
         model = readingMaterial
         fields = ['title']
+
+class SupplyItemForm(forms.ModelForm):
+    """
+    A form for creating or updating supplies.
+
+    Attributes:
+        name (str): The title of the supply.
+        link (str): Link to buy supply.
+        purchased (bool): Indicates whether the supply material has been purchased or not.
+
+
+    """
+    class Meta:
+        model = supplyItem
+        fields = ['name', 'link', 'purchased']
         
         
 # Wes -- Create a form to add a class

@@ -13,6 +13,9 @@ urlpatterns = [
         path('mark_completed/<int:todo_id>/', views.mark_todo_completed, name='mark_todo_completed'),
         path('calendar/<str:period>/', views.calendar_view, name='calendar'),
         path('event/<int:event_id>/', views.event_detail, name='event_detail'),
+        path('supply_list/', views.supply_list, name='supply_list'),
+        path('add_supply_item/', views.add_supply_item, name='add_supply_item'),
+        path('toggle_purchased/<int:item_id>/', views.toggle_purchased, name='toggle_purchased'),  # New URL pattern
 
         path('reading-list/', views.reading_material_view, name='reading-list'),
         path('class_list/', views.class_list_view, name='class_list'),

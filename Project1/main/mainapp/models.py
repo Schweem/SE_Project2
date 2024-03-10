@@ -78,6 +78,22 @@ class classList(models.Model):
     def __str__(self):
         return self.title
     
+class supplyItem(models.Model):
+    """
+    Represents a supply item.
+
+    Attributes:
+        name (str): The name of the supply item.
+        link (str): Link to buy the supply
+        purchased (bool): Indicates whether the supply material has been purchased or not.
+    """
+
+    name = models.CharField(max_length=100)
+    link = models.URLField(max_length=200, blank=True, null=True)
+    purchased = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
 # Model for user profiles
 class Profile(models.Model):
     """

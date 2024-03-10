@@ -55,71 +55,54 @@
     }
 </style>
 <div class="container mt-4">
-    <h2>Supplies Checklist</h2>
-    <table class="table mt-5">
+    <h2 class="text-center"><strong> Supplies Checklist </strong></h2>
+    <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
         <thead class="thead-dark">
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Type</th>
-                <th>Link</th>
-                <th>Mark Read</th>
+                <th>Item</th>
+                <th>Purchased?</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in reading_list %} <!--The reading list needs to match what is put in the view exactly-->
-            <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %}">
-                <td>{{ item.title }}</td>
-                <td>{{ item.author }}</td>
-                <td>{{ item.type }}</td>
-                <td><a href="{{ item.link }}" class="btn btn-link">Link</a></td>
-                <td>
-                    <form method="post" class="update-form">
-                        {% csrf_token %}
-                        <input type="hidden" name="item_id" value="{{ item.id }}">
-                        <input type="hidden" name="form_type" value="update">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="read_{{ item.id }}" name="read" {% if item.read %}checked{% endif %} onchange="this.form.submit()">
-                            <label class="form-check-label" for="read_{{ item.id }}"></label>
-                        </div>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
+            <ul>
+                {% for item in items %}
+                <li>
+                    {{ item.name }} - <a href="{{ item.link }}">Link</a> - 
+                    Purchased: {{ item.purchased|yesno:"Yes,No" }}
+                </li>
+                {% endfor %}
+            </ul>
+            <form method="POST" class="mb-4 mt-3">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="clear">
+                <div class="row mb-4 mt-5">
+                    <div class="col-6 col-md-4">
+                        <!-- Add button -->
+                        <button type = "button" class="btn btn-primary position-fixed bottom-0 end-0 m-3 shadow" onclick="togglePopup()" style="font-size: 38px; width: 70px; height: 70px; border-radius: 70%;">+</button>
+                </div>
+            </form>
+            <!-- Add supply item popup from gpt--> 
+            <div id="addSupplyPopup" class="popup">
+                <form method="post" action="{% url 'add_supply_item' %}" class="my-3">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="hidden" name="form_type" value="add">
+                    <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
+                    <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="toggleAddSupplyPopup()">Close</button>
+                </form>  
+            </div>
+            <script>
+                function toggleAddSupplyPopup() { 
+                    var popup = document.getElementById("addSupplyPopup");
+                    popup.classList.toggle("active");
+                }
+            </script>
+    
         </tbody>
-    </table>
-    <form method="POST" class="mb-4 mt-3">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="clear">
-        <div class="row mb-4 mt-5">
-            <div class="col-6 col-md-4">
-                <!-- Add button -->
-                <button type="button" class="btn btn-primary shadow" onclick="event.preventDefault(); togglePopup();" style="font-size: 24px; width: 50px; height: 50px; border-radius: 50%;">+</button>
-            </div>
-            <div class="col-6 col-md-6 d-flex justify-content-end">
-                <!-- Clear button, aligned to the right -->
-                <button type="submit" class="btn btn-outline-danger rounded-pill shadow">Clear all read items</button>
-            </div>
-        </div>
-    </form>
-    
-    
-    <!-- Add event popup made by copilot--> 
-    <div id="addPopup" class="popup">
-        <form method="post" class="my-3">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="hidden" name="form_type" value="add">
-            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
-            <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="event.preventDefault(); togglePopup()">Close</button>
-        </form>  
-    </div>
-    <script>
-        function togglePopup() {
-            var popup = document.getElementById("addPopup");
-            popup.classList.toggle("active");
-        }
-    </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+
 </div>
 
 {% endblock %}

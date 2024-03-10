@@ -407,10 +407,16 @@ def conovo(request):
     else: # if the method is GET
         # Query the Post objects including related User objects (authors)
         posts = Post.objects.select_related('author').all()
-        return render(request, 'conovo.html', {'posts': posts})
+        leaderlist = leaderboard()
+        return render(request, 'conovo.html', {'posts': posts, "top3": leaderlist[:3], "top4_10": leaderlist[4:]})
 
 #bilge
 @login_required
 def other_profile(request, author):
     user = User.objects.get(username=author)
     return render(request, 'other_profile.html', {'user': user} )
+
+
+def leaderboard():
+    leaderlist = Profile.objects.all().order_by('-badgeScore')[:10]
+    return leaderlist

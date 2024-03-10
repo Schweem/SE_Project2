@@ -28,6 +28,7 @@ from .forms import RegistrationForm # import the RegistrationForm class from for
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
 from django.contrib import messages 
+from django.contrib.auth.models import User
 
 
 # https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility
@@ -397,7 +398,7 @@ def conovo(request):
     if request.method == "POST":
         if "conovoSubmit" in request.POST:
             content = request.POST.get('content', '').strip() # get the post submitted by user
-            if 1:  # Ensure the description is not empty
+            if 1:  # TO-DO: Ensure the description is not empty
                 Post.objects.create(content=content, author=request.user) # save the task in the database with name
                 messages.success(request, "Message Posted! Slay! 🌊 ")
                 return redirect('conovo')
@@ -407,3 +408,9 @@ def conovo(request):
         # Query the Post objects including related User objects (authors)
         posts = Post.objects.select_related('author').all()
         return render(request, 'conovo.html', {'posts': posts})
+
+#bilge
+@login_required
+def other_profile(request, author):
+    user = User.objects.get(username=author)
+    return render(request, 'other_profile.html', {'user': user} )

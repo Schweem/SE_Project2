@@ -58,13 +58,23 @@
             width: 100%;
             border-top: 4px solid black;
         }
+
+        /* Adjustments for small screens (fixes for mobile) */
+        @media (max-width: 768px) {
+            /* Adjust table, th, td sizes for smaller screens */
+            th, td {
+                padding: 4px; /* Smaller padding */
+                font-size: 0.7em; /* Smaller font size */
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- Wes, Here we will display the events, written by copilot-->
     <div class="container mt-2">
-        <h1>Todo List</h1>
+        <h1 class="text-center mb-3">Todo List</h1>
+        <p class="text-center"> Your personal Agenda</p>
         <table>
             <thead>
                 <tr>

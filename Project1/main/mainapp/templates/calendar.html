@@ -148,7 +148,7 @@
 </head>
 
 <body>
-    <div>
+    <div class="mb-5">
         <!-- Wes Mostly written by copilot and gpt-->
         <!-- For every month and  the weeks inside it-->
         {% for month, weeks in months_with_weeks.items %}
@@ -182,7 +182,7 @@
                         {% endfor %}
                     </div>
                     {% else %}
-                    <!-- Optionally display something for empty cells or just leave it blank -->
+                    
                     {% endif %}
                 </td>
                 {% endfor %}
@@ -190,7 +190,6 @@
             {% endfor %}
         </table>
         {% endfor %}
-
     </div>
     </style>
     <div class="container my-4 mb-1 mt-1">

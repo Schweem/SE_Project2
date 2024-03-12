@@ -72,7 +72,11 @@ def event_detail(request, event_id): # Wes
     return render(request, 'event_detail.html', {'event': event})
   
 def home(request):
-    return redirect('register') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
+    else:
+        return render(request, 'registration/profile.html', {'user': user})
 
 def reading_material_view(request): 
     form = ReadingMaterialForm()
@@ -145,13 +149,7 @@ def add_months(source_date, months):
     return date(year, month, 1)
 # Wes -- Written by copilot and GPT over several iterations
 def calendar_view(request, period):
-    ##### FOR TESTING #######
     user = request.user
-    if not user.profile.hamBadge:
-        user.profile.hamBadge = True
-        user.profile.save()
-
-    #### Example for how we will activate badges ######
 
     today = date.today()
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Reading List{% endblock %}
+{% block title %}CoNovo{% endblock %}
 
 {% block content %}
 
@@ -20,26 +20,15 @@
         .container {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
             margin: 20px;
         }
         .posts {
-            flex: 1;
-            margin-right: 20px;
-        }
-        .posts-container {
-            flex: 1;
+            flex: 2;
             margin-right: 20px;
         }
         .leaderboard {
-            flex: 0 0 200px;
+            flex: 1;
             background-color: #f4f4f4;
-            padding: 10px;
-        }
-        .leaderboard-container {
-            width: 200px;
-            background-color: #f4f4f4;
-            padding: 10px;
         }
         .post {
             background-color: #fff;
@@ -57,14 +46,14 @@
 </head>
 <body>
     <div class="container">
-        {% if messages %} <!-- to display messages.success from views.py if there are any -->
+        <div class="posts">
+            {% if messages %} <!-- to display messages.success from views.py if there are any -->
             <ul class="messages">
                 {% for message in messages %}
                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-        <div class="posts">
+            {% endif %}
             <!-- Posts from Database -->
             <form method="POST" action="">
                 {% csrf_token %} <!-- CSRF verification, security satisfaction -->
@@ -77,11 +66,13 @@
                     {% for post in posts %}
                     <div class="col-md-6">
                         <div class="post-box">
-                            {% if user.profile.profile_picture %}
-                            <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
-                            {% else %}
-                            <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
-                            {% endif %}
+                            <a class="nav-link" id="profile" href="{% url 'other_profile' post.author %}">
+                                {% if post.author.profile.profile_picture %}
+                                <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
+                                {% endif %}
+                            </a>
                             <h2>{{ post.title }}</h2>
                             <p>{{ post.content }}</p>
                             <p>Posted by: {{ post.author.username }}</p>
@@ -92,27 +83,45 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
         <div class="leaderboard">
             <h2>Leaderboard</h2>
-            <!-- Leaderboard Content -->
-            <!-- Example leaderboard entry -->
-            <div style="background-color: #cd7f32; padding: 5px;">
-                <p>1. NuNovo - 1000 points</p>
-            </div>
-            <div style="background-color: #cd7f32; padding: 5px;">
-                <p>2. Novo - 850 points</p>
-            </div>
-            <div style="background-color: #cd7f32; padding: 5px;">
-                <p>3. BigOh - 700 points</p>
-            </div>
-            <div>
-                <p>4. NotSoFancy - 700 points</p>
-            </div>
-            <!-- End of Example Leaderboard Entry -->
+                <!-- Leaderboard Content -->
+                {% for leader in top3 %}
+                    <div class="post-box">
+                        <div style="background-color: #cd7f32; ">
+                            <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
+                                <div class="container">
+                                {% if leader.profile_picture %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
+                                {% endif %}
+                                <h2 style="text-align: left;"> {{ leader.user.username }} </h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for leader in top4_10 %}
+                    {% if leader %}
+                        <div class="post-box">
+                            <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
+                                <div class="container">
+                                {% if leader.profile_picture %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 50px; height: 50px; cursor: pointer; padding: 1px;">
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 50px; height: 50px; cursor: pointer; padding: 1px;">
+                                {% endif %}
+                                <h2 style="text-align: left;"> {{ leader.user.username }} </h2>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
 

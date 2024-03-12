@@ -31,6 +31,8 @@ urlpatterns = [
         path('groceries_supplies/', views.groceries_supplies, name='groceries_supplies'),
         path('novoland', views.eateries, name='novoland'),
         path('dorms/', views.dorms, name='dorms'),
+        path('conovo/', views.conovo, name='conovo'),
+        path('other_profile/<str:author>', views.other_profile, name='other_profile'),
         path('catalyst/', views.catalyst, name='catalyst'),
-        path('conovo/', views.conovo, name='conovo')
+
 ]

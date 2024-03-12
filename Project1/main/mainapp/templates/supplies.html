@@ -36,13 +36,13 @@
         position: relative;
     }
 
-    .read-item::after {
+    .supply-item::after {
         content: "";
         position: absolute;
         top: 50%;
         left: 0;
         width: 100%;
-        border-top: 4px solid black;
+        border-top: 2px solid black; /* Adjusted for visual clarity */
     }
     td {
         text-align: left;
@@ -53,51 +53,51 @@
         vertical-align: middle;
         height: 100%;
     }
+    .btn-secondary {
+        background-color: #abad23; /* Bootstrap's default success color; adjust as needed */
+        border-color: #abad23; /* Adjust the border color to match */
+        color: white; /* Text color */
+        /* Add any additional customizations here */
+    }
+
+    .btn-amazon {
+        background-color: #FFBF3F; /* Amazon's brand color */
+        border-color: #FFBF3F; /* Make the border color match */
+        color: white; /* Text color */
+        /* Add any additional customizations here */
+    }
 </style>
+
 <div class="container mt-4">
     <h2 class="text-center"><strong> Supplies Checklist </strong></h2>
-    <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
-        <thead class="thead-dark">
-            <tr>
-                <th>Item</th>
-                <th>Purchased?</th>
-            </tr>
-        </thead>
-        <tbody>
-            <ul>
-                {% for item in items %}
-                <li>
-                    {{ item.name }} - <a href="{{ item.link }}">Link</a> - 
-                    Purchased: {{ item.purchased|yesno:"Yes,No" }}
-                </li>
+    <form method="POST" class="mb-4 mt-3">
+        {% csrf_token %}
+        <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Item</th>
+                    <th>Purchased?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_supply in user_supplies %}
+                <tr>
+                    <td>{{ user_supply.supply.name }}</td>
+                    <td>
+                        <input type="checkbox" name="supply_{{ user_supply.supply.id }}" {% if user_supply.purchased %} checked {% endif %}>
+                    </td>
+                </tr>
                 {% endfor %}
-            </ul>
-            <form method="POST" class="mb-4 mt-3">
-                {% csrf_token %}
-                <input type="hidden" name="form_type" value="clear">
-                <div class="row mb-4 mt-5">
-                    <div class="col-6 col-md-4">
-                        <!-- Add button -->
-                        <button type = "button" class="btn btn-primary position-fixed bottom-0 end-0 m-3 shadow" onclick="togglePopup()" style="font-size: 38px; width: 70px; height: 70px; border-radius: 70%;">+</button>
-                </div>
-            </form>
-            <!-- Add supply item popup from gpt--> 
-            <div id="addSupplyPopup" class="popup">
-                <form method="post" action="{% url 'add_supply_item' %}" class="my-3">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="hidden" name="form_type" value="add">
-                    <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
-                    <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="toggleAddSupplyPopup()">Close</button>
-                </form>  
-            </div>
-            <script>
-                function toggleAddSupplyPopup() { 
-                    var popup = document.getElementById("addSupplyPopup");
-                    popup.classList.toggle("active");
-                }
-            </script>
-    
+            </tbody>
+        </table>
+        <div class="text-center mb-4"> <!-- Center the update button -->
+            <button type="submit"  class="btn btn-secondary rounded-pill mx-1 mt-1">Update</button>
+        </div>
+
+        <div class="text-center"> <!-- Center the Amazon Wish List link -->
+            <h2><a href="https://www.amazon.com/hz/wishlist/ls/2NT9U5YO8EHBK?ref_=wl_share" target="_blank" class="btn btn-amazon rounded-pill mx-1 mt-1">Amazon Wish List</a></h2>
+        </div>
+    </form>
         </tbody>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

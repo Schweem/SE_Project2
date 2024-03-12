@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Q
-from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm, SupplyItemForm
-from .models import Event, readingMaterial, classList, Post, supplyItem
+from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
+from .models import Event, readingMaterial, classList, Post, Supply, UserSupply
 from django.urls import reverse
 from datetime import date, timedelta
 from django.shortcuts import render
@@ -128,31 +128,23 @@ def reading_material_view(request):
     return render(request, 'readingList.html', context)
 
 # Lainey: gpt wrote most of this, but it is also very similar to Safari's reading list
-def supply_list(request):
-    items = SupplyItem.objects.all()
-    form = SupplyItemForm()
-    if request.method == 'POST':
-        form = SupplyItemForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('supply_list')
-    return render(request, 'supply_list.html', {'items': items, 'form': form})
+@login_required
+def supplies_list(request):
+    # Ensure we have UserSupply instances for each supply for the current user
+    supplies = Supply.objects.all()
+    for supply in supplies:
+        UserSupply.objects.get_or_create(user=request.user, supply=supply)
+    
+    user_supplies = UserSupply.objects.filter(user=request.user)
 
-def add_supply_item(request):
     if request.method == 'POST':
-        form = SupplyItemForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('supply_list')
-    else:
-        form = SupplyItemForm()
-    return render(request, 'supplies.html', {'form': form})
+        for user_supply in user_supplies:
+            user_supply.purchased = f'supply_{user_supply.supply.id}' in request.POST
+            user_supply.save()
+        return redirect('supplies_list')
 
-def toggle_purchased(request, item_id):
-    item = supplyItem.objects.get(id=item_id)
-    item.purchased = not item.purchased
-    item.save()
-    return HttpResponseRedirect(reverse('supply_list'))
+    # Note the change in the template path if your template structure requires it
+    return render(request, 'supplies.html', {'user_supplies': user_supplies})
 
 #Safari -- Copilot wrote this -- Super simple
 #View function to display our timer page

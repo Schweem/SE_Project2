@@ -13,7 +13,8 @@ urlpatterns = [
         path('mark_completed/<int:todo_id>/', views.mark_todo_completed, name='mark_todo_completed'),
         path('calendar/<str:period>/', views.calendar_view, name='calendar'),
         path('event/<int:event_id>/', views.event_detail, name='event_detail'),
-
+        path('supplies/', views.supplies_list, name='supplies_list'),
+        
         path('reading-list/', views.reading_material_view, name='reading-list'),
         path('class_list/', views.class_list_view, name='class_list'),
         path('delete_class/<int:class_id>/', views.delete_class, name='delete_class'),
@@ -30,7 +31,8 @@ urlpatterns = [
         path('groceries_supplies/', views.groceries_supplies, name='groceries_supplies'),
         path('novoland', views.eateries, name='novoland'),
         path('dorms/', views.dorms, name='dorms'),
+        path('conovo/', views.conovo, name='conovo'),
+        path('other_profile/<str:author>', views.other_profile, name='other_profile'),
         path('catalyst/', views.catalyst, name='catalyst'),
-        path('supplies/', views.supplies, name='supplies'),
-        path('conovo/', views.conovo, name='conovo')
+
 ]

@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Q
 from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
-from .models import Event, readingMaterial, classList, Post
+from .models import Event, readingMaterial, classList, Post, Supply, UserSupply
+from django.urls import reverse
 from datetime import date, timedelta
 from django.shortcuts import render
 from datetime import date, timedelta
@@ -14,7 +15,7 @@ import calendar
 import os
 import random
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render
 import os
 import random
@@ -28,6 +29,7 @@ from .forms import RegistrationForm # import the RegistrationForm class from for
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, UserForm, Profile # import the UserUpdateForm and ProfileUpdateForm classes from forms.py
 from django.contrib import messages 
+from django.contrib.auth.models import User
 
 
 # https://openclassrooms.com/en/courses/7107341-intermediate-django/7264297-create-an-image-upload-facility
@@ -128,6 +130,24 @@ def reading_material_view(request):
     }
     return render(request, 'readingList.html', context) # Render the readingList.html template with the context dictionary
 
+# Lainey: gpt wrote most of this, but it is also very similar to Safari's reading list
+@login_required
+def supplies_list(request):
+    # Ensure we have UserSupply instances for each supply for the current user
+    supplies = Supply.objects.all()
+    for supply in supplies:
+        UserSupply.objects.get_or_create(user=request.user, supply=supply)
+    
+    user_supplies = UserSupply.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        for user_supply in user_supplies:
+            user_supply.purchased = f'supply_{user_supply.supply.id}' in request.POST
+            user_supply.save()
+        return redirect('supplies_list')
+
+    # Note the change in the template path if your template structure requires it
+    return render(request, 'supplies.html', {'user_supplies': user_supplies})
 
 #Safari -- Copilot wrote this -- Super simple
 #View function to display our timer page
@@ -416,7 +436,7 @@ def conovo(request):
     if request.method == "POST":
         if "conovoSubmit" in request.POST:
             content = request.POST.get('content', '').strip() # get the post submitted by user
-            if 1:  # Ensure the description is not empty
+            if 1:  # TO-DO: Ensure the description is not empty
                 Post.objects.create(content=content, author=request.user) # save the task in the database with name
                 messages.success(request, "Message Posted! Slay! 🌊 ")
                 return redirect('conovo')
@@ -425,4 +445,16 @@ def conovo(request):
     else: # if the method is GET
         # Query the Post objects including related User objects (authors)
         posts = Post.objects.select_related('author').all()
-        return render(request, 'conovo.html', {'posts': posts})
+        leaderlist = leaderboard()
+        return render(request, 'conovo.html', {'posts': posts, "top3": leaderlist[:3], "top4_10": leaderlist[4:]})
+
+#bilge
+@login_required
+def other_profile(request, author):
+    user = User.objects.get(username=author)
+    return render(request, 'other_profile.html', {'user': user} )
+
+
+def leaderboard():
+    leaderlist = Profile.objects.all().order_by('-badgeScore')[:10]
+    return leaderlist

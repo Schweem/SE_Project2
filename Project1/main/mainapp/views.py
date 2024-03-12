@@ -74,37 +74,39 @@ def event_detail(request, event_id): # Wes
     return render(request, 'event_detail.html', {'event': event})
   
 def home(request):
-    return redirect('register') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login') # Redirect to the login page by default CHANGE LATER OR UPDATE NAVBAR 
+    else:
+        return render(request, 'registration/profile.html', {'user': user})
 
 def reading_material_view(request): 
-    form = ReadingMaterialForm()
-    confetti = False
-    print("Confetti flag set to False")
+    form = ReadingMaterialForm() # Create a new form object
+    confetti = False # Set the confetti flag to False by default
     if request.method == 'POST': 
-        form_type = request.POST.get('form_type')
+        form_type = request.POST.get('form_type') # Get the form type from the POST data
         if form_type == 'add':
-            form = ReadingMaterialForm(request.POST)
+            form = ReadingMaterialForm(request.POST) # Create a new form object with the POST data
             if form.is_valid():
-                form.save()
-            else:
-                form = ReadingMaterialForm()
-        elif form_type == 'update':
-            user = request.user
-            item_id = request.POST.get('item_id')
-            item = readingMaterial.objects.get(id=item_id)
+                form.save() # Save the form data to the database
+            else: # If the form is not valid, create a new form object
+                form = ReadingMaterialForm() # Create a new form object
+        elif form_type == 'update': # If the form type is 'update'
+            user = request.user # Get the currently logged-in user
+            item_id = request.POST.get('item_id') # Get the ID of the reading material item
+            item = readingMaterial.objects.get(id=item_id) # Get the reading material item from the database
 
             # Update the read status and check if it's being set to True
             if 'read' in request.POST and not item.read:
                 confetti = True  # Set the confetti flag
-                print("Confetti flag set to True")
 
-            item.read = 'read' in request.POST
-            item.save()
+            item.read = 'read' in request.POST # Update the read status
+            item.save() # Save the changes to the database
 
             # Badge logic
-            if item.title == 'Visited the faculty page':
-                user.profile.facultyBadge = True
-                user.profile.badgeScore += 1
+            if item.title == 'Visited the faculty page': # If the item is 'Visited the faculty page'
+                user.profile.facultyBadge = True # Set the faculty badge to True
+                user.profile.badgeScore += 1 
             elif item.title == 'Visited the events page':
                 user.profile.eventsBadge = True
             elif item.title == 'Visited the HAM page':
@@ -117,16 +119,16 @@ def reading_material_view(request):
 
             item.read = 'read' in request.POST
             item.save()
-        elif form_type == 'clear':
+        elif form_type == 'clear': 
             readingMaterial.objects.filter(read=True).delete()
 
-    reading_list = readingMaterial.objects.all()
-    context = {
+    reading_list = readingMaterial.objects.all() # Get all the reading material items from the database
+    context = { # Create the context dictionary
         'form': form,
         'reading_list': reading_list,
         'show_confetti': confetti
     }
-    return render(request, 'readingList.html', context)
+    return render(request, 'readingList.html', context) # Render the readingList.html template with the context dictionary
 
 # Lainey: gpt wrote most of this, but it is also very similar to Safari's reading list
 @login_required
@@ -165,13 +167,7 @@ def add_months(source_date, months):
     return date(year, month, 1)
 # Wes -- Written by copilot and GPT over several iterations
 def calendar_view(request, period):
-    ##### FOR TESTING #######
     user = request.user
-    if not user.profile.hamBadge:
-        user.profile.hamBadge = True
-        user.profile.save()
-
-    #### Example for how we will activate badges ######
 
     today = date.today()
 

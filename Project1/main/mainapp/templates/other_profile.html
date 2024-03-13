@@ -10,7 +10,7 @@
 {% load static %}
 
 {% block title %}
-Your Profile
+{{ user.username }}'s Profile
 {% endblock %}
 
 {% block content %}
@@ -27,7 +27,7 @@ Your Profile
                 {% endif %}
             </label>
         </form>
-        <h3><strong>{{ user.username }} {% if user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
+        <h3><strong>{{ user.username }}</strong></h3>
         </div>
         <!-- Profile Details -->
         <div class="col-md-8">
@@ -40,7 +40,6 @@ Your Profile
                     <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
                     <p><strong>Email:</strong> {{ user.email }}</p>
                     <p><strong>I'm from: </strong> {{ user.profile.location }}</p>
-                    <a href="{% url 'edit_profile_url' %}" class="btn btn-primary rounded-pill shadow">Edit Profile</a>
                 </div>
             </div>
         </div>
@@ -89,7 +88,7 @@ Your Profile
                     {% endif %}
 
                     {% if user.profile.eventsBadge %}
-                        <img src="{% static 'badges/4.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="event badge" style="width: 100px; height: 100px; cursor: pointer;">
+                        <img src="{% static 'badges/2.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="event badge" style="width: 100px; height: 100px; cursor: pointer;">
                     {% else %}
                         <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="event badge" style="width: 100px; height: 100px; cursor: pointer;">
                     {% endif %}
@@ -99,6 +98,25 @@ Your Profile
                     {% else %}
                         <img src="{% static 'badges/emptyBadge.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="faculty badge" style="width: 100px; height: 100px; cursor: pointer;">
                     {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Posted images (if you have any to display) -->
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
+                <div class="card-body">
+                    <h4 class="card-title"><strong>Posted Images:</strong></h4>
+                    <!-- Image stuff stuff (user.images is placeholder for right now)-->
+                    {% if user.images %}
+                    <!-- loop through and render -->
+                    {% else %}
+                    <div class="mt-1 mx-2">
+                        <p>Nothing to see here.</p>
+                    </div>
+                    {% endif %}
+                    
                 </div>
             </div>
         </div>

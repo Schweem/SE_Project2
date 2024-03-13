@@ -21,7 +21,7 @@ Register
 
 {% block content %}
 
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+<div class="container d-flex align-items-center justify-content-center mt-3" style="min-height: 80vh;">
     <div class="col-md-6 col-lg-8">
         <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
             <div class="card-body">
@@ -31,27 +31,36 @@ Register
                     {% for field in form %}
                         <div class="mb-3">
                             {{ field.label_tag }}
-                            {{ field }}
+                            <!-- check for field errors-->
+                            {% if field.errors %}
+                                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control is-invalid" id="{{ field.id_for_label }}" {% if field.value %}value="{{ field.value }}"{% endif %}>
+                                <div class="invalid-feedback">
+                                    <!-- for each error display an error -->
+                                    {% for error in field.errors %}
+                                        {{ error }}<br>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
                             {% if field.help_text %}
                                 <small class="form-text text-muted">{{ field.help_text }}</small>
                             {% endif %}
-                            {% for error in field.errors %}
-                                <div class="invalid-feedback">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
                         </div>
                     {% endfor %}
                     <div class="text-center">
                         <button class="btn btn-primary shadow rounded-pill" type="submit">Register</button>
                     </div>
                 </form>
-            </div> 
+            </div>
         </div>
         <div class="text-center mt-3">
             <a href="{% url 'login' %}">Been here before? Log in here.</a>
         </div>
     </div>
+    <!-- loading these here for now because its not passing through base correctly -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>
 
 {% endblock %}

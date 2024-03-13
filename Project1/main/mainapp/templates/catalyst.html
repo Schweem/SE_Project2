@@ -1,0 +1,213 @@
+<!-- Lainey - help from chatgpt for embedding catalyst link and styling the already created.-->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalyst</title>
+    <style>
+        .welcome-container {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+        }
+        .welcome-text {
+            text-align: center;
+            margin: 0 auto; 
+            padding: 20px 0; 
+        }
+        .content-container {
+            display: flex;
+            gap: 0; 
+        }
+        .doodle-container {
+            width: 40%; 
+            height: 600px; 
+            display: flex;
+            flex-direction: row; 
+        }
+        .iframe-container{
+            width: 60%;
+            height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        .drawing-board canvas {
+            width: 90%; 
+        }
+        .notes-container {
+            border: none;
+        }
+        .drawing-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding-top: 10px; /* Add some space above the buttons */
+        }
+        #toggleView {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        #toggleView:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <div class="welcome-container">
+            <div class="welcome-text">
+                <h1>Welcome to The Catalyst</h1>
+                <p>Explore the latest news and stories from our school newspaper.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container my-4 content-container mb-5">
+        <div class="iframe-container">
+            <iframe src="https://ncfcatalyst.com/" title="School Newspaper"></iframe>
+        </div>
+        <div class="notes-container" style="display:none; width: 40%; height: 600px;">
+            <textarea id="noteArea" style="width: 100%; height: 90%;"></textarea>
+            <button id="savePdf" class="btn btn-primary">Save as PDF</button>
+        </div>
+        
+        <button id="toggleView" class="btn btn-secondary">Toggle Doodle/Notes</button>
+        <div class="doodle-container">
+            <!-- Doodle Space taken from Safari's previous code -->
+            <section class="drawing-board">
+                <canvas id="myCanvas" style="width: 100%; height: 90%;"></canvas>
+                <div class="drawing-actions">
+                    <button id="clearCanvas" class="btn btn-outline-danger rounded-pill">Clear Drawing</button>
+                    <button id="saveDrawing" class="btn btn-primary rounded-pill">Save as Image</button>
+                </div>
+            </section>
+        </div>
+        
+    </div>
+    
+    {% load static %}
+    <!-- GPT Implementation to create toggle button to go between doodling and notes -->
+    <script src="{% static 'js/jspdf.min.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.getElementById('toggleView');
+            const doodleContainer = document.querySelector('.doodle-container');
+            const notesContainer = document.querySelector('.notes-container');
+            const savePdfButton = document.getElementById('savePdf');
+    
+            toggleButton.addEventListener('click', function () {
+                if (doodleContainer.style.display === 'none') {
+                    doodleContainer.style.display = 'flex';
+                    notesContainer.style.display = 'none';
+                } else {
+                    doodleContainer.style.display = 'none';
+                    notesContainer.style.display = 'block';
+                }
+            });
+    
+            savePdfButton.addEventListener('click', function () {
+                const doc = new jsPDF();
+                doc.text(document.getElementById('noteArea').value, 10, 10);
+                doc.save('notes.pdf');
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.querySelector('.drawing-board canvas');
+            const ctx = canvas.getContext('2d');
+            const clearCanvasBtn = document.getElementById('clearCanvas');
+            const saveDrawingBtn = document.getElementById('saveDrawing');
+
+            clearCanvasBtn.addEventListener('click', function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            saveDrawingBtn.addEventListener('click', function() {
+                const image = canvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
+                const link = document.createElement('a');
+                link.download = 'my-drawing.png';
+                link.href = image;
+                link.click();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let drawing = false;
+    
+            function startPosition(e) {
+                drawing = true;
+                draw(e);
+            }
+    
+            function endPosition() {
+                drawing = false;
+                ctx.beginPath(); // This avoids dragging/continuing the line when you start drawing again.
+            }
+    
+            function draw(e) {
+                if (!drawing) return;
+        
+                ctx.lineWidth = 5; // Default line width
+                ctx.lineCap = 'round'; // Default line cap style
+                ctx.strokeStyle = 'black'; // Default color
+        
+                // Calculate correct position relative to canvas
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+        
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            }
+    
+            canvas.addEventListener('mousedown', startPosition);
+            canvas.addEventListener('mouseup', endPosition);
+            canvas.addEventListener('mousemove', draw);
+        });
+    </script>
+    <script src="{% static 'js/draw.js' %}" defer></script>
+
+    <!-- CSS from before -->
+    <link rel="stylesheet" href="{% static 'css/draw.css' %}">
+    
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
+
+{% endblock %}

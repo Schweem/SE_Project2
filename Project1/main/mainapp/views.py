@@ -452,7 +452,7 @@ def conovo(request):
 @login_required
 def other_profile(request, author):
     user = User.objects.get(username=author)
-    return render(request, 'other_profile.html', {'user': user} )
+    return render(request, 'other_profile.html', {'other_user': user} )
 
 
 def leaderboard():

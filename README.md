@@ -13,5 +13,5 @@
 - [x] Navbar visual rework
 - [x] On-boarding checklist 
 - Fixes and improvements
-  - [ ] Student 'verified'
+  - [x] Student 'verified'
   - [ ] Improved notifications

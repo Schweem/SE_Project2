@@ -36,6 +36,7 @@
             flex: 1;
             background-color: #7BAFD4;
             margin-left: 20px;
+            border-radius: 5px;
         }
         #toggleView {
             position: fixed;
@@ -63,14 +64,17 @@
             margin-bottom: 20px;
             background-color: #7BAFD4;
             flex-wrap: wrap;
+            border-radius: 5px;
         }
         .recentPosts {
             background-color: #fff;
         }
         .leaderboard-box {
+            border-radius: 5px;
             background-color: #7C2855;
             display:inline-table table-column;
             margin-inline: 10px;
+            border-radius: 5px;
         }
         .post-form {
             margin-bottom: 20px;
@@ -78,6 +82,7 @@
         }
 
         .post-content {
+            border-radius: 5px;
             background-color:white;
             display:block
         }
@@ -137,8 +142,8 @@
                             </div>
                             <div class="post-content">
                                 <a>
-                                    <p style="justify-content:right; display:inline-block">{{ post.content }}</p>
-                                    <p style="justify-content:right; display:inline-block"> {{ post.created_at }}</p>
+                                    <p style="justify-content: left;">{{ post.content }}</p>
+                                    <p style="text-align:right; display:inline-block"> {{ post.created_at }}</p>
                                 </a>
                             </div>
                     </div>

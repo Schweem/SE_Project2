@@ -44,12 +44,13 @@
         top: 50%;
         left: 0;
         width: 100%;
-        border-top: 4px solid black;
+        border-top: 4px solid rgb(75, 98, 133);
     }
     td {
         text-align: left;
         vertical-align: middle;
     }
+
     .update-form {
         display: flex;
         vertical-align: middle;
@@ -57,8 +58,8 @@
     }
 </style>
 <div class="container mt-4" >
-    <h2 class="text-center">Onboarding tasks </h2>
-    <table class="table mt-5" style="border-radius: 20px; overflow:hidden">
+    <h2 class="text-center"><strong> Onboarding tasks </strong></h2>
+    <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
         <thead class="thead-dark">
             <tr>
                 <th>To-do</th>
@@ -113,8 +114,28 @@
             popup.classList.toggle("active");
         }
     </script>
+
+    <!-- check for the flag -->
+    {% if show_confetti %}
+    <script>
+        //Wait till the page content is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            //shoot the confetti!
+            confetti({
+                particleCount: 200,
+                spread: 180,
+                origin: { y: 0.6 },
+                drift: 0.6
+            });
+        });
+    </script>
+    {% endif %}
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- canvas confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
 </div>
 
 {% load static %}

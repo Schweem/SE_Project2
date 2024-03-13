@@ -33,6 +33,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='badges',
-            field=models.BooleanField(default=[False, False, False, False, False]),
+            field=models.BooleanField(default=False),
         ),
     ]

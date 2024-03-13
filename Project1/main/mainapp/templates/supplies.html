@@ -1,0 +1,108 @@
+<!-- Lainey Help from gpt, but most of the code is refactored from previous reading list code-->
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<style>
+    .add-button {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        background-color: #5bc0de;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+            border-radius: 12%;
+        
+    }
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        border: 1px solid #ddd;
+        background-color: white;
+        display: none;  /* Hide the popup by default */
+    }
+
+    .popup.active {
+        display: block;  /* Show the popup when it has the "active" class */
+    }
+    .read-item {
+        position: relative;
+    }
+
+    .supply-item::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        border-top: 2px solid black; /* Adjusted for visual clarity */
+    }
+    td {
+        text-align: left;
+        vertical-align: middle;
+    }
+    .update-form {
+        display: flex;
+        vertical-align: middle;
+        height: 100%;
+    }
+    .btn-secondary {
+        background-color: #abad23; /* Bootstrap's default success color; adjust as needed */
+        border-color: #abad23; /* Adjust the border color to match */
+        color: white; /* Text color */
+        /* Add any additional customizations here */
+    }
+
+    .btn-amazon {
+        background-color: #FFBF3F; /* Amazon's brand color */
+        border-color: #FFBF3F; /* Make the border color match */
+        color: white; /* Text color */
+        /* Add any additional customizations here */
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center"><strong> Supplies Checklist </strong></h2>
+    <form method="POST" class="mb-4 mt-3">
+        {% csrf_token %}
+        <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Item</th>
+                    <th>Purchased?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_supply in user_supplies %}
+                <tr>
+                    <td>{{ user_supply.supply.name }}</td>
+                    <td>
+                        <input type="checkbox" name="supply_{{ user_supply.supply.id }}" {% if user_supply.purchased %} checked {% endif %}>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mb-4"> <!-- Center the update button -->
+            <button type="submit"  class="btn btn-secondary rounded-pill mx-1 mt-1">Update</button>
+        </div>
+
+        <div class="text-center"> <!-- Center the Amazon Wish List link -->
+            <h2><a href="https://www.amazon.com/hz/wishlist/ls/2NT9U5YO8EHBK?ref_=wl_share" target="_blank" class="btn btn-amazon rounded-pill mx-1 mt-1">Amazon Wish List</a></h2>
+        </div>
+    </form>
+        </tbody>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+
+</div>
+
+{% endblock %}

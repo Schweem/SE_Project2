@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User #Django user model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 # https://docs.djangoproject.com/en/5.0/topics/signals/ signals for the User to Profile transfer
 # https://www.devhandbook.com/django/user-profile/
@@ -30,6 +31,7 @@ class Event(models.Model):
     completed = models.BooleanField(default=False)
     date = models.DateField()
     time = models.TimeField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,  null=True)
     #url
     url = models.URLField(null=True, blank=True, max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -75,6 +77,24 @@ class classList(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Supply(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class UserSupply(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # grab user for profile
+    supply = models.ForeignKey(Supply, on_delete=models.CASCADE)
+    purchased = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = []
+
+    def __str__(self):
+        return f"{self.user.username} - {self.supply.name}"
     
 # Model for user profiles
 class Profile(models.Model):

@@ -68,7 +68,7 @@
         </thead>
         <tbody>
             {% for item in reading_list %} <!--The reading list needs to match what is put in the view exactly-->
-            <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %}">
+            <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %} clickable-row" data-item-id="{{ item.id }}">
                 <td>{{ item.title }}</td>
                 <td>
                     <form method="post" class="update-form">
@@ -96,7 +96,6 @@
             </div>
         </div>
     </form>
-    
     
     <!-- Add event popup made by copilot--> 
     <div id="addPopup" class="popup">
@@ -130,6 +129,30 @@
         });
     </script>
     {% endif %}
+
+    <!-- JS to handle just clicking the table items-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select our rows marked by clickable-row
+            const rows = document.querySelectorAll('.clickable-row');
+            // Add a click event listener to each row
+            rows.forEach(row => {
+                row.addEventListener('click', function (event) {
+                    // Prevent the event from triggering if a form control is clicked
+                    if (event.target.type !== 'checkbox' && event.target.tagName !== 'LABEL') {
+                        // Toggle the checkbox
+                        const itemId = this.getAttribute('data-item-id');
+                        const checkbox = document.getElementById('read_' + itemId);
+                        checkbox.checked = !checkbox.checked;
+    
+                        // Submit the form
+                        checkbox.form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

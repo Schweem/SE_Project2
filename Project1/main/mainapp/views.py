@@ -272,6 +272,10 @@ def login_view(request):
             if user is not None:
                 auth_login(request, user)  # pass 'user' to the login function
                 return redirect('profile')  # redirect to the profile page
+            else:
+                messages.error(request, 'Invalid user.') # user error message
+        else:
+            messages.error(request, 'Please enter a valid username and password. Or make an account below.') # bad form message
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -452,7 +456,7 @@ def conovo(request):
 @login_required
 def other_profile(request, author):
     user = User.objects.get(username=author)
-    return render(request, 'other_profile.html', {'user': user} )
+    return render(request, 'other_profile.html', {'other_user': user} )
 
 
 def leaderboard():

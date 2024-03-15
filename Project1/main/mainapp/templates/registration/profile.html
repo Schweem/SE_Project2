@@ -28,7 +28,7 @@ Your Profile
                 {% endif %}
             </label>
         </form>
-        <h3><strong>{{ user.username }} {% if user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
+        <h3><strong>{{ user.username|slice:":15" }} {% if user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
         </div>
         <!-- Profile Details -->
         <div class="col-md-8">

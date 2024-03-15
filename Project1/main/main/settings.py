@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-9)+3va!z=%!3@=z20j_l%3we46o2@2uc&^*l!%fxlnh$+v_6^-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['schweem.pythonanywhere.com', 'localhost', '127.0.0.1', '.ngrok.io',  'alien-loving-deadly.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://alien-loving-deadly.ngrok-free.app']
 
 # Application definition
 

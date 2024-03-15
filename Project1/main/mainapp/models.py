@@ -91,7 +91,7 @@ class UserSupply(models.Model):
     purchased = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = []
+        unique_together = [('user', 'supply')] # make sure the user and supply are unique together
 
     def __str__(self):
         return f"{self.user.username} - {self.supply.name}"

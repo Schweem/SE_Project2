@@ -162,7 +162,6 @@
                             <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
                             {% endif %}
                             <h3 style="display: inline-block; color:#fff"><strong>{{ leader.user.username|slice:":15" }} {% if leader.user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
-                        </a>
                 </div>
             {% endfor %}
             {% for leader in top4_10 %}

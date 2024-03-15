@@ -440,15 +440,13 @@ def conovo(request):
     if request.method == "POST":
         if "conovoSubmit" in request.POST:
             content = request.POST.get('content', '').strip() # get the post submitted by user
-            if 1:  # TO-DO: Ensure the description is not empty
+            if content:  # TO-DO: Ensure the description is not empty
                 Post.objects.create(content=content, author=request.user) # save the task in the database with name
-                messages.success(request, "Message Posted! Slay! 🌊 ")
-                return redirect('conovo')
-            else: #TO-DO to return a message to enter a valid post submission
-                return render(request, "conovo.html")
+                messages.success(request, "Message Posted! Slay! 🌊 ")   
+        return redirect('conovo')
     else: # if the method is GET
         # Query the Post objects including related User objects (authors)
-        posts = Post.objects.select_related('author').all()
+        posts = Post.objects.select_related('author').all().order_by('-created_at')
         leaderlist = leaderboard()
         return render(request, 'conovo.html', {'posts': posts, "top3": leaderlist[:3], "top4_10": leaderlist[4:]})
 

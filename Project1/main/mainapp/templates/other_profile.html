@@ -27,7 +27,7 @@
                 {% endif %}
             </label>
         </form>
-        <h3><strong>{{ other_user.username }}</strong></h3>
+        <h3><strong>{{ other_user.username|slice:":15" }}</strong></h3>
         </div>
         <!-- Profile Details -->
         <div class="col-md-8">
@@ -37,7 +37,7 @@
                     <!-- Card body for padding and spacing -->
                     <h4 class="card-title mb-4"><strong>Profile Details</strong></h4>
                     <!-- Displaying the user's details -->
-                    <p><strong>Name:</strong> {{ other_user.first_name }} {{ other_user.last_name }}</p>
+                    <p><strong>Name:</strong> {{ other_user.first_name|slice:":15"  }} {{ other_user.last_name|slice:":15"  }}</p>
                     <p><strong>Email:</strong> {{ other_user.email }}</p>
                     <p><strong>I'm from: </strong> {{ other_user.profile.location }}</p>
                 </div>

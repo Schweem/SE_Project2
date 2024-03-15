@@ -14,4 +14,4 @@
 - [x] On-boarding checklist 
 - Fixes and improvements
   - [x] Student 'verified'
-  - [ ] Improved notifications
+- [x] Hosting (Ngrok & AWS solution)

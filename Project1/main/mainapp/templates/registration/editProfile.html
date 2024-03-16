@@ -33,7 +33,7 @@ Edit Your Profile
             </label>
             <input type="file" name="profile_picture" id="profilePictureUpload" class="d-none" onchange="this.form.submit();">
         </div>
-        <!-- Editable Fields -->
+        <!-- Editable Fields stored in and viewed from the user's profile -->
         <div class="form-group">
             <label for="id_first_name">First name:</label>
             <input type="text" class="form-control" name="first_name" id="id_first_name" value="{{ user.first_name }}" style="border-radius: 20px; overflow: hidden;">
@@ -51,7 +51,7 @@ Edit Your Profile
             <input type="text" class="form-control" name="location" id="id_location" value="{{ user.profile.location }}" style="border-radius: 20px; overflow: hidden;">
         </div>
         <!-- dropdown for selecting student status -->
-        <!-- Implementation is a l-->
+        <!-- Users who select current novo status get a green check mark -->
         <div class="form-group">
             <label for="id_user_years">Status:</label>
             <select class="form-control" name="user_years" id="id_user_years" style="border-radius: 20px; overflow: hidden;">
@@ -61,6 +61,7 @@ Edit Your Profile
             </select>
         </div>
         
+        <!-- more of the same here, fields for pets hobbies, and user bio. -->
         <div class="form-group">
             <label for="id_pets">Pets:</label>
             <input type="text" class="form-control" name="pets" id="id_pets" value="{{ user.profile.pets }}" style="border-radius: 20px; overflow: hidden;">
@@ -73,10 +74,11 @@ Edit Your Profile
             <label for="id_bio">Bio:</label>
             <textarea class="form-control" name="bio" id="id_bio" style="border-radius: 20px; overflow: hidden;">{{ user_profile.bio }}</textarea>
         </div>
+        <!-- Just in case you want to save the changes -->
         <a href="{% url 'profile' %}" class="btn btn-primary rounded-pill shadow mt-3 ">Back</a>
         <button type="submit" class="btn btn-primary rounded-pill shadow mt-3">Save Changes</button>
     </form>
-    <!-- loading these here for now because its not passing through base correctly -->
+    <!-- jquery and js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>

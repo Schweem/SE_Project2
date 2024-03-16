@@ -93,6 +93,7 @@ class UserSupply(models.Model):
     class Meta:
         unique_together = []
 
+
     def __str__(self):
         return f"{self.user.username} - {self.supply.name}"
     

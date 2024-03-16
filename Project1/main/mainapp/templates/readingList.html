@@ -1,5 +1,14 @@
 <!-- Safari -- I just used copilot to help me with this one it was pretty simple although seamus may have made some alterations -->
 
+<!--
+    the reading list has been turned into the user 'onboarding checklist'. Ultimately it's functional but I think the final implementation 
+    remained somewhat rough. I faced issues with the Django migrations on multiple occasions that led to leaving the associated model as 
+    'readingMaterials' and the view as readingList. 
+
+    The new functionality is a prebuilt checklist that users may interact with to earn badges for their profile. The checklist rewards the user
+    with confetti for checking items off. It also features the added functionality of being able to click list items as well as the checkbox to improve
+    the user interaction experience.
+-->
 
 {% extends 'base.html' %}
 {% load static %}
@@ -58,6 +67,7 @@
     }
 </style>
 <div class="container mt-4" >
+    <!-- Title and headings -->
     <h2 class="text-center"><strong> Onboarding tasks </strong></h2>
     <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
         <thead class="thead-dark">
@@ -67,15 +77,20 @@
             </tr>
         </thead>
         <tbody>
+            <!-- loop through and display items -->
             {% for item in reading_list %} <!--The reading list needs to match what is put in the view exactly-->
             <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %}">
+            <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %} clickable-row" data-item-id="{{ item.id }}">
+                <!-- item title -->
                 <td>{{ item.title }}</td>
                 <td>
                     <form method="post" class="update-form">
+                        <!-- csrf token for form input -->
                         {% csrf_token %}
                         <input type="hidden" name="item_id" value="{{ item.id }}">
                         <input type="hidden" name="form_type" value="update">
                         <div class="form-check">
+                            <!-- render the checkbox  -->
                             <input class="form-check-input" type="checkbox" id="read_{{ item.id }}" name="read" {% if item.read %}checked{% endif %} onchange="this.form.submit()">
                             <label class="form-check-label" for="read_{{ item.id }}"></label>
                         </div>
@@ -90,15 +105,13 @@
         <input type="hidden" name="form_type" value="clear">
         <div class="row mb-4 mt-5">
             <div class="col-6 col-md-4">
-                <!-- Add button -->
+                <!-- Add item button was here -->
             <div class="col-6 col-md-6 d-flex justify-content-end">
-                <!-- Clear button, aligned to the right -->
             </div>
         </div>
     </form>
     
-    
-    <!-- Add event popup made by copilot--> 
+    <!-- Add event popup made by copilot || project 1 comment --> 
     <div id="addPopup" class="popup">
         <form method="post" class="my-3">
             {% csrf_token %}
@@ -115,6 +128,7 @@
         }
     </script>
 
+    <!-- confetti!!! -->
     <!-- check for the flag -->
     {% if show_confetti %}
     <script>
@@ -131,6 +145,29 @@
     </script>
     {% endif %}
 
+    <!-- clickable event items, connect the item to the checkbox -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select our rows marked by clickable-row
+            const rows = document.querySelectorAll('.clickable-row');
+            // Add a click event listener to each row
+            rows.forEach(row => {
+                row.addEventListener('click', function (event) {
+                    // Prevent the event from triggering if a form control is clicked
+                    if (event.target.type !== 'checkbox' && event.target.tagName !== 'LABEL') {
+                        // Toggle the checkbox
+                        const itemId = this.getAttribute('data-item-id');
+                        const checkbox = document.getElementById('read_' + itemId);
+                        checkbox.checked = !checkbox.checked;
+    
+                        // Submit the form
+                        checkbox.form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- canvas confetti -->

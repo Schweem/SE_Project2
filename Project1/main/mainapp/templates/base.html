@@ -83,7 +83,7 @@
                     </li>
                     {% if user.is_authenticated %} 
                     <li class="nav-item">
-                        <!-- check for uath || if logged in we take them to profile otherwise we go to login -->
+                        <!-- check for UAth || if logged in we take them to profile otherwise we go to login -->
                             <a class="nav-link" id="profile" href="{% url 'profile' %}">
                             <!-- dynamic profile picture, loads user profile pic from media -->
                             <img class="img-fluid rounded-circle" style="width: 24px; height: 24px;" src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" alt="Profile">

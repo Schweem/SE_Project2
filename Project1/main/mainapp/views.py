@@ -6,6 +6,7 @@ from django.db.models import Q
 from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
 from .models import Event, readingMaterial, classList, Post, Supply, UserSupply
 from django.urls import reverse
+
 from datetime import date, timedelta
 from django.shortcuts import render
 from datetime import date, timedelta
@@ -148,6 +149,11 @@ def supplies_list(request):
 
     # Note the change in the template path if your template structure requires it
     return render(request, 'supplies.html', {'user_supplies': user_supplies})
+    reading_list = readingMaterial.objects.all()
+    return render(request, 'readingList.html', {'form': form, 'reading_list': reading_list})
+
+    # Note the change in the template path if your template structure requires it
+    return render(request, 'supplies.html', {'user_supplies': user_supplies})
 
 #Safari -- Copilot wrote this -- Super simple
 #View function to display our timer page
@@ -272,6 +278,10 @@ def login_view(request):
             if user is not None:
                 auth_login(request, user)  # pass 'user' to the login function
                 return redirect('profile')  # redirect to the profile page
+            else:
+                messages.error(request, 'Invalid user.') # user error message
+        else:
+            messages.error(request, 'Please enter a valid username and password. Or make an account below.') # bad form message
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -324,10 +334,6 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile) # get the user and profile forms
 
-    context = {
-        'u_form': u_form,
-        'p_form': p_form
-    }
     return render(request, 'registration/profile.html', {'user': request.user}) 
 
 @login_required
@@ -368,23 +374,23 @@ def edit_profile(request):
 
     """
     if request.method == 'POST': # if the user is trying to edit their profile
-        user_form = UserForm(request.POST, instance=request.user) 
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserForm(request.POST, instance=request.user) # get the user form
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+        if user_form.is_valid() and profile_form.is_valid(): # if the forms are valid
+            user_form.save() 
+            profile_form.save() # save the forms
             messages.success(request, 'Your profile has been updated!')
-            return redirect('profile')
+            return redirect('profile') # redirect to the profile page
     else: # if the user is not trying to edit their profile
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        user_form = UserForm(instance=request.user) # get the user form
+        profile_form = ProfileUpdateForm(instance=request.user.profile) # get the profile form
 
-    context = {
-        'user_form': user_form,
+    context = { 
+        'user_form': user_form, 
         'profile_form': profile_form,
     }
-    return render(request, 'registration/editProfile.html', context)
+    return render(request, 'registration/editProfile.html', context) 
 
 
 @login_required
@@ -398,8 +404,8 @@ def logout_view(request):
     Returns:
         A redirect response to the home page.
     """
-    logout(request)
-    return redirect('home')
+    logout(request) # log the user out
+    return redirect('home') # redirect to the home page
 
 
 # Bilge

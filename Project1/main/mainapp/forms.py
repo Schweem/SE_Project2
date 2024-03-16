@@ -37,6 +37,8 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = ['title', 'description','url', 'date', 'time']
 
+
+
 class ReadingMaterialForm(forms.ModelForm):
     """
     A form for creating or updating a reading material.
@@ -51,6 +53,8 @@ class ReadingMaterialForm(forms.ModelForm):
     class Meta:
         model = readingMaterial
         fields = ['title']
+
+
         
         
 # Wes -- Create a form to add a class

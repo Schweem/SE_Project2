@@ -53,12 +53,13 @@
         top: 50%;
         left: 0;
         width: 100%;
-        border-top: 4px solid black;
+        border-top: 4px solid rgb(75, 98, 133);
     }
     td {
         text-align: left;
         vertical-align: middle;
     }
+
     .update-form {
         display: flex;
         vertical-align: middle;
@@ -128,7 +129,6 @@
     </script>
 
     <!-- confetti!!! -->
-
     <!-- check for the flag -->
     {% if show_confetti %}
     <script>
@@ -168,9 +168,11 @@
         });
     </script>
     
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- canvas confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
 </div>
 
 {% load static %}

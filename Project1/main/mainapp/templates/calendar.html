@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Reading List{% endblock %}
+{% block title %}Calendar{% endblock %}
 
 {% block content %}
 
@@ -131,11 +131,29 @@
             width: 75%;
             display: block;
         }
+
+         /* Adjustments for small screens (fixes for mobile) */
+        @media (max-width: 768px) {
+            /* Adjust table, th, td sizes for smaller screens */
+            th, td {
+                padding: 4px; /* Smaller padding */
+                font-size: 0.7em; /* Smaller font size */
+            }
+
+            .event {
+                font-size: 0.7em; /* Smaller font size for events */
+            }
+
+            /* Adjustments for add event window */
+            .add-event-button, .popup {
+                font-size: 0.8em; /* Smaller font size */
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div>
+    <div class="mb-5">
         <!-- Wes Mostly written by copilot and gpt-->
         <!-- For every month and  the weeks inside it-->
         {% for month, weeks in months_with_weeks.items %}
@@ -153,7 +171,8 @@
             <!-- For every week we will get the events-->
             {% for week in weeks %}
             <tr>
-                {% for day in week %} <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
+                {% for day in week %} 
+                <!-- Get the events on that day, and if there is a day we will display its important info, as well as make it a button to add an event, and or click the event to go to its details page-->
                 <td onclick="togglePopup()">
                     {% if day %}
                     <div class="day">
@@ -168,7 +187,7 @@
                         {% endfor %}
                     </div>
                     {% else %}
-                    <!-- Optionally display something for empty cells or just leave it blank -->
+                    
                     {% endif %}
                 </td>
                 {% endfor %}
@@ -176,7 +195,6 @@
             {% endfor %}
         </table>
         {% endfor %}
-
     </div>
     </style>
     <div class="container my-4 mb-1 mt-1">
@@ -193,8 +211,8 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
             <button type="button" class="btn btn-outline-danger rounded-pill ml-5" onclick="event.preventDefault(); togglePopup()">Close</button>
+            <button type="submit" class="btn btn-primary rounded-pill">Confirm</button>
         </form>
     </div>
     <script>

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}CoNovo{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .posts {
+            flex: 2;
+            margin-right: 20px;
+        }
+        .leaderboard {
+            flex: 1;
+            background-color: #f4f4f4;
+        }
+        .post {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .recentPosts {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="posts">
+            {% if messages %} <!-- to display messages.success from views.py if there are any -->
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <!-- Posts from Database -->
+            <form method="POST" action="">
+                {% csrf_token %} <!-- CSRF verification, security satisfaction -->
+                <input type="text" name="content" placeholder="Connect with other Novos">
+                <button type="submit" name="conovoSubmit" >Post</button>
+            </form>
+            <h2>Recent Posts</h2>
+            <div id="recentPosts">
+                <div class="row">
+                    {% for post in posts %}
+                    <div class="col-md-6">
+                        <div class="post-box">
+                            <a class="nav-link" id="profile" href="{% url 'other_profile' post.author %}">
+                                {% if post.author.profile.profile_picture %}
+                                <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
+                                {% endif %}
+                            </a>
+                            <h2>{{ post.title }}</h2>
+                            <p>{{ post.content }}</p>
+                            <p>Posted by: {{ post.author.username }} {% if post.author.profile.user_years == 'Current' %} ✅ {% endif %}</p>
+                            <p>Posted at: {{ post.created_at }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="leaderboard">
+            <h2>Leaderboard</h2>
+                <!-- Leaderboard Content -->
+                {% for leader in top3 %}
+                    <div class="post-box">
+                        <div style="background-color: #cd7f32; ">
+                            <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
+                                <div class="container">
+                                {% if leader.profile_picture %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
+                                {% endif %}
+                                <h2 style="text-align: left;"> {{ leader.user.username }} </h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for leader in top4_10 %}
+                    {% if leader %}
+                        <div class="post-box">
+                            <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
+                                <div class="container">
+                                {% if leader.profile_picture %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 50px; height: 50px; cursor: pointer; padding: 1px;">
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 50px; height: 50px; cursor: pointer; padding: 1px;">
+                                {% endif %}
+                                <h2 style="text-align: left;"> {{ leader.user.username }} </h2>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <!-- loading these here for now because its not passing through base correctly -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+{% endblock %}

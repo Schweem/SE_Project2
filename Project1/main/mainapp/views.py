@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Q
 from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
-from .models import Event, readingMaterial, classList, Post, Supply, UserSupply
+from .models import Event, readingMaterial, classList, Post, Supply
 from django.urls import reverse
 from datetime import date, timedelta
 from django.shortcuts import render
@@ -131,23 +131,12 @@ def reading_material_view(request):
     return render(request, 'readingList.html', context) # Render the readingList.html template with the context dictionary
 
 # Lainey: gpt wrote most of this, but it is also very similar to Safari's reading list
-@login_required
+
 def supplies_list(request):
-    # Ensure we have UserSupply instances for each supply for the current user
     supplies = Supply.objects.all()
-    for supply in supplies:
-        UserSupply.objects.get_or_create(user=request.user, supply=supply)
-    
-    user_supplies = UserSupply.objects.filter(user=request.user)
+    return render(request, 'supplies.html', {'supplies': supplies})
 
-    if request.method == 'POST':
-        for user_supply in user_supplies:
-            user_supply.purchased = f'supply_{user_supply.supply.id}' in request.POST
-            user_supply.save()
-        return redirect('supplies_list')
 
-    # Note the change in the template path if your template structure requires it
-    return render(request, 'supplies.html', {'user_supplies': user_supplies})
 
 #Safari -- Copilot wrote this -- Super simple
 #View function to display our timer page
@@ -272,10 +261,6 @@ def login_view(request):
             if user is not None:
                 auth_login(request, user)  # pass 'user' to the login function
                 return redirect('profile')  # redirect to the profile page
-            else:
-                messages.error(request, 'Invalid user.') # user error message
-        else:
-            messages.error(request, 'Please enter a valid username and password. Or make an account below.') # bad form message
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -440,13 +425,15 @@ def conovo(request):
     if request.method == "POST":
         if "conovoSubmit" in request.POST:
             content = request.POST.get('content', '').strip() # get the post submitted by user
-            if content:  # TO-DO: Ensure the description is not empty
+            if 1:  # TO-DO: Ensure the description is not empty
                 Post.objects.create(content=content, author=request.user) # save the task in the database with name
-                messages.success(request, "Message Posted! Slay! 🌊 ")   
-        return redirect('conovo')
+                messages.success(request, "Message Posted! Slay! 🌊 ")
+                return redirect('conovo')
+            else: #TO-DO to return a message to enter a valid post submission
+                return render(request, "conovo.html")
     else: # if the method is GET
         # Query the Post objects including related User objects (authors)
-        posts = Post.objects.select_related('author').all().order_by('-created_at')
+        posts = Post.objects.select_related('author').all()
         leaderlist = leaderboard()
         return render(request, 'conovo.html', {'posts': posts, "top3": leaderlist[:3], "top4_10": leaderlist[4:]})
 
@@ -454,7 +441,7 @@ def conovo(request):
 @login_required
 def other_profile(request, author):
     user = User.objects.get(username=author)
-    return render(request, 'other_profile.html', {'other_user': user} )
+    return render(request, 'other_profile.html', {'user': user} )
 
 
 def leaderboard():

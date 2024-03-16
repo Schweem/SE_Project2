@@ -76,27 +76,22 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Item</th>
-                    <th>Purchased?</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user_supply in user_supplies %}
+                {% for supply in supplies %}
                 <tr>
-                    <td>{{ user_supply.supply.name }}</td>
-                    <td>
-                        <input type="checkbox" name="supply_{{ user_supply.supply.id }}" {% if user_supply.purchased %} checked {% endif %}>
-                    </td>
+                    <td>{{ supply.name }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <div class="text-center mb-4"> <!-- Center the update button -->
-            <button type="submit"  class="btn btn-secondary rounded-pill mx-1 mt-1">Update</button>
-        </div>
 
-        <div class="text-center"> <!-- Center the Amazon Wish List link -->
+        <div class="text-center">
             <h2><a href="https://www.amazon.com/hz/wishlist/ls/2NT9U5YO8EHBK?ref_=wl_share" target="_blank" class="btn btn-amazon rounded-pill mx-1 mt-1">Amazon Wish List</a></h2>
         </div>
+
+        
     </form>
         </tbody>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

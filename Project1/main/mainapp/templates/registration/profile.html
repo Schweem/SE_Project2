@@ -20,14 +20,17 @@ Your Profile
         <div class="col-md-4 text-center">
             {% csrf_token %}
             <label for="profilePicture">
+                <!-- Display user profile image -->
                 {% if user.profile.profile_picture %}
                 <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
                 {% else %}
+                <!-- Display default profile image -->
                 <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
                 {% endif %}
             </label>
         </form>
-        <h3><strong>{{ user.username }}</strong></h3>
+        <!-- Display the username. Only show 15 characters to prevent wrapping issues. Check for current status for check mark-->
+        <h3><strong>{{ user.username|slice:":15" }} {% if user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
         </div>
         <!-- Profile Details -->
         <div class="col-md-8">
@@ -53,7 +56,7 @@ Your Profile
                 <div class="card-body">
                     <!-- Card body for padding and spacing -->
                     <h4 class="card-title"><strong>About Me:</strong></h4>
-                    <!-- Put the pets and like and stuff here pls pls pls remember and read seamus -->
+                    <!-- Sections for user personal information -->>
                     <p><strong>Student status: </strong> {{ user.profile.user_years }} Novo</p>
                     <p><strong>Pets:</strong> {{ user.profile.pets }}</p>
                     <p><strong>Hobbies / Interests:</strong> {{ user.profile.interests }}</p>
@@ -69,7 +72,7 @@ Your Profile
             <div class="card" style="border-radius: 20px; overflow: hidden;">
                 <div class="card-body">
                     <h4 class="card-title mb-3"><strong>Badges:</strong></h4>
-                    <!-- Badge stuff -->
+                    <!-- Conditionals for user badges, displays either default grey or unlocked badge based on checklist -->
                     {% if user.profile.classBadge %}
                         <img src="{% static 'badges/1.png' %}" class="img-fluid rounded-circle mx-2 shadow" alt="class badge" style="width: 100px; height: 100px; cursor: pointer;">
                     {% else %}
@@ -103,26 +106,7 @@ Your Profile
             </div>
         </div>
     </div>
-    <!-- Posted images (if you have any to display) -->
-    <div class="row mt-3">
-        <div class="col">
-            <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
-                <div class="card-body">
-                    <h4 class="card-title"><strong>Posted Images:</strong></h4>
-                    <!-- Image stuff stuff (user.images is placeholder for right now)-->
-                    {% if user.images %}
-                    <!-- loop through and render -->
-                    {% else %}
-                    <div class="mt-1 mx-2">
-                        <p>Nothing to see here.</p>
-                    </div>
-                    {% endif %}
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- loading these here for now because its not passing through base correctly -->
+    <!-- jquery and bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>

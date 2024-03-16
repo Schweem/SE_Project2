@@ -22,6 +22,8 @@ Register
 {% block content %}
 
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+<!-- Containers, cards, cols, and shadows make the world go 'round -->
+<div class="container d-flex align-items-center justify-content-center mt-3" style="min-height: 80vh;">
     <div class="col-md-6 col-lg-8">
         <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
             <div class="card-body">
@@ -31,7 +33,20 @@ Register
                     {% for field in form %}
                         <div class="mb-3">
                             {{ field.label_tag }}
-                            {{ field }}
+                            <!-- check for field errors-->
+                            {% if field.errors %}
+                                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-control is-invalid" id="{{ field.id_for_label }}" {% if field.value %}value="{{ field.value }}"{% endif %}>
+                                <div class="invalid-feedback">
+                                    <!-- for each error display an error -->
+                                    {% for error in field.errors %}
+                                        {{ error }}<br>
+                                    {% endfor %}
+                                </div>
+                            <!-- if no errors, display the field -->
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                            <!-- if the field has help text, display it -->
                             {% if field.help_text %}
                                 <small class="form-text text-muted">{{ field.help_text }}</small>
                             {% endif %}
@@ -42,12 +57,14 @@ Register
                             {% endfor %}
                         </div>
                     {% endfor %}
+                    <!-- Button to submit registration form-->
                     <div class="text-center">
                         <button class="btn btn-primary shadow rounded-pill" type="submit">Register</button>
                     </div>
                 </form>
             </div> 
         </div>
+        <!-- Link for returning users to login -->
         <div class="text-center mt-3">
             <a href="{% url 'login' %}">Been here before? Log in here.</a>
         </div>

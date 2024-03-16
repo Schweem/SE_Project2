@@ -9,9 +9,6 @@
 */
 
 
-
-
-
 // Event listener to start the timer when the DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     let interval;

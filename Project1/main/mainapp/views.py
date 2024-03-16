@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Q
 from .forms import EventForm, ReadingMaterialForm, ReadingMaterialForm, classListForm
+from .models import Event, readingMaterial, classList, Post, Supply, UserSupply
+from django.urls import reverse
 from .models import Event, readingMaterial, classList
 from datetime import date, timedelta
 from django.shortcuts import render
@@ -107,6 +109,32 @@ def reading_material_view(request):
         elif form_type == 'clear':
             readingMaterial.objects.filter(read=True).delete()
 
+    reading_list = readingMaterial.objects.all() # Get all the reading material items from the database
+    context = { # Create the context dictionary
+        'form': form,
+        'reading_list': reading_list,
+        'show_confetti': confetti
+    }
+    return render(request, 'readingList.html', context) # Render the readingList.html template with the context dictionary
+
+# Lainey: gpt wrote most of this, but it is also very similar to Safari's reading list
+@login_required
+def supplies_list(request):
+    # Ensure we have UserSupply instances for each supply for the current user
+    supplies = Supply.objects.all()
+    for supply in supplies:
+        UserSupply.objects.get_or_create(user=request.user, supply=supply)
+    
+    user_supplies = UserSupply.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        for user_supply in user_supplies:
+            user_supply.purchased = f'supply_{user_supply.supply.id}' in request.POST
+            user_supply.save()
+        return redirect('supplies_list')
+
+    # Note the change in the template path if your template structure requires it
+    return render(request, 'supplies.html', {'user_supplies': user_supplies})
     reading_list = readingMaterial.objects.all()
     return render(request, 'readingList.html', {'form': form, 'reading_list': reading_list})
 
@@ -238,6 +266,10 @@ def login_view(request):
             if user is not None:
                 auth_login(request, user)  # pass 'user' to the login function
                 return redirect('profile')  # redirect to the profile page
+            else:
+                messages.error(request, 'Invalid user.') # user error message
+        else:
+            messages.error(request, 'Please enter a valid username and password. Or make an account below.') # bad form message
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -290,10 +322,6 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile) # get the user and profile forms
 
-    context = {
-        'u_form': u_form,
-        'p_form': p_form
-    }
     return render(request, 'registration/profile.html', {'user': request.user}) 
 
 @login_required
@@ -334,23 +362,23 @@ def edit_profile(request):
 
     """
     if request.method == 'POST': # if the user is trying to edit their profile
-        user_form = UserForm(request.POST, instance=request.user) 
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserForm(request.POST, instance=request.user) # get the user form
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+        if user_form.is_valid() and profile_form.is_valid(): # if the forms are valid
+            user_form.save() 
+            profile_form.save() # save the forms
             messages.success(request, 'Your profile has been updated!')
-            return redirect('profile')
+            return redirect('profile') # redirect to the profile page
     else: # if the user is not trying to edit their profile
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        user_form = UserForm(instance=request.user) # get the user form
+        profile_form = ProfileUpdateForm(instance=request.user.profile) # get the profile form
 
-    context = {
-        'user_form': user_form,
+    context = { 
+        'user_form': user_form, 
         'profile_form': profile_form,
     }
-    return render(request, 'registration/editProfile.html', context)
+    return render(request, 'registration/editProfile.html', context) 
 
 @login_required
 def logout_view(request):
@@ -363,8 +391,8 @@ def logout_view(request):
     Returns:
         A redirect response to the home page.
     """
-    logout(request)
-    return redirect('home')
+    logout(request) # log the user out
+    return redirect('home') # redirect to the home page
 
 # Bilge
 def dorms(request):

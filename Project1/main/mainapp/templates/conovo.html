@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap_yeti.css' %}">
+<link href="{% static 'css/ncf_colors.css' %}" rel="stylesheet">
 
 {% block title %}CoNovo{% endblock %}
 
@@ -16,31 +18,95 @@
         body {
             margin: 0;
             padding: 0;
+            display: inline;
         }
         .container {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* keeps space between posts and leaderboard */
             margin: 20px;
+            padding: 20px 10px;
         }
         .posts {
             flex: 2;
             margin-right: 20px;
+            justify-content: flex-end;
+            align-items: flex-end;
         }
         .leaderboard {
             flex: 1;
-            background-color: #f4f4f4;
+            background-color: #7BAFD4;
+            margin-left: 20px;
+            border-radius: 5px;
         }
-        .post {
-            background-color: #fff;
+        #toggleView {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .post-box, .recentPosts, .leaderboard-box {
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 10px;
+        }
+        .post-box, .post-title {
+            display: block;
+            margin-bottom: 20px;
+            background-color: #7BAFD4;
+            flex-wrap: wrap;
+            border-radius: 5px;
         }
         .recentPosts {
             background-color: #fff;
-            border: 1px solid #ccc;
+        }
+        .leaderboard-box {
+            border-radius: 5px;
+            background-color: #7C2855;
+            display:inline-table table-column;
+            margin-inline: 10px;
+            border-radius: 5px;
+        }
+        .post-form {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .post-content {
+            border-radius: 5px;
+            background-color:white;
+            display:block
+        }
+        .post-form input[type="text"] {
+            flex: 1;
             padding: 10px;
-            margin-bottom: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .post-form button {
+            padding: 10px 20px;
+            background-color: #003087;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .post-form button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -55,69 +121,65 @@
             </ul>
             {% endif %}
             <!-- Posts from Database -->
-            <form method="POST" action="">
+            <form class="post-form" method="POST" action="">
                 {% csrf_token %} <!-- CSRF verification, security satisfaction -->
                 <input type="text" name="content" placeholder="Connect with other Novos">
                 <button type="submit" name="conovoSubmit" >Post</button>
             </form>
             <h2>Recent Posts</h2>
             <div id="recentPosts">
-                <div class="row">
                     {% for post in posts %}
-                    <div class="col-md-6">
-                        <div class="post-box">
-                            <a class="nav-link" id="profile" href="{% url 'other_profile' post.author %}">
-                                {% if post.author.profile.profile_picture %}
-                                <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 150px; height: 150px; cursor: pointer;">
-                                {% else %}
-                                <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 150px; height: 150px;">
-                                {% endif %}
-                            </a>
-                            <h2>{{ post.title }}</h2>
-                            <p>{{ post.content }}</p>
-                            <p>Posted by: {{ post.author.username }}</p>
-                            <p>Posted at: {{ post.created_at }}</p>
-                        </div>
+                    <div class="post-box">
+                            <div class="post-title">
+                                <a class="nav-link" id="profile" href="{% url 'other_profile' post.author %}">
+                                    {% if post.author.profile.profile_picture %}
+                                    <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 50px; height: 50px; cursor: pointer;">
+                                    {% else %}
+                                    <img src="{{ MEDIA_URL }}{{ post.author.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 50px; height: 50px; cursor: pointer;">
+                                    {% endif %}
+                                    <h3 style="display: inline-block;"><strong>{{ post.author.username|slice:":15" }} {% if post.author.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
+                                </a>
+                            </div>
+                            <div class="post-content">
+                                <a>
+                                    <p style="justify-content: left;">{{ post.content }}</p>
+                                    <p style="text-align:right; display:inline-block"> {{ post.created_at }}</p>
+                                </a>
+                            </div>
                     </div>
                     {% endfor %}
-                </div>
             </div>
         </div>
         <div class="leaderboard">
             <h2>Leaderboard</h2>
-                <!-- Leaderboard Content -->
-                {% for leader in top3 %}
-                    <div class="post-box">
-                        <div style="background-color: #cd7f32; ">
-                            <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
-                                <div class="container">
-                                {% if leader.profile_picture %}
-                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
-                                {% else %}
-                                <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
-                                {% endif %}
-                                <h2 style="text-align: left;"> {{ leader.user.username }} </h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% for leader in top4_10 %}
-                    {% if leader %}
-                        <div class="post-box">
-                            <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
-                                <div class="container">
+            <!-- Leaderboard Content -->
+            {% for leader in top3 %}
+                <div class="leaderboard-box">
+                        <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
+                            {% if leader.profile_picture %}
+                            <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
+                            {% else %}
+                            <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 70px; height: 70px; cursor: pointer; padding: 1px;">
+                            {% endif %}
+                            <h3 style="display: inline-block; color:#fff"><strong>{{ leader.user.username|slice:":15" }} {% if leader.user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
+                </div>
+            {% endfor %}
+            {% for leader in top4_10 %}
+                {% if leader %}
+                    <div class="leaderboard-box" style="background-color: white; ">
+                        <a class="nav-link" id="profile" href="{% url 'other_profile' leader.user %}">
+                            <div>
                                 {% if leader.profile_picture %}
                                 <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Profile Picture" style="width: 50px; height: 50px; cursor: pointer; padding: 1px;">
                                 {% else %}
                                 <img src="{{ MEDIA_URL }}{{ leader.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="width: 50px; height: 50px; cursor: pointer; padding: 1px;">
                                 {% endif %}
-                                <h2 style="text-align: left;"> {{ leader.user.username }} </h2>
-                                </div>
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                                <h3 style="display: inline-block;"><strong>{{ leader.user.username|slice:":15" }} {% if leader.user.profile.user_years == 'Current' %} ✅ {% endif %}</strong></h3>
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
     <!-- loading these here for now because its not passing through base correctly -->

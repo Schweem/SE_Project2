@@ -77,24 +77,14 @@ class classList(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
 class Supply(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
 
     def __str__(self):
         return self.name
-
-class UserSupply(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # grab user for profile
-    supply = models.ForeignKey(Supply, on_delete=models.CASCADE)
-    purchased = models.BooleanField(default=False)
-
-    class Meta:
-        unique_together = []
-
-    def __str__(self):
-        return f"{self.user.username} - {self.supply.name}"
     
 # Model for user profiles
 class Profile(models.Model):

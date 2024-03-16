@@ -1,5 +1,3 @@
-<!-- FILEPATH: /e:/development/SE_ProjectTwo/SE_Project2/Project1/main/mainapp/templates/registration/login.html -->
-
 <!-- This is the login page for the website. It is a simple form that takes in a username and password. It also has a button to register a new account. -->
 <!-- https://docs.djangoproject.com/en/5.0/topics/auth/default/ -->
 <!-- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication -->
@@ -36,12 +34,25 @@ Login
                 <!-- Card for styling and containing the login form -->
                 <div class="card-body p-5">
                     <!-- Card body for padding and spacing -->
-                    <h1 class="h3 mb-4 font-weight-normal text-center"><strong>Welcome! Please sign in.</strong></h1>
+                    <h1 class="h3 mb-2 font-weight-normal text-center"><strong>Welcome! Please sign in.</strong></h1>
                     <!-- Heading for the login form -->
                     <form method="post" action="{% url 'login' %}" class="needs-validation" novalidate>
                         <!-- Form for submitting the login details -->
-                        {% csrf_token %}
                         <!-- CSRF token for security -->
+                        {% csrf_token %}
+                        <!-- check for messages passed through the view -->
+                        {% if messages %}
+                            <div class="alert alert-danger shadow" role="alert" style="border-radius: 20px; overflow: hidden;">
+                                <!-- display the messages, these are our error messages -->
+                                {% for message in messages %}
+                                    <p class="text-center">{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary shadow" role="alert" style="border-radius: 20px; overflow: hidden;">
+                                Welcome to NuPath! Please enter your username and password to login. If you're new here, please register for a new account with the link below.
+                            </div>
+                        {% endif %}
                         {% for field in form %}
                             <!-- Looping through each form field -->
                             <div class="mb-4 text-center">
@@ -52,22 +63,10 @@ Login
                                 <!-- Div for styling the input field -->
                                 {{ field }}
                                 <!-- Displaying the form field -->
-                                {% if field.help_text %}
-                                    <!-- Checking if there is any help text for the field -->
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    <!-- Displaying the help text if available -->
-                                {% endif %}
-                                {% for error in field.errors %}
-                                    <!-- Looping through any errors for the field -->
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    <!-- Displaying the error message -->
-                                {% endfor %}
                             </div>
                         {% endfor %}
                         <div class="text-center">
-                            <button class="btn btn-primary btn-block rounded-pill" type="submit">Login</button>
+                            <button class="btn btn-primary btn-block rounded-pill shadow" type="submit">Login</button>
                         </div>
                         <!-- Button for submitting the form -->
                         <div class="text-center mt-5">

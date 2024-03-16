@@ -91,7 +91,7 @@
         </div>
     </div>
     
-    <div class="container my-4 content-container">
+    <div class="container my-4 content-container mb-5">
         <div class="iframe-container">
             <iframe src="https://ncfcatalyst.com/" title="School Newspaper"></iframe>
         </div>
@@ -106,8 +106,8 @@
             <section class="drawing-board">
                 <canvas id="myCanvas" style="width: 100%; height: 90%;"></canvas>
                 <div class="drawing-actions">
-                    <button id="clearCanvas" class="btn btn-primary">Clear Drawing</button>
-                    <button id="saveDrawing" class="btn btn-primary">Save as Image</button>
+                    <button id="clearCanvas" class="btn btn-outline-danger rounded-pill">Clear Drawing</button>
+                    <button id="saveDrawing" class="btn btn-primary rounded-pill">Save as Image</button>
                 </div>
             </section>
         </div>
@@ -116,7 +116,6 @@
     
     {% load static %}
     <!-- GPT Implementation to create toggle button to go between doodling and notes -->
-    <script src="{% static 'js/jspdf.min.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggleButton = document.getElementById('toggleView');
@@ -135,12 +134,19 @@
             });
     
             savePdfButton.addEventListener('click', function () {
-                const doc = new jsPDF();
+                // Checking if jsPDF is loaded and available under `window.jspdf.jspdf`
+                // Adjust this line if jsPDF is not being correctly referenced
+                if (typeof window.jspdf === "undefined" || typeof window.jspdf.jsPDF !== "function") {
+                    console.error("jsPDF is not correctly loaded.");
+                    return;
+                }
+                
+                // Correct instantiation for jsPDF when using UMD
+                const doc = new window.jspdf.jsPDF();
                 doc.text(document.getElementById('noteArea').value, 10, 10);
                 doc.save('notes.pdf');
             });
-        });
-        document.addEventListener('DOMContentLoaded', function () {
+       
             const canvas = document.querySelector('.drawing-board canvas');
             const ctx = canvas.getContext('2d');
             const clearCanvasBtn = document.getElementById('clearCanvas');
@@ -157,7 +163,11 @@
                 link.href = image;
                 link.click();
             });
+
+            
         });
+
+        
 
         document.addEventListener('DOMContentLoaded', function () {
             const canvas = document.getElementById('myCanvas');
@@ -197,6 +207,8 @@
             canvas.addEventListener('mouseup', endPosition);
             canvas.addEventListener('mousemove', draw);
         });
+
+        
     </script>
     <script src="{% static 'js/draw.js' %}" defer></script>
 
@@ -206,6 +218,9 @@
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- jsPDF from CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     
 </body>
 </html>

@@ -32,6 +32,7 @@
 
 - Fixes and improvements
   - [x] Student 'verified'
+  - [x] Improved visual context for login, register and class list  
 
 ![image](https://github.com/Schweem/SE_Project2/assets/63567335/81b2854f-4ba0-46f2-aeb3-f435ddfb2830)
 

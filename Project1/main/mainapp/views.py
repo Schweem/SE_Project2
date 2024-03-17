@@ -130,8 +130,7 @@ def reading_material_view(request):
     }
     return render(request, 'readingList.html', context) # Render the readingList.html template with the context dictionary
 
-# Lainey: gpt wrote most of this, but it is also very similar to Safari's reading list
-
+# Lainey
 def supplies_list(request):
     supplies = Supply.objects.all()
     return render(request, 'supplies.html', {'supplies': supplies})

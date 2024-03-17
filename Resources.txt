@@ -1,2 +1,13 @@
 Wes GPT Links
 https://chat.openai.com/share/d4558938-f127-45f2-a3cb-72221683c884
+
+Lainey:
+Chat GPT
+Stack Overflow:
+https://stackoverflow.com/questions/34219615/django-migration-x-in-app-x-has-no-migration-class
+https://stackoverflow.com/questions/16862933/how-to-resolve-gits-not-something-we-can-merge-error
+https://stackoverflow.com/questions/60573141/how-to-embed-a-django-website-in-external-iframe
+External Resources:
+https://selectpdf.com/save-as-pdf-button/
+https://cdnjs.com/libraries/jspdf
+https://www.youtube.com/watch?v=5aEUOam1GTE

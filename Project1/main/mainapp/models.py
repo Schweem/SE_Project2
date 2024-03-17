@@ -85,6 +85,21 @@ class Supply(models.Model):
 
     def __str__(self):
         return self.name
+<<<<<<< HEAD
+=======
+
+class UserSupply(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # grab user for profile
+    supply = models.ForeignKey(Supply, on_delete=models.CASCADE)
+    purchased = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = []
+
+
+    def __str__(self):
+        return f"{self.user.username} - {self.supply.name}"
+>>>>>>> 7333856d3305331a5e9594dd10b2b4237c5225c4
     
 # Model for user profiles
 class Profile(models.Model):

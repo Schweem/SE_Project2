@@ -80,6 +80,9 @@ def home(request):
     else:
         return render(request, 'registration/profile.html', {'user': user})
 
+# Seamus 
+# repurposed the reading material view to function as the 'onboarding checklist' view
+# not renamed due to complications on with django migrations 
 def reading_material_view(request): 
     form = ReadingMaterialForm() # Create a new form object
     confetti = False # Set the confetti flag to False by default
@@ -251,6 +254,7 @@ def hours(request):
 
 ## PROJECT 2 USER AUTH ## 
 
+#Seamus
 def login_view(request):  
     if request.method == 'POST': # if the user is trying to log in
         form = AuthenticationForm(request, data=request.POST) # get the form
@@ -265,6 +269,7 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
 
+#Seamus
 def register(request):
     """
     Register a user.
@@ -286,7 +291,7 @@ def register(request):
         form = RegistrationForm() # if the form is not valid, create a new form
     return render(request, 'registration/register.html', {'form': form}) # render the register page with the form
 
-
+#Seamus
 @login_required  # Ensures only logged-in users can access this view
 def profile(request):
     """
@@ -313,12 +318,9 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile) # get the user and profile forms
 
-    context = {
-        'u_form': u_form,
-        'p_form': p_form
-    }
-    return render(request, 'registration/profile.html', {'user': request.user}) 
+    return render(request, 'registration/profile.html', {'user': request.user}) # render the profile page with the user form
 
+#Seamus
 @login_required
 def update_profile_picture(request):
     """
@@ -339,11 +341,11 @@ def update_profile_picture(request):
             form.save() # save the form
             messages.success(request, 'Your profile picture has been updated!') # display a success message
             return redirect('profile') # redirect to the profile page
-        else:
-            messages.error(request, 'Unable to update your profile picture.')
-    return redirect('profile')
+        else: # if the form is not valid
+            messages.error(request, 'Unable to update your profile picture.') # display an error message
+    return redirect('profile') # redirect to the profile page
 
-
+#Seamus
 @login_required
 def edit_profile(request):
     """
@@ -357,25 +359,25 @@ def edit_profile(request):
 
     """
     if request.method == 'POST': # if the user is trying to edit their profile
-        user_form = UserForm(request.POST, instance=request.user) 
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserForm(request.POST, instance=request.user)  # get the user form
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile) # get the profile form
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid(): # if the forms are valid
             user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile has been updated!')
-            return redirect('profile')
+            profile_form.save() # save the forms
+            messages.success(request, 'Your profile has been updated!') # display a success message
+            return redirect('profile')  # redirect to the profile page
     else: # if the user is not trying to edit their profile
         user_form = UserForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        profile_form = ProfileUpdateForm(instance=request.user.profile) # get the user and profile forms
 
-    context = {
+    context = { # create the context dictionary
         'user_form': user_form,
         'profile_form': profile_form,
     }
-    return render(request, 'registration/editProfile.html', context)
+    return render(request, 'registration/editProfile.html', context) # render the editProfile page with the context dictionary
 
-
+#Seamus
 @login_required
 def logout_view(request):
     """
@@ -387,8 +389,8 @@ def logout_view(request):
     Returns:
         A redirect response to the home page.
     """
-    logout(request)
-    return redirect('home')
+    logout(request) # log the user out
+    return redirect('home') # redirect to the home page
 
 
 # Bilge
@@ -418,7 +420,6 @@ def catalyst(request):
 
 def supplies(request):
     return render(request, 'supplies.html', {})
-  
 # Bilge
 @login_required
 def conovo(request):

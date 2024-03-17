@@ -1,6 +1,17 @@
 <!-- Safari -- I just used copilot to help me with this one it was pretty simple although seamus may have made some alterations -->
 
+<!-- Seamus -->
+<!--
+    The reading list was repurposed for project 2 to become the 'onboarding checklist'
+    Connected items have not been renamed due to an issue with django migrations.
 
+    It has been retooled to serve only as a checklist rather than a place to add and remove 
+    personal reading items. 
+
+    As items are marked off they unlocked the badges on the profile and display confetti for 
+    user feedback. Items have also been improved to allow for the clicking of both the item
+    and the checkbox. 
+-->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -59,8 +70,10 @@
 </style>
 <div class="container mt-4" >
     <h2 class="text-center"><strong> Onboarding tasks </strong></h2>
+    <!-- header -->
     <table class="table mt-5 shadow" style="border-radius: 20px; overflow:hidden">
         <thead class="thead-dark">
+            <!-- title items for the table-->
             <tr>
                 <th>To-do</th>
                 <th>Done?</th>
@@ -70,12 +83,15 @@
             {% for item in reading_list %} <!--The reading list needs to match what is put in the view exactly-->
             <tr class="{% if item.read %}table-secondary read-item{% else %}table-light{% endif %} clickable-row" data-item-id="{{ item.id }}">
                 <td>{{ item.title }}</td>
+                <!-- display the item -->
                 <td>
                     <form method="post" class="update-form">
                         {% csrf_token %}
+                        <!-- form for updating the item -->
                         <input type="hidden" name="item_id" value="{{ item.id }}">
                         <input type="hidden" name="form_type" value="update">
                         <div class="form-check">
+                            <!-- Checkbox for updating -->
                             <input class="form-check-input" type="checkbox" id="read_{{ item.id }}" name="read" {% if item.read %}checked{% endif %} onchange="this.form.submit()">
                             <label class="form-check-label" for="read_{{ item.id }}"></label>
                         </div>
@@ -97,7 +113,7 @@
         </div>
     </form>
     
-    <!-- Add event popup made by copilot--> 
+    <!-- Add event popup made by copilot || project 1--> 
     <div id="addPopup" class="popup">
         <form method="post" class="my-3">
             {% csrf_token %}

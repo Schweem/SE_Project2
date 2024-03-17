@@ -36,15 +36,15 @@ class Event(models.Model):
     url = models.URLField(null=True, blank=True, max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
+# Seamus 
+# Same as the view, reading materials have been repurposed to be onboarding items
+# not renamed due to complications with django migrations
 class readingMaterial(models.Model):
     """
     Represents a piece of reading material.
 
     Attributes:
         title (str): The title of the reading material.
-        author (str): The author of the reading material.
-        type (str): The type or category of the reading material.
-        link (str): The URL link to the reading material.
         read (bool): Indicates whether the reading material has been read or not.
     """
 
@@ -85,7 +85,8 @@ class Supply(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+# Seamus 
 # Model for user profiles
 class Profile(models.Model):
     """
@@ -141,7 +142,7 @@ class Profile(models.Model):
     def __str__(self): 
         return f'{self.user.username} Profile'
     
-
+# Seamus 
 # Signal to create or update the user profile
 @receiver(post_save, sender=User) # When a user is saved, send the signal to create or update the profile
 def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -171,3 +172,4 @@ class Post(models.Model):
 
     def __str__(self):
         return self.content
+    

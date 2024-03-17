@@ -1,4 +1,10 @@
-<!-- FILEPATH: /e:/development/SE_ProjectTwo/SE_Project2/Project1/main/mainapp/templates/registration/register.html -->
+<!-- Seamus -->
+
+<!-- This is the registration page. It allows users to create new accounts to login and use nupath with. 
+    It takes a username, password, and email. It is built on django's auth system
+
+    This was a new feature for project 2
+-->
 
 <!-- https://docs.djangoproject.com/en/5.0/topics/auth/default/ -->
 <!-- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication -->
@@ -22,13 +28,17 @@ Register
 {% block content %}
 
 <div class="container d-flex align-items-center justify-content-center mt-3" style="min-height: 80vh;">
+    <!-- Container for centering the content vertically and horizontally -->
     <div class="col-md-6 col-lg-8">
         <div class="card shadow" style="border-radius: 20px; overflow: hidden;">
+            <!-- Card for styling and containing the login form -->
             <div class="card-body">
+                <!-- Card body for padding and spacing -->
                 <h1 class="h3 mb-3 font-weight-normal text-center"><strong>Register</strong></h1>
                 <form method="post" class="needs-validation" novalidate>
                     {% csrf_token %}
                     {% for field in form %}
+                        <!-- Looping through each form field -->
                         <div class="mb-3">
                             {{ field.label_tag }}
                             <!-- check for field errors-->
@@ -39,8 +49,10 @@ Register
                                     {% for error in field.errors %}
                                         {{ error }}<br>
                                     {% endfor %}
+                                    <!-- loop through errors -->
                                 </div>
                             {% else %}
+                            <!-- if no errors display the content -->
                                 {{ field }}
                             {% endif %}
                             {% if field.help_text %}
@@ -55,6 +67,7 @@ Register
             </div>
         </div>
         <div class="text-center mt-3">
+            <!-- link for existing users to login-->
             <a href="{% url 'login' %}">Been here before? Log in here.</a>
         </div>
     </div>

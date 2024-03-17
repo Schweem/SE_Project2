@@ -1,3 +1,10 @@
+<!-- Seamus -->
+
+<!-- 
+    This is the edit profile page. It is effectively a form that allows users to edit their profile information.
+    It allows for users to add more information about themselves or change what they have already provided. 
+-->
+
 <!-- Extremely thorough video series, walks through many potential components of this project -->
 <!-- https://www.youtube.com/watch?v=fsVY66QBhwM&ab_channel=CalebCurry -->
 
@@ -26,6 +33,7 @@ Edit Your Profile
             <label for="profilePictureUpload">
                 {% if user.profile.profile_picture %}
                 <!-- Handle actual profile picture stuff here -->
+                <!-- routes either to users profile picture or the default -->
                 <img src="{{ MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="if you see this sorry" style="cursor: pointer; width: 150px; height: 150px;">
                 {% else %}
                 <img src="{{MEDIA_URL }}{{ user.profile.profile_picture.url }}" class="img-fluid rounded-circle shadow mb-3" alt="Default Profile Picture" style="cursor: pointer; width: 150px; height: 150px;">
@@ -51,7 +59,7 @@ Edit Your Profile
             <input type="text" class="form-control" name="location" id="id_location" value="{{ user.profile.location }}" style="border-radius: 20px; overflow: hidden;">
         </div>
         <!-- dropdown for selecting student status -->
-        <!-- Implementation is a l-->
+        <!-- Users who select current novo will get a verified check -->
         <div class="form-group">
             <label for="id_user_years">Status:</label>
             <select class="form-control" name="user_years" id="id_user_years" style="border-radius: 20px; overflow: hidden;">
@@ -61,6 +69,7 @@ Edit Your Profile
             </select>
         </div>
         
+        <!-- Additional user information forms -->
         <div class="form-group">
             <label for="id_pets">Pets:</label>
             <input type="text" class="form-control" name="pets" id="id_pets" value="{{ user.profile.pets }}" style="border-radius: 20px; overflow: hidden;">
